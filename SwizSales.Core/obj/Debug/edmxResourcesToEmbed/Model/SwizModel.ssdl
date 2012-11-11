@@ -16,6 +16,7 @@
     <EntitySet Name="Purchases" EntityType="OpenPOSDbModel.Store.Purchases" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="RolePrivileges" EntityType="OpenPOSDbModel.Store.RolePrivileges" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Roles" EntityType="OpenPOSDbModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Settings" EntityType="OpenPOSDbModel.Store.Settings" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Suppliers" EntityType="OpenPOSDbModel.Store.Suppliers" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TaxCategories" EntityType="OpenPOSDbModel.Store.TaxCategories" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="FK_CustomerContactDetail" Association="OpenPOSDbModel.Store.FK_CustomerContactDetail">
@@ -267,6 +268,17 @@
     <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
     <Property Name="CreatedOn" Type="datetime" Nullable="false" />
     <Property Name="UpdatedBy" Type="uniqueidentifier" />
+    <Property Name="UpdatedOn" Type="datetime" />
+    <Property Name="Status" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Settings">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+    <Property Name="Value" Type="text" />
+    <Property Name="Category" Type="varchar" MaxLength="50" />
     <Property Name="UpdatedOn" Type="datetime" />
     <Property Name="Status" Type="bit" Nullable="false" />
   </EntityType>

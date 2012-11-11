@@ -89,10 +89,12 @@
     <Compile Include="ServiceContracts\ICustomerService.cs" />
     <Compile Include="ServiceContracts\ISupplierService.cs" />
     <Compile Include="ServiceContracts\IMasterDataService.cs" />
+    <Compile Include="ServiceContracts\ISettingsService.cs" />
     <Compile Include="Services\MasterDataService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Services\ReportService.cs" />
+    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="Services\StockService.cs" />
     <Compile Include="Services\SupplierService.cs" />
   </ItemGroup>

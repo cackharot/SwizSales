@@ -356,6 +356,22 @@ namespace SwizSales.Core.Model
             }
         }
         private ObjectSet<TaxCategory> _TaxCategories;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Setting> Settings
+        {
+            get
+            {
+                if ((_Settings == null))
+                {
+                    _Settings = base.CreateObjectSet<Setting>("Settings");
+                }
+                return _Settings;
+            }
+        }
+        private ObjectSet<Setting> _Settings;
 
         #endregion
         #region AddTo Methods
@@ -494,6 +510,14 @@ namespace SwizSales.Core.Model
         public void AddToTaxCategories(TaxCategory taxCategory)
         {
             base.AddObject("TaxCategories", taxCategory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Settings EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToSettings(Setting setting)
+        {
+            base.AddObject("Settings", setting);
         }
 
         #endregion
@@ -4386,6 +4410,185 @@ namespace SwizSales.Core.Model
         private global::System.Guid _PrivilegeId;
         partial void OnPrivilegeIdChanging(global::System.Guid value);
         partial void OnPrivilegeIdChanged();
+
+        #endregion
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="OpenPOSDbModel", Name="Setting")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Setting : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Setting object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="status">Initial value of the Status property.</param>
+        public static Setting CreateSetting(global::System.Guid id, global::System.String name, global::System.Boolean status)
+        {
+            Setting setting = new Setting();
+            setting.Id = id;
+            setting.Name = name;
+            setting.Status = status;
+            return setting;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Guid Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Guid _Id;
+        partial void OnIdChanging(global::System.Guid value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Value
+        {
+            get
+            {
+                return _Value;
+            }
+            set
+            {
+                OnValueChanging(value);
+                ReportPropertyChanging("Value");
+                _Value = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Value");
+                OnValueChanged();
+            }
+        }
+        private global::System.String _Value;
+        partial void OnValueChanging(global::System.String value);
+        partial void OnValueChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> UpdatedOn
+        {
+            get
+            {
+                return _UpdatedOn;
+            }
+            set
+            {
+                OnUpdatedOnChanging(value);
+                ReportPropertyChanging("UpdatedOn");
+                _UpdatedOn = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("UpdatedOn");
+                OnUpdatedOnChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _UpdatedOn;
+        partial void OnUpdatedOnChanging(Nullable<global::System.DateTime> value);
+        partial void OnUpdatedOnChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                OnStatusChanging(value);
+                ReportPropertyChanging("Status");
+                _Status = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Status");
+                OnStatusChanged();
+            }
+        }
+        private global::System.Boolean _Status;
+        partial void OnStatusChanging(global::System.Boolean value);
+        partial void OnStatusChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Category
+        {
+            get
+            {
+                return _Category;
+            }
+            set
+            {
+                OnCategoryChanging(value);
+                ReportPropertyChanging("Category");
+                _Category = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Category");
+                OnCategoryChanged();
+            }
+        }
+        private global::System.String _Category;
+        partial void OnCategoryChanging(global::System.String value);
+        partial void OnCategoryChanged();
 
         #endregion
     

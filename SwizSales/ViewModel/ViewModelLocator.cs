@@ -102,7 +102,7 @@ namespace SwizSales.ViewModel
         {
             get
             {
-                return new SettingsViewModel();
+                return new SettingsViewModel(new SettingsService());
             }
         }
 

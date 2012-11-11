@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\App.xaml
-391987579236
+40-1722895972
 1-323328118
-521246911188
+531219799266
 251983319051
-Assets\ButtonStyles.xaml;Assets\ListBoxStyles.xaml;Assets\MenuStyles.xaml;Assets\Resources.xaml;Assets\ScrollBarStyles.xaml;Assets\Styles.xaml;Assets\TabControlStyles.xaml;Assets\TextBoxStyles.xaml;Assets\TypoStyles.xaml;Assets\WindowStyles.xaml;MainWindow.xaml;ReportLayouts\PrintTicketTemplate.xaml;ReportLayouts\PrintTicketViewer.xaml;ReportLayouts\SalesReportTemplate.xaml;Views\CustomerDetailView.xaml;Views\CustomerDetailWindow.xaml;Views\CustomerListItem.xaml;Views\CustomerPage.xaml;Views\CustomerSearchView.xaml;Views\InvoiceDetailsView.xaml;Views\InvoicePaymentDialog.xaml;Views\InvoicePaymentsView.xaml;Views\InvoiceTotalsView.xaml;Views\LineItemEdit.xaml;Views\LineItemListItem.xaml;Views\LineItemsView.xaml;Views\ManagePurchaseWindow.xaml;Views\OrderListItem.xaml;Views\PreviewTicket.xaml;Views\PrintView.xaml;Views\ProductEditListItem.xaml;Views\ProductListItem.xaml;Views\ProductPage.xaml;Views\PurchaseView.xaml;Views\QuickOrdersView.xaml;Views\SalesPage.xaml;Views\SelectProductWindow.xaml;Views\SettingsView.xaml;Views\Temp.xaml;
+Assets\ButtonStyles.xaml;Assets\ListBoxStyles.xaml;Assets\MenuStyles.xaml;Assets\Resources.xaml;Assets\ScrollBarStyles.xaml;Assets\Styles.xaml;Assets\TabControlStyles.xaml;Assets\TextBoxStyles.xaml;Assets\TypoStyles.xaml;Assets\WindowStyles.xaml;MainWindow.xaml;ReportLayouts\PrintTicketTemplate.xaml;ReportLayouts\PrintTicketViewer.xaml;ReportLayouts\SalesReportTemplate.xaml;Views\CustomerDetailView.xaml;Views\CustomerDetailWindow.xaml;Views\CustomerListItem.xaml;Views\CustomerPage.xaml;Views\CustomerSearchView.xaml;Views\InvoiceDetailsView.xaml;Views\InvoicePaymentDialog.xaml;Views\InvoicePaymentsView.xaml;Views\InvoiceTotalsView.xaml;Views\LineItemEdit.xaml;Views\LineItemListItem.xaml;Views\LineItemsView.xaml;Views\ManagePurchaseWindow.xaml;Views\NewSettingsWindow.xaml;Views\OrderListItem.xaml;Views\PreviewTicket.xaml;Views\PrintView.xaml;Views\ProductEditListItem.xaml;Views\ProductListItem.xaml;Views\ProductPage.xaml;Views\PurchaseView.xaml;Views\QuickOrdersView.xaml;Views\SalesPage.xaml;Views\SelectProductWindow.xaml;Views\SettingsView.xaml;Views\Temp.xaml;
 
 False
 

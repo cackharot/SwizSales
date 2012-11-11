@@ -12,6 +12,13 @@ using System.Printing;
 using System.Globalization;
 using SwizSales.Core.Library;
 using SwizSales.Library;
+using SwizSales.Core.ServiceContracts;
+using SwizSales.Core.Model;
+using System.ComponentModel;
+using System.Xml;
+using System.IO;
+using System.Text;
+using System.Windows.Markup;
 
 namespace SwizSales.ViewModel
 {
@@ -25,9 +32,18 @@ namespace SwizSales.ViewModel
     {
         #region Initialization and Cleanup
 
-        public SettingsViewModel()
+        private ISettingsService settingService;
+
+        public SettingsViewModel(ISettingsService serviceAgent)
         {
+            this.settingService = serviceAgent;
+            LoadTemplates();
             LoadPrinters();
+        }
+
+        private void LoadTemplates()
+        {
+            this.Templates = new ObservableCollection<Setting>(this.settingService.GetSettingsByCategory("Templates"));
         }
 
         private void LoadPrinters()
@@ -58,12 +74,23 @@ namespace SwizSales.ViewModel
 
         #region Notifications
 
-        // TODO: Add events to notify the view or obtain data from the view
         public event EventHandler<NotificationEventArgs<Exception>> ErrorNotice;
+        public event EventHandler<NotificationEventArgs<bool, Setting>> NewTemplateNotice;
 
         #endregion
 
         #region Properties
+
+        private ObservableCollection<Setting> _templates;
+        public ObservableCollection<Setting> Templates
+        {
+            get { return _templates; }
+            set
+            {
+                _templates = value;
+                NotifyPropertyChanged(m => m.Templates);
+            }
+        }
 
         private ObservableCollection<string> _printers;
         public ObservableCollection<string> Printers
@@ -98,6 +125,67 @@ namespace SwizSales.ViewModel
                 Properties.Settings.Default.Culture = _selectedLang.IetfLanguageTag;
 
                 NotifyPropertyChanged(m => m.SelectedLanguage);
+            }
+        }
+
+        private Setting selectedTemplate;
+        public Setting SelectedTemplate
+        {
+            get { return selectedTemplate; }
+            set
+            {
+                if (this.selectedTemplate != null)
+                {
+                    this.selectedTemplate.PropertyChanged -= selectedTemplate_PropertyChanged;
+                }
+
+                selectedTemplate = value;
+
+                if (this.selectedTemplate != null)
+                {
+                    this.selectedTemplate.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(selectedTemplate_PropertyChanged);
+                }
+
+                NotifyPropertyChanged(m => m.SelectedTemplate);
+                PreviewTemplate();
+            }
+        }
+
+        void selectedTemplate_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Value" && !string.IsNullOrEmpty(SelectedTemplate.Value))
+            {
+                PreviewTemplate();
+            }
+        }
+
+        private void PreviewTemplate()
+        {
+            try
+            {
+                var xml = this.SelectedTemplate.Value;
+                var xmldoc = new XmlDocument();
+                xmldoc.LoadXml(xml);
+
+                this.PreviewTemplateContent = DeserializeXaml(xmldoc.InnerXml);
+            }
+            catch (Exception ex)
+            {
+                NotifyError("Error while preview", ex);
+            }
+        }
+
+        private object _previewTemplateContent;
+        public object PreviewTemplateContent
+        {
+            get
+            {
+                return _previewTemplateContent;
+            }
+            set
+            {
+                _previewTemplateContent = value;
+                NotifyPropertyChanged(x => x.PreviewTemplateContent);
             }
         }
 
@@ -250,8 +338,65 @@ namespace SwizSales.ViewModel
             private set { resetCommand = value; }
         }
 
+        private DelegateCommand saveTemplateCommand;
+        public DelegateCommand SaveTemplateCommand
+        {
+            get
+            {
+                return saveTemplateCommand ?? (saveTemplateCommand = new DelegateCommand(() =>
+                {
+                    if (this.SelectedTemplate != null)
+                    {
+                        this.settingService.Update(this.SelectedTemplate);
+                    }
+                }));
+            }
+            private set { saveTemplateCommand = value; }
+        }
+
+        private DelegateCommand newTemplateCommand;
+        public DelegateCommand NewTemplateCommand
+        {
+            get
+            {
+                return newTemplateCommand ?? (newTemplateCommand = new DelegateCommand(() =>
+                {
+                    if (this.NewTemplateNotice != null)
+                    {
+                        this.NewTemplateNotice(this, new NotificationEventArgs<bool, Setting>("NEWTEMPLATE", true, (s) =>
+                        {
+                            if (s != null && !string.IsNullOrEmpty(s.Name))
+                            {
+                                s.Category = "Templates";
+                                this.settingService.Add(s);
+                                this.Templates.Add(s);
+                            }
+                        }));
+                    }
+                }));
+            }
+            private set { newTemplateCommand = value; }
+        }
+
+        private DelegateCommand deleteTemplateCommand;
+        public DelegateCommand DeleteTemplateCommand
+        {
+            get
+            {
+                return deleteTemplateCommand ?? (deleteTemplateCommand = new DelegateCommand(() =>
+                {
+                    if (this.SelectedTemplate != null && this.Templates.Contains(this.SelectedTemplate))
+                    {
+                        this.Templates.Remove(this.SelectedTemplate);
+                        this.settingService.Delete(this.SelectedTemplate.Id);
+                    }
+                }));
+            }
+            private set { deleteTemplateCommand = value; }
+        }
+
         #endregion
-        
+
         #region Helpers
 
         private void NotifyError(string message, Exception error)
@@ -259,6 +404,17 @@ namespace SwizSales.ViewModel
             SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(message));
             LogService.Error(message, error);
             Notify(ErrorNotice, new NotificationEventArgs<Exception>(message, error));
+        }
+
+        private static object DeserializeXaml(string xaml)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(xaml);
+                stream.Write(bytes, 0, bytes.Length);
+                stream.Position = 0;
+                return XamlReader.Load(stream);
+            }
         }
 
         #endregion

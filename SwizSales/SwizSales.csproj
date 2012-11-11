@@ -166,6 +166,9 @@
     <Compile Include="Views\ManagePurchaseWindow.xaml.cs">
       <DependentUpon>ManagePurchaseWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\NewSettingsWindow.xaml.cs">
+      <DependentUpon>NewSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OrderListItem.xaml.cs">
       <DependentUpon>OrderListItem.xaml</DependentUpon>
     </Compile>
@@ -315,6 +318,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ManagePurchaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -21,6 +21,7 @@
           <EntitySet Name="Purchases" EntityType="OpenPOSDbModel.Store.Purchases" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="RolePrivileges" EntityType="OpenPOSDbModel.Store.RolePrivileges" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Roles" EntityType="OpenPOSDbModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Settings" EntityType="OpenPOSDbModel.Store.Settings" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Suppliers" EntityType="OpenPOSDbModel.Store.Suppliers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TaxCategories" EntityType="OpenPOSDbModel.Store.TaxCategories" store:Type="Tables" Schema="dbo" />
           <AssociationSet Name="FK_CustomerContactDetail" Association="OpenPOSDbModel.Store.FK_CustomerContactDetail">
@@ -179,7 +180,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="smallint" Nullable="false" />
           <Property Name="PaidAmount" Type="float" Nullable="false" />
           <Property Name="PaymentDate" Type="datetime" Nullable="false" />
@@ -191,7 +192,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="PrivilegeName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
@@ -199,7 +200,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Barcode" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="TamilName" Type="nvarchar" MaxLength="50" />
@@ -218,7 +219,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="MRP" Type="float" Nullable="false" />
           <Property Name="BuyPrice" Type="float" Nullable="false" />
@@ -232,7 +233,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="smallint" Nullable="false" />
           <Property Name="PaidAmount" Type="float" Nullable="false" />
           <Property Name="PaymentDate" Type="datetime" Nullable="false" />
@@ -244,7 +245,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BillNo" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="TotalAmount" Type="float" Nullable="false" />
           <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
@@ -258,7 +259,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PrivilegeId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -266,7 +267,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
@@ -275,11 +276,22 @@
           <Property Name="UpdatedOn" Type="datetime" />
           <Property Name="Status" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Settings">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Value" Type="text" />
+          <Property Name="Category" Type="varchar" MaxLength="50" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Suppliers">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
           <Property Name="Status" Type="bit" Nullable="false" />
           <Property Name="ContactDetailId" Type="uniqueidentifier" Nullable="false" />
@@ -288,7 +300,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
           <Property Name="Value" Type="float" Nullable="false" />
           <Property Name="Status" Type="bit" Nullable="false" />
@@ -571,6 +583,7 @@
             <End Role="ContactDetail" EntitySet="ContactDetails" />
             <End Role="Employee" EntitySet="Employees" />
           </AssociationSet>
+          <EntitySet Name="Settings" EntityType="OpenPOSDbModel.Setting" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -759,7 +772,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Guid" Name="RoleId" Nullable="false" />
           <Property Type="Guid" Name="PrivilegeId" Nullable="false" />
         </EntityType>
@@ -767,7 +780,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="RoleName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Guid" Name="CreatedBy" Nullable="false" />
@@ -987,6 +1000,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Setting">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Value" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="UpdatedOn" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="String" Name="Category" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1215,6 +1239,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Settings">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Setting">
+              <MappingFragment StoreEntitySet="Settings">
+                <ScalarProperty Name="Category" ColumnName="Category" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1279,6 +1315,8 @@
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_Orders_Employees" >
           <ConnectorPoint PointX="2.25" PointY="10.03125" />
+          <ConnectorPoint PointX="2.4440555173960616" PointY="10.03125" />
+          <ConnectorPoint PointX="2.6107221840627286" PointY="10.03125" />
           <ConnectorPoint PointX="2.6666666666666665" PointY="10.031249999999998" />
           <ConnectorPoint PointX="2.9270833333333335" PointY="10.03125" />
           <ConnectorPoint PointX="4.572916666666667" PointY="10.03125" />
@@ -1288,18 +1326,20 @@
           <ConnectorPoint PointX="6" PointY="10.03125" />
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_Payments_Employees" >
-          <ConnectorPoint PointX="2.25" PointY="10.630408563466716" />
-          <ConnectorPoint PointX="2.75" PointY="10.630408563466716" />
+          <ConnectorPoint PointX="2.25" PointY="10.559970330729165" />
+          <ConnectorPoint PointX="2.31665645118389" PointY="10.559970330729165" />
+          <ConnectorPoint PointX="2.4833231178505568" PointY="10.559970330729165" />
+          <ConnectorPoint PointX="2.75" PointY="10.559970330729165" />
           <ConnectorPoint PointX="2.75" PointY="9.375" />
           <ConnectorPoint PointX="2.7604166666666665" PointY="9.375" />
           <ConnectorPoint PointX="2.9270833333333335" PointY="9.375" />
           <ConnectorPoint PointX="4.572916666666667" PointY="9.375" />
           <ConnectorPoint PointX="4.8146354166666656" PointY="9.375" />
-          <ConnectorPoint PointX="12" PointY="9.375" />
-          <ConnectorPoint PointX="12" PointY="10" />
+          <ConnectorPoint PointX="11.937499500000001" PointY="9.375" />
+          <ConnectorPoint PointX="11.937499500000001" PointY="10" />
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_Purchases_Employees" >
-          <ConnectorPoint PointX="2.25" PointY="10.001152846153847" />
+          <ConnectorPoint PointX="2.25" PointY="11.182444661458334" />
           <ConnectorPoint PointX="2.625" PointY="9.6261528461538468" />
           <ConnectorPoint PointX="2.625" PointY="8.3577512467447939" />
           <ConnectorPoint PointX="2.7604166666666665" PointY="8.3577512467447939" />
@@ -1317,8 +1357,8 @@
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_ProductSupplier" >
           <ConnectorPoint PointX="2.25" PointY="7.5788454820975035" />
-          <ConnectorPoint PointX="2.75" PointY="7.5788454820975035" />
-          <ConnectorPoint PointX="2.75" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="2.7604166666666665" PointY="7.5788454820975035" />
+          <ConnectorPoint PointX="2.7604166666666665" PointY="3.9999999999999991" />
           <ConnectorPoint PointX="2.7604166666666665" PointY="3.9999999999999987" />
           <ConnectorPoint PointX="2.9270833333333335" PointY="3.9999999999999991" />
           <ConnectorPoint PointX="4.572916666666667" PointY="3.9999999999999987" />
@@ -1350,15 +1390,16 @@
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_PurchaseSupplier" >
           <ConnectorPoint PointX="2.25" PointY="6.8519227410487513" />
-          <ConnectorPoint PointX="2.6666666666666665" PointY="6.85192274104875" />
-          <ConnectorPoint PointX="2.9270833333333335" PointY="6.8519227410487513" />
+          <ConnectorPoint PointX="2.677083333333333" PointY="6.85192274104875" />
+          <ConnectorPoint PointX="2.927083333333333" PointY="6.8519227410487513" />
           <ConnectorPoint PointX="3" PointY="6.8519227410487513" />
         </AssociationConnector>
         <AssociationConnector Association="OpenPOSDbModel.FK_Employees_ContactDetails" >
           <ConnectorPoint PointX="2.84375" PointY="3.6917936197916665" />
-          <ConnectorPoint PointX="2.84375" PointY="11.229567126933429" />
-          <ConnectorPoint PointX="2.25" PointY="11.229567126933429" />
+          <ConnectorPoint PointX="2.84375" PointY="11.182444661458334" />
+          <ConnectorPoint PointX="2.25" PointY="11.182444661458334" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="OpenPOSDbModel.Setting" Width="1.5" PointX="12.875" PointY="5.375" Height="1.9802864583333388" />
       </Diagram>
     </Diagrams>
   </Designer>

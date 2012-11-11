@@ -93,3 +93,5 @@ C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj
 C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj\x86\Debug\SwizSales.pdb
 C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj\x86\Debug\Views\ManagePurchaseWindow.g.cs
 C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj\x86\Debug\Views\ManagePurchaseWindow.baml
+C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj\x86\Debug\Views\NewSettingsWindow.baml
+C:\Users\cackharot\documents\visual studio 2010\Projects\SwizSales\SwizSales\obj\x86\Debug\Views\NewSettingsWindow.g.cs
