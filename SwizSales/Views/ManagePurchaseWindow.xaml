@@ -1,0 +1,289 @@
+﻿<Controls:MetroWindow x:Class="SwizSales.Views.ManagePurchaseWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:SwizSales"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Path=Model.BillNo,StringFormat='{}Manage Purchase #{0}'}" mc:Ignorable="d"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContext="{Binding}" Focusable="False"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="700" d:DesignWidth="1000" 
+        SizeToContent="Manual" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Controls:MetroContentControl Focusable="False">
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="130"/>
+                    <ColumnDefinition Width="Auto" MinWidth="200"/>
+                    <ColumnDefinition Width="Auto" MinWidth="130"/>
+                    <ColumnDefinition Width="Auto" MinWidth="180"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Button Command="{Binding Path=SaveCommand}" Content="Save" Grid.Column="4" Grid.RowSpan="2" Grid.Row="2" VerticalAlignment="Bottom" Width="80" Height="30" Margin="10,0,10,0"/>
+
+                <Label Grid.Row="0" Content="Bill No#" VerticalAlignment="Center"/>
+                <Label Grid.Row="1" Content="Supplier" VerticalAlignment="Center"/>
+                <Label Grid.Row="2" Content="Purchase Date" VerticalAlignment="Center"/>
+                <Label Grid.Row="3" Content="Total Items/Quantity" VerticalAlignment="Center"/>
+
+                <Label Grid.Column="2" Grid.Row="1" Content="Total Amount" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <Label Grid.Column="2" Grid.Row="2" Content="Paid Amount" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                <Label Grid.Column="2" Grid.Row="3" Content="Balance Amount" VerticalAlignment="Center" Margin="10,0,0,0"/>
+
+                <TextBox Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Text="{Binding Path=Model.BillNo}"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding Path=Suppliers}" SelectedValue="{Binding Path=Model.SupplierId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                <DatePicker Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" SelectedDate="{Binding Path=Model.PurchaseDate}" />
+
+                <TextBlock Grid.Column="3" Grid.Row="1" VerticalAlignment="Center" FontSize="22" Foreground="Green" Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=Model.ActualTotalAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" FontSize="22" Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=Model.PaidAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock Grid.Column="3" Grid.Row="3" VerticalAlignment="Center" FontSize="22" Foreground="Red" Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=Model.BalanceAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} / {1}">
+                                <Binding Path="Model.TotalItems" />
+                                <Binding Path="Model.TotalQuantity" />
+                            </MultiBinding> 
+                        </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+            <DockPanel Grid.Row="1" Margin="0,10,0,0">
+                <Expander DockPanel.Dock="Right" Focusable="False" IsExpanded="True" ExpandDirection="Right">
+                    <Expander.Style>
+                        <Style TargetType="{x:Type Expander}">
+                            <Setter Property="Header">
+                                <Setter.Value>
+                                    <TextBlock Foreground="{StaticResource Foreground}" VerticalAlignment="Center">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </TextBlock.LayoutTransform>
+                                        Add Item
+                                    </TextBlock>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Expander.Style>
+                    <StackPanel Orientation="Horizontal">
+                        <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
+                        <Grid DataContext="{Binding Path=CurrentLineItem}" Margin="5,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Grid.Row="0" Content="Barcode"/>
+                            <Label Grid.Column="0" Grid.Row="1" Content="Name"/>
+                            <Label Grid.Column="0" Grid.Row="2" Content="Category/Tax"/>
+                            <Label Grid.Column="0" Grid.Row="3" Content="MRP"/>
+                            <Label Grid.Column="0" Grid.Row="4" Content="Discount"/>
+                            <Label Grid.Column="0" Grid.Row="5" Content="BuyPrice"/>
+                            <Label Grid.Column="0" Grid.Row="6" Content="SellPrice"/>
+                            <Label Grid.Column="0" Grid.Row="7" Content="Quantity"/>
+
+                            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=Barcode,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Path=Name,UpdateSourceTrigger=LostFocus}" VerticalAlignment="Center"/>
+                            <StackPanel Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Path=DataContext.Categories, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}" SelectedValue="{Binding Path=CategoryId}" SelectedValuePath="Id" DisplayMemberPath="Name" Width="80" Margin="0,0,10,0"/>
+                                <ComboBox VerticalAlignment="Center" ItemsSource="{Binding Path=DataContext.TaxCategories, RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}" SelectedValue="{Binding Path=TaxCategoryId}" SelectedValuePath="Id" DisplayMemberPath="Name" Width="80"/>
+                            </StackPanel>
+                            <TextBox Grid.Column="1" Grid.Row="3" Text="{Binding Path=MRP,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Text="{Binding Path=Discount,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" Text="{Binding Path=BuyPrice,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="6" Text="{Binding Path=SellPrice,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="7" Text="{Binding Path=Quantity,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+
+                            <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,10,0,0">
+                                <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type DockPanel}}, Path=DataContext.ResetCommand}"  Margin="0,0,10,0" Content="Reset" Width="80" Height="30"/>
+                                <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type DockPanel}}, Path=DataContext.AddCommand}"  Content="Add" Width="80" Height="30" IsDefault="True"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--<Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="130" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" FontWeight="Bold" Text="Barcode" Foreground="{StaticResource BorderBrushSelected}" Margin="10,0,0,0"/>
+                        <TextBlock Grid.Column="1" FontWeight="Bold" Text="Name" Foreground="{StaticResource BorderBrushSelected}" />
+                        <TextBlock Grid.Column="2" FontWeight="Bold" Text="Quantity" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
+                        <TextBlock Grid.Column="3" FontWeight="Bold" Text="MRP"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
+                        <TextBlock Grid.Column="4" FontWeight="Bold" Text="Discount"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
+                        <TextBlock Grid.Column="5" FontWeight="Bold" Text="Buy Price"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
+                        <TextBlock Grid.Column="6" FontWeight="Bold" Text="Sell Price" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" />
+                        <TextBlock Grid.Column="7" FontWeight="Bold" Text="Total" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0" />
+                    </Grid>-->
+                    <ListView Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="120" />
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" Width="200" />
+                                <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Path=Quantity}"  Width="70"/>
+                                <GridViewColumn Header="MRP" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Discount" Width="80">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=Discount}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="BuyPrice" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BuyPrice,StringFormat='{}{0:C}'}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="SellPrice" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="SubTotal" Width="110">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SubTotal,StringFormat='{}{0:C}'}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                        <ListBox.InputBindings>
+                            <KeyBinding Command="{Binding DeleteCommand}" Gesture="DELETE" />
+                        </ListBox.InputBindings>
+                    </ListView>
+                    <!--<ListBox Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Controls:MetroContentControl>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="130" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="60" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80" />
+                                            <ColumnDefinition Width="80" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding Path=Barcode}" />
+                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=Name}" />
+                                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Path=Quantity}" />
+                                        <TextBlock Grid.Column="3" FontWeight="Bold" VerticalAlignment="Center" 
+                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" />
+                                        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Path=Discount}" />
+                                        <TextBlock Grid.Column="5" VerticalAlignment="Center"
+                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BuyPrice,StringFormat='{}{0:C}'}" />
+                                        <TextBlock Grid.Column="6" VerticalAlignment="Center"
+                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}" />
+                                        <TextBlock Grid.Column="7" VerticalAlignment="Center" FontWeight="Bold"
+                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SubTotal,StringFormat='{}{0:C}'}" />
+                                    </Grid>
+                                </Controls:MetroContentControl>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Style>
+                            <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
+                                <Setter Property="Visibility" Value="Visible" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Style.Resources>
+                                    <Style TargetType="{x:Type ListBoxItem}">
+                                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                        <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                    <Grid Margin="4,0,4,4">
+                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
+                                                        <ContentPresenter Margin="8,5"/>
+                                                    </Grid>
+                                                    <ControlTemplate.Triggers>
+                                                        <MultiTrigger>
+                                                            <MultiTrigger.Conditions>
+                                                                <Condition Property="IsMouseOver" Value="True" />
+                                                                <Condition Property="IsSelected" Value="False"/>
+                                                            </MultiTrigger.Conditions>
+                                                            <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
+                                                        </MultiTrigger>
+                                                        <Trigger Property="IsSelected" Value="True">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Style.Resources>
+                            </Style>
+                        </ListBox.Style>
+                        <ListBox.InputBindings>
+                            <KeyBinding Command="{Binding DeleteCommand}" Gesture="DELETE" />
+                        </ListBox.InputBindings>
+                    </ListBox>-->
+                </Grid>
+            </DockPanel>
+        </Grid>
+    </Controls:MetroContentControl>
+</Controls:MetroWindow>

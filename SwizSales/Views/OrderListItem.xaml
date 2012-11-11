@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="SwizSales.Views.OrderListItem"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="104" d:DesignWidth="280">
+    <Controls:TransitioningContentControl Transition="DownTransition">
+        <Grid DataContext="{Binding}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="70"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0">No#</Label>
+            <Label Grid.Column="0" Grid.Row="1">Date</Label>
+            <Label Grid.Column="0" Grid.Row="2">Items</Label>
+            <Label Grid.Column="0" Grid.Row="3">Amount</Label>
+
+            <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource StandardTextBlock}" VerticalAlignment="Center" Text="{Binding Path=BillNo}" />
+            <TextBlock Grid.Column="1" Grid.Row="1" Style="{StaticResource StandardTextBlock}" VerticalAlignment="Center" Text="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" />
+            <TextBlock Grid.Column="1" Grid.Row="2" Style="{StaticResource StandardTextBlock}" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} / {1}">
+                        <Binding Path="TotalItems" />
+                        <Binding Path="TotalQuantity" />
+                    </MultiBinding> 
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="14" Margin="0" Style="{StaticResource CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" HorizontalAlignment="Left" />
+        </Grid>
+    </Controls:TransitioningContentControl>
+</UserControl>

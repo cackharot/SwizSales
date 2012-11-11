@@ -1,0 +1,151 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PrintTicketTemplate" Height="auto" Width="auto" DataContext="{Binding}">
+    <StackPanel>
+        <FlowDocumentScrollViewer>
+            <FlowDocument PageHeight="520" PageWidth="300" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">
+                <Paragraph TextAlignment="Center" Margin="0" FontWeight="Bold">
+                    Sree Durga Home Needs
+                    <LineBreak/> Super Market
+                </Paragraph>
+                <Paragraph TextAlignment="Center" FontSize="12" Margin="0">No. 25, M.G. Road, Puducherry-1.
+                    <LineBreak/> Mobile: 9790583087
+                </Paragraph>
+                <Table FontSize="12" Margin="0,5">
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    Bill No:
+                                    <Run Text="{Binding Path=BillNo, Mode=OneTime}"></Run>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    Date:
+                                    <Run Text="{Binding Path=BillDate,StringFormat='dd/MM/yyyy', Mode=OneTime}"></Run>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>
+                                <Paragraph>
+                                    Customer:
+                                    <Run Text="{Binding Path=Customer.ContactDetail.ContactName, Mode=OneTime}"></Run>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    Time:
+                                    <Run Text="{Binding Path=BillDate,StringFormat='hh:mm tt', Mode=OneTime}"></Run>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5">
+                    <Table.Columns>
+                        <TableColumn Width="1.5*"/>
+                        <TableColumn Width="*"/>
+                        <TableColumn Width="*"/>
+                        <TableColumn Width=".75*"/>
+                        <TableColumn Width="*"/>
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell TextAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Name</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>MRP</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Price</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Qty</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Amt</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                    <TableRowGroup FontSize="14" x:Name="itemsRowGroup">
+                        <TableRow Name="itemRow">
+                            <TableCell Name="ItemName">
+                                <Paragraph>Item 1</Paragraph>
+                            </TableCell>
+                            <TableCell Name="MRP" TextAlignment="Right">
+                                <Paragraph>10.0</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Price" TextAlignment="Right">
+                                <Paragraph>10.00</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Quantity" TextAlignment="Right">
+                                <Paragraph>9.80</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Amount" TextAlignment="Right">
+                                <Paragraph>98.0</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell ColumnSpan="5" BorderThickness="0,1,0,0" BorderBrush="Black">
+                                <Paragraph>
+                                    Items Count:
+                                    <Run Text="{Binding Path=ItemsCount, Mode=OneTime}"/> /
+                                    <Run Text="{Binding Path=QuantityCount,StringFormat=F1, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Table Margin="0,5" CellSpacing="0" BorderThickness="0">
+                    <Table.Columns>
+                        <TableColumn Width="*"/>
+                        <TableColumn Width="2*"/>
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell TextAlignment="Left" RowSpan="3">
+                                <Paragraph>
+                                    Mode:
+                                    <Run Text="{Binding Path=PaymentMode, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" FontWeight="Bold" FontSize="20" FontFamily="Rupee Foradian">
+                                <Paragraph>
+                                    Total: ` 
+                                    <Run Text="{Binding Path=BillAmount,StringFormat=F2, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell TextAlignment="Right" FontFamily="Rupee Foradian">
+                                <Paragraph>
+                                    Tendered: ` 
+                                    <Run Text="{Binding Path=PaidAmount,StringFormat=F2, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell  TextAlignment="Right" FontFamily="Rupee Foradian">
+                                <Paragraph>
+                                    Change: ` 
+                                    <Run Text="{Binding Path=BalanceAmount,StringFormat=F2, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Paragraph TextAlignment="Center" FontSize="12" FontStyle="Italic" FontFamily="Rupee Foradian" Margin="0,5">
+                    Today's savings for you is `.
+                    <Run Text="{Binding Path=Savings,StringFormat=F2, Mode=OneTime}"/>
+                </Paragraph>
+                <Paragraph TextAlignment="Center" FontSize="12" Margin="0">
+                    Thank you &amp; Visit Again!
+                </Paragraph>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </StackPanel>
+</Window>

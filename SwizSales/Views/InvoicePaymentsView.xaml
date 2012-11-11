@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="SwizSales.Views.InvoicePaymentsView"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="230" d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Order No#</Label>
+        <Label Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Order Amount</Label>
+        <Label Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Customer</Label>
+        <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Paid Amount</Label>
+        <Label Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Print Ticket</Label>
+
+        <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=BillNo}"/>
+        <TextBlock FontSize="28" Foreground="Green" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Style="{StaticResource CurrencyTextBlock}" 
+                   HorizontalAlignment="Left"
+                   Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+            <TextBlock Style="{StaticResource StandardTextBlock}" MinWidth="220">
+            <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} [{1}]">
+                        <Binding Path="Customer.ContactDetail.ContactName" />
+                        <Binding Path="Customer.SSN" />
+                    </MultiBinding> 
+                </TextBlock.Text>
+            </TextBlock>
+        </StackPanel>
+        <TextBox FontSize="28" x:Name="txtPaidAmount" Grid.Column="1" Grid.Row="3" Style="{StaticResource StandardTextBox}" Text="{Binding Path=CurrentPaidAmount,FallbackValue='000.00'}" VerticalAlignment="Center"/>
+        <!--<Controls:ToggleSwitch OnLabel="Yes" OffLabel="No" Grid.Column="1" Grid.Row="4" Name="chkPrint" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
+        <CheckBox Grid.Column="1" Grid.Row="4" Name="chkPrint" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="5" Margin="0,0,10,0">
+            <Button Width="100" Height="30" Margin="0,0,20,0" IsCancel="True">Cancel</Button>
+            <Button x:Name="btnPay" Width="100" Height="30" Margin="0,0,0,0" IsDefault="True">Pay</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,114 @@
+﻿<Controls:MetroWindow x:Class="SwizSales.MainWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:v="clr-namespace:SwizSales.Views"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="Siwz Sales" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+        VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  Focusable="False"                     
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="720" d:DesignWidth="1020" Height="Auto" Width="Auto"
+        SizeToContent="Manual" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.Resources>
+        <ResourceDictionary>
+            
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Focusable="False">
+        <DockPanel>
+            <!--<Menu DockPanel.Dock="Top" SnapsToDevicePixels="True" Margin="2,0,0,0">
+                <MenuItem Header="ROCKETS">
+                    <MenuItem Header="Rocket slot 1">
+                        <MenuItem Header="Fire slot"/>
+                        <Separator/>
+                        <MenuItem Header="Relaod slot"/>
+                        <MenuItem Header="Report damage to control room"/>
+                    </MenuItem>
+                    <MenuItem Header="Rocket slot 2">
+                        <MenuItem Header="damaged .. being repaired" IsEnabled="False"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="NAVIGATION">
+                    <MenuItem Header="Left engine">
+                        <MenuItem Header="Full speed ahead"/>
+                        <MenuItem Header="2/3 speed"/>
+                        <MenuItem Header="1/3 speed"/>
+                        <MenuItem Header="Stop engine"/>
+                    </MenuItem>
+                    <MenuItem Header="Right engine">
+                        <MenuItem Header="Full speed ahead"/>
+                        <MenuItem Header="2/3 speed"/>
+                        <MenuItem Header="1/3 speed"/>
+                        <MenuItem Header="Stop engine"/>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>-->
+            <TextBlock DockPanel.Dock="Left" Margin="5" VerticalAlignment="Center">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="90"/>
+                </TextBlock.LayoutTransform>
+                Sri Durga Home Needs Super Market, #25, M.G. Road, Puducherry - 605 001.
+            </TextBlock>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" DataContext="{Binding Source={StaticResource Locator}, Path=NotificationViewModel}">
+                <TextBlock Text="Status:" Foreground="CadetBlue" Margin="0,0,10,0"/>
+                <TextBlock Foreground="CadetBlue" Text="{Binding Path=Status}" ></TextBlock>
+            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TabControl Margin="0,10,0,0">
+                    <TabItem Header="Dashboard">
+                        <Controls:MetroContentControl>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <TabItem Header="Sales">
+                        <Controls:MetroContentControl>
+                            <v:SalesPage x:Name="salesPage" Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <TabItem Header="Products">
+                        <Controls:MetroContentControl>
+                            <v:ProductPage x:Name="productPage" Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <TabItem Header="Customers">
+                        <Controls:MetroContentControl>
+                            <v:CustomerPage x:Name="customerPage" Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <!--<TabItem Header="Suppliers">
+                        <Controls:MetroContentControl>
+                        </Controls:MetroContentControl>
+                    </TabItem>-->
+                    <TabItem Header="Purchase">
+                        <Controls:MetroContentControl>
+                            <v:PurchaseView Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <TabItem Header="Settings">
+                        <Controls:MetroContentControl>
+                            <v:SettingsView Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                    <TabItem Header="Print">
+                        <Controls:MetroContentControl>
+                            <v:PrintView x:Name="printView" Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
+                </TabControl>
+                <!--<StackPanel Grid.Column="1" Margin="50,25,25,0">
+                    <TextBlock Margin="0,10,0,10" FontSize="18" Foreground="{StaticResource Foreground}" Text="Actions"/>
+                    <Separator Background="#11FFFFFF"/>
+                    <Button FontSize="14" Margin="0,10,0,3" Content="Fire rocket..." Style="{StaticResource LinkButton}"/>
+                    <Button FontSize="14" Margin="0,3,0,10" Content="Throw something over board..." Style="{StaticResource LinkButton}"/>
+                    <Separator Background="#11FFFFFF"/>
+                    <TextBlock Margin="0,10,0,10" FontSize="18" Foreground="{StaticResource Foreground}" Text="Recent"/>
+                    <Separator Background="#11FFFFFF"/>
+                    <Button FontSize="14" Margin="0,10,0,3" Content="blastallenemies.cmd" Style="{StaticResource LinkButton}"/>
+                    <Button FontSize="14" Margin="0,3,0,3" Content="verysecretmessage.txt" Style="{StaticResource LinkButton}"/>
+                </StackPanel>-->
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Controls:MetroWindow>

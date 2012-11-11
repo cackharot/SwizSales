@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="SwizSales.Views.ProductPage"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:SwizSales"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:m="clr-namespace:SwizSales.Core.Model;assembly=SwizSales.Core"
+             xmlns:v="clr-namespace:SwizSales.Views"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=ProductViewModel}"
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="viewProductTemplate">
+            <v:ProductListItem/>
+        </DataTemplate>
+        <DataTemplate x:Key="editProductTemplate">
+            <v:ProductEditListItem/>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Margin="10" DataContext="{Binding}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Column="0" VerticalAlignment="Stretch">
+                <TextBox Style="{Binding Source={StaticResource SearchTextBox}}" 
+                             Controls:TextboxHelper.ClearTextButton="True" 
+                             Text="{Binding Path=SearchText,FallbackValue=Search...,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="300"/>
+                <Button Width="50" Height="20" Margin="20,0,0,0" Style="{Binding Source={StaticResource StandardButton}}"
+                        Command="{Binding Path=SearchCommand}" IsDefault="True">
+                    Search
+                </Button>
+            </StackPanel>
+            <Button Grid.Column="1" Width="50" Height="20" Margin="20,0,0,0" Style="{Binding Source={StaticResource StandardButton}}"
+                        Command="{Binding Path=SearchCommand}" HorizontalAlignment="Right">
+                Refresh
+            </Button>
+        </Grid>
+        <ListBox Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
+                     local:ControlItemDoubleClick.ItemsDoubleClick="True"
+                 x:Name="lstboxProducts" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Path=ProductCollection}" SelectedItem="{Binding Path=SelectedProduct}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding}">
+                        <ContentControl.Style>
+                            <Style TargetType="ContentControl">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="False">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource viewProductTemplate}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                                        <Setter Property="ContentTemplate" Value="{StaticResource editProductTemplate}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ContentControl.Style>
+                    </ContentControl>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.Style>
+                <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <Style.Resources>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                            <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid Margin="4,0,4,4">
+                                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
+                                            <ContentPresenter Margin="8,5"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True" />
+                                                    <Condition Property="IsSelected" Value="False"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
+                                            </MultiTrigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="Transparent" />
+                                                <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+            </ListBox.Style>
+            <ListBox.InputBindings>
+                <KeyBinding Command="{Binding EditCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="ENTER" />
+                <MouseBinding Command="{Binding EditCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="LeftDoubleClick" />
+                <KeyBinding Command="{Binding DeleteCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="DELETE" />
+            </ListBox.InputBindings>
+        </ListBox>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Value="False" Binding="{Binding ElementName=lstboxProducts,Path=HasItems}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding ElementName=lstboxProducts,Path=HasItems}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock FontSize="20">
+                    No products found!
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

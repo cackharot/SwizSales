@@ -1,0 +1,16 @@
+﻿<Controls:MetroWindow x:Class="SwizSales.Views.InvoicePaymentDialog"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:v="clr-namespace:SwizSales.Views"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Checkout Order" SizeToContent="Manual"
+        WindowStartupLocation="CenterScreen" SaveWindowPosition="True" 
+        mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        MinWidth="400" MinHeight="280"
+        d:DesignHeight="230" d:DesignWidth="400" Topmost="True" WindowStyle="ToolWindow" SnapsToDevicePixels="True" ShowInTaskbar="False" ShowMaxRestoreButton="False" ShowMinButton="False">
+    <Grid DataContext="{Binding}">
+        <v:InvoicePaymentsView x:Name="paymentView" DataContext="{Binding}" Margin="5"/>
+    </Grid>
+</Controls:MetroWindow>

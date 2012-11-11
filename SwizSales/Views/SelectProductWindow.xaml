@@ -1,0 +1,131 @@
+﻿<Controls:MetroWindow x:Class="SwizSales.Views.SelectProductWindow"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:SwizSales"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Quick Search Product" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner"
+        WindowStyle="ToolWindow" AllowsTransparency="True" ShowMaxRestoreButton="False" MinWidth="550" MinHeight="300" Focusable="False"
+                      FocusManager.FocusedElement="{Binding ElementName=txtSearch}" 
+        ShowMinButton="False" SnapsToDevicePixels="True" SaveWindowPosition="True" ForceCursor="True" d:DesignHeight="300" d:DesignWidth="550" SizeToContent="Manual">
+    <Controls:MetroContentControl Focusable="False">
+        <Grid Margin="10" DataContext="{Binding}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
+                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}"
+                     Text="{Binding Path=SearchText}" Margin="0,0,10,0"/>
+                <Button Content="Search" Grid.Column="2" Width="80" Height="30" Command="{Binding Path=SearchCommand}" IsDefault="True"/>
+            </Grid>
+            <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
+                <ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
+            Grid.Row="1" Name="lstProducts" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
+                 local:ControlItemDoubleClick.ItemsDoubleClick="True" ItemsSource="{Binding Path=Products}" SelectedItem="{Binding Path=SelectedProduct}"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid DataContext="{Binding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="1.2*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0.7*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=Barcode}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=Name}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=Supplier.Name}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="3" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="4" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="5" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}"  HorizontalAlignment="Stretch" TextAlignment="Right" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.Style>
+                        <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Style.Resources>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Grid Margin="4,0,4,4">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
+                                                    <ContentPresenter Margin="8,5"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsMouseOver" Value="True" />
+                                                            <Condition Property="IsSelected" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
+                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Style.Resources>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.InputBindings>
+                        <KeyBinding Command="{Binding SelectCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="ENTER" />
+                        <MouseBinding Command="{Binding SelectCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="LeftDoubleClick" />
+                    </ListBox.InputBindings>
+                </ListBox>
+            </Controls:TransitioningContentControl>
+            <!--<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel.Style>
+                <Style TargetType="{x:Type StackPanel}">
+                    <Setter Property="Visibility" Value="Collapsed" />
+                    <Style.Triggers>
+                        <DataTrigger Value="False" Binding="{Binding ElementName=lstProducts,Path=HasItems}">
+                            <Setter Property="Visibility" Value="Visible" />
+                        </DataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding ElementName=lstProducts,Path=HasItems}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Style>
+            <TextBlock FontSize="20">
+                    No products found!
+            </TextBlock>
+        </StackPanel>-->
+            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+                <Button Width="80" Height="30" Content="Cancel" Margin="0,0,10,0" IsCancel="True"/>
+                <Button Name="btnSelect" Command="{Binding Path=SelectCommand}" Width="80" Height="30" Content="Select" IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+    </Controls:MetroContentControl>
+</Controls:MetroWindow>

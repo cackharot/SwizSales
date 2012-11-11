@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="SwizSales.Views.CustomerListItem"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="811">
+    <Grid DataContext="{Binding}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="180" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" 
+                       Style="{StaticResource StandardTextBlock}" 
+                       Text="{Binding Path=ContactDetail.ContactName,FallbackValue='Customer Name'}" 
+                       FontSize="24" />
+        <StackPanel Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" Orientation="Horizontal"  Height="25">
+            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}, Path=DataContext.EditCommand}" 
+                    CommandParameter="{Binding Path=DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}}}" 
+                    Content="Edit" Margin="0,0,10,0" Width="80"></Button>
+            <Button Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBox}}, Path=DataContext.DeleteCommand}" 
+                    CommandParameter="{Binding Path=DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}}}"
+                    Content="Delete" Margin="0,0,10,0" Width="80"></Button>
+        </StackPanel>
+
+        <Grid Grid.Row="1" DataContext="{Binding}" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="180"/>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Name="imgCustomer" Stretch="Fill" />
+
+            <Label Grid.Column="1" Grid.Row="0">Number</Label>
+            <Label Grid.Column="1" Grid.Row="1">Email</Label>
+            <Label Grid.Column="1" Grid.Row="2">Mobile</Label>
+            <Label Grid.Column="1" Grid.Row="3">Landline</Label>
+            <Label Grid.Column="1" Grid.Row="4">Address</Label>
+
+            <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=SSN,FallbackValue='000'}"/>
+            <TextBlock Grid.Column="2" Grid.Row="1" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Email,FallbackValue='thiru.shanmugam@gmail.com'}"/>
+            <TextBlock Grid.Column="2" Grid.Row="2" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Mobile,FallbackValue='+91 963214785'}" />
+            <TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Landline,FallbackValue='0413-1236544'}" />
+            <TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource StandardTextBlock}" TextWrapping="WrapWithOverflow" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0},{1}{2}{3}{4} - {5}">
+                        <Binding Path="ContactDetail.Street" />
+                        <Binding Source="{x:Static System:Environment.NewLine}"/>
+                        <Binding Path="ContactDetail.City" />
+                        <Binding Source="{x:Static System:Environment.NewLine}"/>
+                        <Binding Path="ContactDetail.Country" />
+                        <Binding Path="ContactDetail.Pincode" />
+                    </MultiBinding> 
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
+    </Grid>
+</UserControl>

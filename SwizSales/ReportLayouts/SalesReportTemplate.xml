@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<FlowDocument FontFamily="Rupee Foradian" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">
+  <Paragraph TextAlignment="Center" Margin="0" FontWeight="Bold">
+    Sree Durga Home Needs
+    <LineBreak/> Super Market
+  </Paragraph>
+  <Paragraph TextAlignment="Center" FontSize="12" Margin="0,5,0,0" >
+    Sales Report
+  </Paragraph>
+  <Table>
+    <Table.Columns>
+      <TableColumn Width="120"/>
+      <TableColumn Width="auto"/>
+    </Table.Columns>
+    <TableRowGroup>
+      <TableRow>
+        <TableCell>
+          <Paragraph>From Date:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            <Run Text="{Binding Path=FromDate,StringFormat=D}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Paragraph>To Date:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            <Run Text="{Binding Path=ToDate,StringFormat=D}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Paragraph>Total Orders:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            <Run Text="{Binding Path=TotalOrders}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Paragraph>Total Amount:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            `.
+            <Run Text="{Binding Path=TotalSales,StringFormat=F2}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Paragraph>Discounts:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            `.
+            <Run Text="{Binding Path=Discounts,StringFormat=F2}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell>
+          <Paragraph>Profit:</Paragraph>
+        </TableCell>
+        <TableCell TextAlignment="Left">
+          <Paragraph>
+            `.
+            <Run Text="{Binding Path=Profit,StringFormat=F2}"></Run>
+          </Paragraph>
+        </TableCell>
+      </TableRow>
+    </TableRowGroup>
+  </Table>
+</FlowDocument>

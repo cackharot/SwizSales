@@ -1,0 +1,1365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OpenPOSDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="OpenPOSDbModelStoreContainer">
+          <EntitySet Name="Categories" EntityType="OpenPOSDbModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ContactDetails" EntityType="OpenPOSDbModel.Store.ContactDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Customers" EntityType="OpenPOSDbModel.Store.Customers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Employees" EntityType="OpenPOSDbModel.Store.Employees" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Membership" EntityType="OpenPOSDbModel.Store.Membership" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderDetails" EntityType="OpenPOSDbModel.Store.OrderDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Orders" EntityType="OpenPOSDbModel.Store.Orders" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Payments" EntityType="OpenPOSDbModel.Store.Payments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Privileges" EntityType="OpenPOSDbModel.Store.Privileges" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Products" EntityType="OpenPOSDbModel.Store.Products" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PurchaseDetails" EntityType="OpenPOSDbModel.Store.PurchaseDetails" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PurchasePayments" EntityType="OpenPOSDbModel.Store.PurchasePayments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Purchases" EntityType="OpenPOSDbModel.Store.Purchases" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RolePrivileges" EntityType="OpenPOSDbModel.Store.RolePrivileges" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Roles" EntityType="OpenPOSDbModel.Store.Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Suppliers" EntityType="OpenPOSDbModel.Store.Suppliers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TaxCategories" EntityType="OpenPOSDbModel.Store.TaxCategories" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_CustomerContactDetail" Association="OpenPOSDbModel.Store.FK_CustomerContactDetail">
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_ContactDetails" Association="OpenPOSDbModel.Store.FK_Employees_ContactDetails">
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+            <End Role="Employees" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Membership_Employees" Association="OpenPOSDbModel.Store.FK_Membership_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Membership" EntitySet="Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCustomer" Association="OpenPOSDbModel.Store.FK_OrderCustomer">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="OpenPOSDbModel.Store.FK_OrderDetails_Orders">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayment" Association="OpenPOSDbModel.Store.FK_OrderPayment">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees" Association="OpenPOSDbModel.Store.FK_Orders_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Employees" Association="OpenPOSDbModel.Store.FK_Payments_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Payments" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductCategory" Association="OpenPOSDbModel.Store.FK_ProductCategory">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSupplier" Association="OpenPOSDbModel.Store.FK_ProductSupplier">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTaxCategory" Association="OpenPOSDbModel.Store.FK_ProductTaxCategory">
+            <End Role="TaxCategories" EntitySet="TaxCategories" />
+            <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetailPurchase" Association="OpenPOSDbModel.Store.FK_PurchaseDetailPurchase">
+            <End Role="Purchases" EntitySet="Purchases" />
+            <End Role="PurchaseDetails" EntitySet="PurchaseDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasePurchasePayment" Association="OpenPOSDbModel.Store.FK_PurchasePurchasePayment">
+            <End Role="Purchases" EntitySet="Purchases" />
+            <End Role="PurchasePayments" EntitySet="PurchasePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchases_Employees" Association="OpenPOSDbModel.Store.FK_Purchases_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseSupplier" Association="OpenPOSDbModel.Store.FK_PurchaseSupplier">
+            <End Role="Suppliers" EntitySet="Suppliers" />
+            <End Role="Purchases" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplierContactDetail" Association="OpenPOSDbModel.Store.FK_SupplierContactDetail">
+            <End Role="ContactDetails" EntitySet="ContactDetails" />
+            <End Role="Suppliers" EntitySet="Suppliers" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Categories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ContactName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Mobile" Type="nvarchar" MaxLength="15" />
+          <Property Name="Landline" Type="nvarchar" MaxLength="15" />
+          <Property Name="City" Type="nvarchar" MaxLength="20" />
+          <Property Name="Country" Type="nvarchar" MaxLength="20" />
+          <Property Name="Pincode" Type="nvarchar" MaxLength="15" />
+          <Property Name="Street" Type="nvarchar(max)" />
+          <Property Name="DateOfBirth" Type="date" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SSN" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="ContactDetailId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="nvarchar" MaxLength="50" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ContactDetailId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateOfJoining" Type="date" Nullable="false" />
+          <Property Name="Salary" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="LastLogin" Type="date" Nullable="false" />
+          <Property Name="NoOfLogins" Type="int" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="100" />
+          <Property Name="MRP" Type="float" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="Discount" Type="float" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" />
+          <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Barcode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="BillNo" Type="bigint" Nullable="false" />
+          <Property Name="BillAmount" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="CustomerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SystemId" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Payments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Type" Type="smallint" Nullable="false" />
+          <Property Name="PaidAmount" Type="float" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="OrderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SystemId" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Privileges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="PrivilegeName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Barcode" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TamilName" Type="nvarchar" MaxLength="50" />
+          <Property Name="MRP" Type="float" Nullable="false" />
+          <Property Name="SellPrice" Type="float" Nullable="false" />
+          <Property Name="BuyPrice" Type="float" Nullable="false" />
+          <Property Name="Stock" Type="float" Nullable="false" />
+          <Property Name="MinStock" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="CategoryId" Type="uniqueidentifier" />
+          <Property Name="TaxCategoryId" Type="uniqueidentifier" />
+          <Property Name="SupplierId" Type="uniqueidentifier" />
+          <Property Name="Discount" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PurchaseDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="MRP" Type="float" Nullable="false" />
+          <Property Name="BuyPrice" Type="float" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="Dues" Type="float" Nullable="false" />
+          <Property Name="ProductId" Type="uniqueidentifier" />
+          <Property Name="PurchaseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Barcode" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PurchasePayments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Type" Type="smallint" Nullable="false" />
+          <Property Name="PaidAmount" Type="float" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="PurchaseId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SystemId" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Purchases">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="BillNo" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TotalAmount" Type="float" Nullable="false" />
+          <Property Name="PurchaseDate" Type="datetime" Nullable="false" />
+          <Property Name="Notes" Type="nvarchar(max)" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="SupplierId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EmployeeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="SystemId" Type="nvarchar" Nullable="false" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="RolePrivileges">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PrivilegeId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedBy" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="uniqueidentifier" />
+          <Property Name="UpdatedOn" Type="datetime" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Suppliers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+          <Property Name="ContactDetailId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaxCategories">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false"  StoreGeneratedPattern="Identity"/>
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="Value" Type="float" Nullable="false" />
+          <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomerContactDetail">
+          <End Role="ContactDetails" Type="OpenPOSDbModel.Store.ContactDetails" Multiplicity="1" />
+          <End Role="Customers" Type="OpenPOSDbModel.Store.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_ContactDetails">
+          <End Role="ContactDetails" Type="OpenPOSDbModel.Store.ContactDetails" Multiplicity="1" />
+          <End Role="Employees" Type="OpenPOSDbModel.Store.Employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employees">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Membership_Employees">
+          <End Role="Employees" Type="OpenPOSDbModel.Store.Employees" Multiplicity="1" />
+          <End Role="Membership" Type="OpenPOSDbModel.Store.Membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCustomer">
+          <End Role="Customers" Type="OpenPOSDbModel.Store.Customers" Multiplicity="1" />
+          <End Role="Orders" Type="OpenPOSDbModel.Store.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Orders">
+          <End Role="Orders" Type="OpenPOSDbModel.Store.Orders" Multiplicity="1" />
+          <End Role="OrderDetails" Type="OpenPOSDbModel.Store.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPayment">
+          <End Role="Orders" Type="OpenPOSDbModel.Store.Orders" Multiplicity="1" />
+          <End Role="Payments" Type="OpenPOSDbModel.Store.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees">
+          <End Role="Employees" Type="OpenPOSDbModel.Store.Employees" Multiplicity="1" />
+          <End Role="Orders" Type="OpenPOSDbModel.Store.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Employees">
+          <End Role="Employees" Type="OpenPOSDbModel.Store.Employees" Multiplicity="1" />
+          <End Role="Payments" Type="OpenPOSDbModel.Store.Payments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payments">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductCategory">
+          <End Role="Categories" Type="OpenPOSDbModel.Store.Categories" Multiplicity="0..1" />
+          <End Role="Products" Type="OpenPOSDbModel.Store.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSupplier">
+          <End Role="Suppliers" Type="OpenPOSDbModel.Store.Suppliers" Multiplicity="0..1" />
+          <End Role="Products" Type="OpenPOSDbModel.Store.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTaxCategory">
+          <End Role="TaxCategories" Type="OpenPOSDbModel.Store.TaxCategories" Multiplicity="0..1" />
+          <End Role="Products" Type="OpenPOSDbModel.Store.Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaxCategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Products">
+              <PropertyRef Name="TaxCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetailPurchase">
+          <End Role="Purchases" Type="OpenPOSDbModel.Store.Purchases" Multiplicity="1" />
+          <End Role="PurchaseDetails" Type="OpenPOSDbModel.Store.PurchaseDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchases">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetails">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasePurchasePayment">
+          <End Role="Purchases" Type="OpenPOSDbModel.Store.Purchases" Multiplicity="1" />
+          <End Role="PurchasePayments" Type="OpenPOSDbModel.Store.PurchasePayments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchases">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasePayments">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchases_Employees">
+          <End Role="Employees" Type="OpenPOSDbModel.Store.Employees" Multiplicity="1" />
+          <End Role="Purchases" Type="OpenPOSDbModel.Store.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseSupplier">
+          <End Role="Suppliers" Type="OpenPOSDbModel.Store.Suppliers" Multiplicity="1" />
+          <End Role="Purchases" Type="OpenPOSDbModel.Store.Purchases" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Suppliers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchases">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplierContactDetail">
+          <End Role="ContactDetails" Type="OpenPOSDbModel.Store.ContactDetails" Multiplicity="1" />
+          <End Role="Suppliers" Type="OpenPOSDbModel.Store.Suppliers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Suppliers">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OpenPOSDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="OpenPOSDbEntities" annotation:LazyLoadingEnabled="false">
+          <EntitySet Name="Categories" EntityType="OpenPOSDbModel.Category" />
+          <EntitySet Name="ContactDetails" EntityType="OpenPOSDbModel.ContactDetail" />
+          <EntitySet Name="Customers" EntityType="OpenPOSDbModel.Customer" />
+          <EntitySet Name="Employees" EntityType="OpenPOSDbModel.Employee" />
+          <EntitySet Name="Memberships" EntityType="OpenPOSDbModel.Membership" />
+          <EntitySet Name="OrderDetails" EntityType="OpenPOSDbModel.OrderDetail" />
+          <EntitySet Name="Orders" EntityType="OpenPOSDbModel.Order" />
+          <EntitySet Name="Payments" EntityType="OpenPOSDbModel.Payment" />
+          <EntitySet Name="Privileges" EntityType="OpenPOSDbModel.Privilege" />
+          <EntitySet Name="Products" EntityType="OpenPOSDbModel.Product" />
+          <EntitySet Name="PurchaseDetails" EntityType="OpenPOSDbModel.PurchaseDetail" />
+          <EntitySet Name="PurchasePayments" EntityType="OpenPOSDbModel.PurchasePayment" />
+          <EntitySet Name="Purchases" EntityType="OpenPOSDbModel.Purchase" />
+          <EntitySet Name="RolePrivileges" EntityType="OpenPOSDbModel.RolePrivilege" />
+          <EntitySet Name="Roles" EntityType="OpenPOSDbModel.Role" />
+          <EntitySet Name="Suppliers" EntityType="OpenPOSDbModel.Supplier" />
+          <EntitySet Name="TaxCategories" EntityType="OpenPOSDbModel.TaxCategory" />
+          <AssociationSet Name="FK_ProductCategory" Association="OpenPOSDbModel.FK_ProductCategory">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerContactDetail" Association="OpenPOSDbModel.FK_CustomerContactDetail">
+            <End Role="ContactDetail" EntitySet="ContactDetails" />
+            <End Role="Customer" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupplierContactDetail" Association="OpenPOSDbModel.FK_SupplierContactDetail">
+            <End Role="ContactDetail" EntitySet="ContactDetails" />
+            <End Role="Supplier" EntitySet="Suppliers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderCustomer" Association="OpenPOSDbModel.FK_OrderCustomer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Membership_Employees" Association="OpenPOSDbModel.FK_Membership_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Membership" EntitySet="Memberships" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees" Association="OpenPOSDbModel.FK_Orders_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payments_Employees" Association="OpenPOSDbModel.FK_Payments_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Purchases_Employees" Association="OpenPOSDbModel.FK_Purchases_Employees">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Orders" Association="OpenPOSDbModel.FK_OrderDetails_Orders">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="OrderDetail" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPayment" Association="OpenPOSDbModel.FK_OrderPayment">
+            <End Role="Order" EntitySet="Orders" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSupplier" Association="OpenPOSDbModel.FK_ProductSupplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductTaxCategory" Association="OpenPOSDbModel.FK_ProductTaxCategory">
+            <End Role="TaxCategory" EntitySet="TaxCategories" />
+            <End Role="Product" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseDetailPurchase" Association="OpenPOSDbModel.FK_PurchaseDetailPurchase">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasePurchasePayment" Association="OpenPOSDbModel.FK_PurchasePurchasePayment">
+            <End Role="Purchase" EntitySet="Purchases" />
+            <End Role="PurchasePayment" EntitySet="PurchasePayments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchaseSupplier" Association="OpenPOSDbModel.FK_PurchaseSupplier">
+            <End Role="Supplier" EntitySet="Suppliers" />
+            <End Role="Purchase" EntitySet="Purchases" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employees_ContactDetails" Association="OpenPOSDbModel.FK_Employees_ContactDetails">
+            <End Role="ContactDetail" EntitySet="ContactDetails" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContactDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ContactName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Email" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Mobile" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Landline" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Country" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Pincode" MaxLength="15" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Street" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="DateOfBirth" />
+          </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="SSN" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Guid" Name="ContactDetailId" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" />
+          <Property Type="String" Name="UpdatedBy" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="UpdatedOn" />
+          <NavigationProperty Name="ContactDetail" Relationship="OpenPOSDbModel.FK_CustomerContactDetail" FromRole="Customer" ToRole="ContactDetail" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="ContactDetailId" Nullable="false" />
+          <Property Type="DateTime" Name="DateOfJoining" Nullable="false" />
+          <Property Type="Double" Name="Salary" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <NavigationProperty Name="Memberships" Relationship="OpenPOSDbModel.FK_Membership_Employees" FromRole="Employee" ToRole="Membership" />
+          <NavigationProperty Name="ContactDetail" Relationship="OpenPOSDbModel.FK_Employees_ContactDetails" FromRole="Employee" ToRole="ContactDetail" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="LastLogin" Nullable="false" />
+          <Property Type="Int32" Name="NoOfLogins" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="OpenPOSDbModel.FK_Membership_Employees" FromRole="Membership" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ItemName" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="MRP" Nullable="false" />
+          <Property Type="Double" Name="Price" Nullable="false" />
+          <Property Type="Double" Name="Quantity" Nullable="false" />
+          <Property Type="Double" Name="Discount" Nullable="false" />
+          <Property Type="Guid" Name="ProductId" />
+          <Property Type="Guid" Name="OrderId" Nullable="false" />
+          <Property Type="String" Name="Barcode" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="BillNo" Nullable="false" />
+          <Property Type="Double" Name="BillAmount" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="DateTime" Name="OrderDate" Nullable="false" />
+          <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="CustomerId" Nullable="false" />
+          <Property Type="Guid" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="SystemId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="OpenPOSDbModel.FK_OrderCustomer" FromRole="Order" ToRole="Customer" />
+          <NavigationProperty Name="Employee" Relationship="OpenPOSDbModel.FK_Orders_Employees" FromRole="Order" ToRole="Employee" />
+          <NavigationProperty Name="OrderDetails" Relationship="OpenPOSDbModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
+          <NavigationProperty Name="Payments" Relationship="OpenPOSDbModel.FK_OrderPayment" FromRole="Order" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int16" Name="Type" Nullable="false" />
+          <Property Type="Double" Name="PaidAmount" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="false" />
+          <Property Type="Guid" Name="OrderId" Nullable="false" />
+          <Property Type="Guid" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="SystemId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="OpenPOSDbModel.FK_Payments_Employees" FromRole="Payment" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Privilege">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="PrivilegeName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Barcode" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TamilName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="MRP" Nullable="false" />
+          <Property Type="Double" Name="SellPrice" Nullable="false" />
+          <Property Type="Double" Name="BuyPrice" Nullable="false" />
+          <Property Type="Double" Name="Stock" Nullable="false" />
+          <Property Type="Double" Name="MinStock" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Guid" Name="CategoryId" />
+          <Property Type="Guid" Name="TaxCategoryId" />
+          <Property Type="Guid" Name="SupplierId" />
+          <Property Type="Double" Name="Discount" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="OpenPOSDbModel.FK_ProductCategory" FromRole="Product" ToRole="Category" />
+          <NavigationProperty Name="Supplier" Relationship="OpenPOSDbModel.FK_ProductSupplier" FromRole="Product" ToRole="Supplier" />
+          <NavigationProperty Name="TaxCategory" Relationship="OpenPOSDbModel.FK_ProductTaxCategory" FromRole="Product" ToRole="TaxCategory" />
+        </EntityType>
+        <EntityType Name="PurchaseDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="MRP" Nullable="false" />
+          <Property Type="Double" Name="BuyPrice" Nullable="false" />
+          <Property Type="Double" Name="Quantity" Nullable="false" />
+          <Property Type="Double" Name="Dues" Nullable="false" />
+          <Property Type="Guid" Name="ProductId" />
+          <Property Type="Guid" Name="PurchaseId" Nullable="false" />
+          <Property Type="String" Name="Barcode" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Purchase" Relationship="OpenPOSDbModel.FK_PurchaseDetailPurchase" FromRole="PurchaseDetail" ToRole="Purchase" />
+        </EntityType>
+        <EntityType Name="PurchasePayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int16" Name="Type" Nullable="false" />
+          <Property Type="Double" Name="PaidAmount" Nullable="false" />
+          <Property Type="DateTime" Name="PaymentDate" Nullable="false" />
+          <Property Type="Guid" Name="PurchaseId" Nullable="false" />
+          <Property Type="Guid" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="SystemId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Purchase">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="BillNo" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="TotalAmount" Nullable="false" />
+          <Property Type="DateTime" Name="PurchaseDate" Nullable="false" />
+          <Property Type="String" Name="Notes" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Guid" Name="SupplierId" Nullable="false" />
+          <Property Type="Guid" Name="EmployeeId" Nullable="false" />
+          <Property Type="String" Name="SystemId" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Employee" Relationship="OpenPOSDbModel.FK_Purchases_Employees" FromRole="Purchase" ToRole="Employee" />
+          <NavigationProperty Name="PurchaseDetails" Relationship="OpenPOSDbModel.FK_PurchaseDetailPurchase" FromRole="Purchase" ToRole="PurchaseDetail" />
+          <NavigationProperty Name="PurchasePayments" Relationship="OpenPOSDbModel.FK_PurchasePurchasePayment" FromRole="Purchase" ToRole="PurchasePayment" />
+          <NavigationProperty Name="Supplier" Relationship="OpenPOSDbModel.FK_PurchaseSupplier" FromRole="Purchase" ToRole="Supplier" />
+        </EntityType>
+        <EntityType Name="RolePrivilege">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="Guid" Name="RoleId" Nullable="false" />
+          <Property Type="Guid" Name="PrivilegeId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="CreatedBy" Nullable="false" />
+          <Property Type="DateTime" Name="CreatedOn" Nullable="false" />
+          <Property Type="Guid" Name="UpdatedBy" />
+          <Property Type="DateTime" Name="UpdatedOn" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+          <Property Type="Guid" Name="ContactDetailId" Nullable="false" />
+          <NavigationProperty Name="ContactDetail" Relationship="OpenPOSDbModel.FK_SupplierContactDetail" FromRole="Supplier" ToRole="ContactDetail" />
+          </EntityType>
+        <EntityType Name="TaxCategory">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Guid" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Double" Name="Value" Nullable="false" />
+          <Property Type="Boolean" Name="Status" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ProductCategory">
+          <End Type="OpenPOSDbModel.Category" Role="Category" Multiplicity="0..1" />
+          <End Type="OpenPOSDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerContactDetail">
+          <End Type="OpenPOSDbModel.ContactDetail" Role="ContactDetail" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupplierContactDetail">
+          <End Type="OpenPOSDbModel.ContactDetail" Role="ContactDetail" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Supplier" Role="Supplier" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Supplier">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderCustomer">
+          <End Type="OpenPOSDbModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Membership_Employees">
+          <End Type="OpenPOSDbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Membership" Role="Membership" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees">
+          <End Type="OpenPOSDbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payments_Employees">
+          <End Type="OpenPOSDbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Purchases_Employees">
+          <End Type="OpenPOSDbModel.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Orders">
+          <End Type="OpenPOSDbModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrderDetail">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPayment">
+          <End Type="OpenPOSDbModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Payment" Role="Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSupplier">
+          <End Type="OpenPOSDbModel.Supplier" Role="Supplier" Multiplicity="0..1" />
+          <End Type="OpenPOSDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductTaxCategory">
+          <End Type="OpenPOSDbModel.TaxCategory" Role="TaxCategory" Multiplicity="0..1" />
+          <End Type="OpenPOSDbModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaxCategory">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="TaxCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseDetailPurchase">
+          <End Type="OpenPOSDbModel.Purchase" Role="Purchase" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.PurchaseDetail" Role="PurchaseDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchaseDetail">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasePurchasePayment">
+          <End Type="OpenPOSDbModel.Purchase" Role="Purchase" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.PurchasePayment" Role="PurchasePayment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Purchase">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasePayment">
+              <PropertyRef Name="PurchaseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchaseSupplier">
+          <End Type="OpenPOSDbModel.Supplier" Role="Supplier" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Purchase" Role="Purchase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supplier">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Purchase">
+              <PropertyRef Name="SupplierId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employees_ContactDetails">
+          <End Type="OpenPOSDbModel.ContactDetail" Role="ContactDetail" Multiplicity="1" />
+          <End Type="OpenPOSDbModel.Employee" Role="Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ContactDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="ContactDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OpenPOSDbModelStoreContainer" CdmEntityContainer="OpenPOSDbEntities">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContactDetails">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.ContactDetail">
+              <MappingFragment StoreEntitySet="ContactDetails">
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Landline" ColumnName="Landline" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ContactName" ColumnName="ContactName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="ContactDetailId" ColumnName="ContactDetailId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="SSN" ColumnName="SSN" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Employee">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Salary" ColumnName="Salary" />
+                <ScalarProperty Name="DateOfJoining" ColumnName="DateOfJoining" />
+                <ScalarProperty Name="ContactDetailId" ColumnName="ContactDetailId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Membership">
+              <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="NoOfLogins" ColumnName="NoOfLogins" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="MRP" ColumnName="MRP" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="BillAmount" ColumnName="BillAmount" />
+                <ScalarProperty Name="BillNo" ColumnName="BillNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Payment">
+              <MappingFragment StoreEntitySet="Payments">
+                <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Privileges">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Privilege">
+              <MappingFragment StoreEntitySet="Privileges">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="PrivilegeName" ColumnName="PrivilegeName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="TaxCategoryId" ColumnName="TaxCategoryId" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="MinStock" ColumnName="MinStock" />
+                <ScalarProperty Name="Stock" ColumnName="Stock" />
+                <ScalarProperty Name="BuyPrice" ColumnName="BuyPrice" />
+                <ScalarProperty Name="SellPrice" ColumnName="SellPrice" />
+                <ScalarProperty Name="MRP" ColumnName="MRP" />
+                <ScalarProperty Name="TamilName" ColumnName="TamilName" />
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseDetails">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.PurchaseDetail">
+              <MappingFragment StoreEntitySet="PurchaseDetails">
+                <ScalarProperty Name="Barcode" ColumnName="Barcode" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Dues" ColumnName="Dues" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BuyPrice" ColumnName="BuyPrice" />
+                <ScalarProperty Name="MRP" ColumnName="MRP" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchasePayments">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.PurchasePayment">
+              <MappingFragment StoreEntitySet="PurchasePayments">
+                <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="PurchaseId" ColumnName="PurchaseId" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="PaidAmount" ColumnName="PaidAmount" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Purchases">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Purchase">
+              <MappingFragment StoreEntitySet="Purchases">
+                <ScalarProperty Name="SystemId" ColumnName="SystemId" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="PurchaseDate" ColumnName="PurchaseDate" />
+                <ScalarProperty Name="TotalAmount" ColumnName="TotalAmount" />
+                <ScalarProperty Name="BillNo" ColumnName="BillNo" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RolePrivileges">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.RolePrivilege">
+              <MappingFragment StoreEntitySet="RolePrivileges">
+                <ScalarProperty Name="PrivilegeId" ColumnName="PrivilegeId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Role">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.Supplier">
+              <MappingFragment StoreEntitySet="Suppliers">
+                <ScalarProperty Name="ContactDetailId" ColumnName="ContactDetailId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaxCategories">
+            <EntityTypeMapping TypeName="OpenPOSDbModel.TaxCategory">
+              <MappingFragment StoreEntitySet="TaxCategories">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="SwizModel">
+        <EntityTypeShape EntityType="OpenPOSDbModel.Category" Width="1.5" PointX="5.75" PointY="1" Height="1.787985026041667" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.ContactDetail" Width="1.5" PointX="1.5" PointY="0.75" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Customer" Width="1.5" PointX="3.25" PointY="0.875" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Employee" Width="1.5" PointX="0.75" PointY="10" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Membership" Width="1.5" PointX="3" PointY="10.125" Height="2.5571907552083282" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.OrderDetail" Width="1.5" PointX="8.25" PointY="10" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Order" Width="1.5" PointX="6" PointY="9.625" Height="3.5186979166666674" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Payment" Width="1.5" PointX="11.25" PointY="10" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Privilege" Width="1.5" PointX="10.75" PointY="2.25" Height="1.5956835937500102" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Product" Width="1.5" PointX="8" PointY="4.25" Height="4.2879036458333246" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.PurchaseDetail" Width="1.5" PointX="5.25" PointY="4.25" Height="2.9417936197916674" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.PurchasePayment" Width="1.5" PointX="5.25" PointY="14" Height="2.3648893229166674" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Purchase" Width="1.5" PointX="3" PointY="5.625" Height="3.5186979166666674" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.RolePrivilege" Width="1.5" PointX="10.75" PointY="5.25" Height="1.5956835937500102" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Role" Width="1.5" PointX="12.75" PointY="2.25" Height="2.5571907552083246" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.Supplier" Width="1.5" PointX="0.75" PointY="6.25" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="OpenPOSDbModel.TaxCategory" Width="1.5" PointX="7.75" PointY="1" Height="1.787985026041667" />
+        <AssociationConnector Association="OpenPOSDbModel.FK_ProductCategory" >
+          <ConnectorPoint PointX="7.03125" PointY="2.787985026041667" />
+          <ConnectorPoint PointX="7.03125" PointY="7.5333968098958337" />
+          <ConnectorPoint PointX="8" PointY="7.5333968098958337" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_CustomerContactDetail" >
+          <ConnectorPoint PointX="3" PointY="2.24974609375" />
+          <ConnectorPoint PointX="3.25" PointY="2.24974609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_SupplierContactDetail" >
+          <ConnectorPoint PointX="1.875" PointY="3.6917936197916665" />
+          <ConnectorPoint PointX="1.875" PointY="6.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_OrderCustomer" >
+          <ConnectorPoint PointX="4.65625" PointY="3.6244921874999996" />
+          <ConnectorPoint PointX="4.65625" PointY="12.944194335937498" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="12.944194335937498" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="12.944194335937498" />
+          <ConnectorPoint PointX="6" PointY="12.944194335937498" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_Membership_Employees" >
+          <ConnectorPoint PointX="2.25" PointY="11.764068479116586" />
+          <ConnectorPoint PointX="3" PointY="11.764068479116586" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_Orders_Employees" >
+          <ConnectorPoint PointX="2.25" PointY="10.03125" />
+          <ConnectorPoint PointX="2.6666666666666665" PointY="10.031249999999998" />
+          <ConnectorPoint PointX="2.9270833333333335" PointY="10.03125" />
+          <ConnectorPoint PointX="4.572916666666667" PointY="10.03125" />
+          <ConnectorPoint PointX="4.739583333333333" PointY="10.03125" />
+          <ConnectorPoint PointX="4.791666666666667" PointY="10.03125" />
+          <ConnectorPoint PointX="4.958333333333333" PointY="10.03125" />
+          <ConnectorPoint PointX="6" PointY="10.03125" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_Payments_Employees" >
+          <ConnectorPoint PointX="2.25" PointY="10.630408563466716" />
+          <ConnectorPoint PointX="2.75" PointY="10.630408563466716" />
+          <ConnectorPoint PointX="2.75" PointY="9.375" />
+          <ConnectorPoint PointX="2.7604166666666665" PointY="9.375" />
+          <ConnectorPoint PointX="2.9270833333333335" PointY="9.375" />
+          <ConnectorPoint PointX="4.572916666666667" PointY="9.375" />
+          <ConnectorPoint PointX="4.8146354166666656" PointY="9.375" />
+          <ConnectorPoint PointX="12" PointY="9.375" />
+          <ConnectorPoint PointX="12" PointY="10" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_Purchases_Employees" >
+          <ConnectorPoint PointX="2.25" PointY="10.001152846153847" />
+          <ConnectorPoint PointX="2.625" PointY="9.6261528461538468" />
+          <ConnectorPoint PointX="2.625" PointY="8.3577512467447939" />
+          <ConnectorPoint PointX="2.7604166666666665" PointY="8.3577512467447939" />
+          <ConnectorPoint PointX="2.9270833333333335" PointY="8.3577512467447939" />
+          <ConnectorPoint PointX="3" PointY="8.3577512467447939" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_OrderDetails_Orders" >
+          <ConnectorPoint PointX="7.5" PointY="11.37474609375" />
+          <ConnectorPoint PointX="8.25" PointY="11.37474609375" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_OrderPayment" >
+          <ConnectorPoint PointX="7.5" PointY="12.977845052083334" />
+          <ConnectorPoint PointX="12" PointY="12.977845052083334" />
+          <ConnectorPoint PointX="12" PointY="12.557190755208332" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_ProductSupplier" >
+          <ConnectorPoint PointX="2.25" PointY="7.5788454820975035" />
+          <ConnectorPoint PointX="2.75" PointY="7.5788454820975035" />
+          <ConnectorPoint PointX="2.75" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="2.7604166666666665" PointY="3.9999999999999987" />
+          <ConnectorPoint PointX="2.9270833333333335" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="4.572916666666667" PointY="3.9999999999999987" />
+          <ConnectorPoint PointX="4.739583333333333" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="6.947916666666667" PointY="3.9999999999999987" />
+          <ConnectorPoint PointX="7.114583333333333" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="8.5416666666666661" PointY="3.9999999999999987" />
+          <ConnectorPoint PointX="8.7083333333333339" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="8.75" PointY="3.9999999999999991" />
+          <ConnectorPoint PointX="8.75" PointY="4.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_ProductTaxCategory" >
+          <ConnectorPoint PointX="8.625" PointY="2.787985026041667" />
+          <ConnectorPoint PointX="8.625" PointY="4.25" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_PurchaseDetailPurchase" >
+          <ConnectorPoint PointX="4.5" PointY="6.4083968098958337" />
+          <ConnectorPoint PointX="4.572916666666667" PointY="6.4083968098958328" />
+          <ConnectorPoint PointX="4.739583333333333" PointY="6.4083968098958337" />
+          <ConnectorPoint PointX="5.25" PointY="6.4083968098958337" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_PurchasePurchasePayment" >
+          <ConnectorPoint PointX="4.5" PointY="9.1436979166666674" />
+          <ConnectorPoint PointX="4.5973244349011217" PointY="9.2410223515677874" />
+          <ConnectorPoint PointX="4.7151755650988791" PointY="9.3588734817655457" />
+          <ConnectorPoint PointX="4.875" PointY="9.5186979166666674" />
+          <ConnectorPoint PointX="4.875" PointY="15.182444661458334" />
+          <ConnectorPoint PointX="5.25" PointY="15.182444661458334" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_PurchaseSupplier" >
+          <ConnectorPoint PointX="2.25" PointY="6.8519227410487513" />
+          <ConnectorPoint PointX="2.6666666666666665" PointY="6.85192274104875" />
+          <ConnectorPoint PointX="2.9270833333333335" PointY="6.8519227410487513" />
+          <ConnectorPoint PointX="3" PointY="6.8519227410487513" />
+        </AssociationConnector>
+        <AssociationConnector Association="OpenPOSDbModel.FK_Employees_ContactDetails" >
+          <ConnectorPoint PointX="2.84375" PointY="3.6917936197916665" />
+          <ConnectorPoint PointX="2.84375" PointY="11.229567126933429" />
+          <ConnectorPoint PointX="2.25" PointY="11.229567126933429" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

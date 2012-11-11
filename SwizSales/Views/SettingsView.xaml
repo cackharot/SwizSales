@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="SwizSales.Views.SettingsView"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=SettingsViewModel}"
+             d:DesignHeight="500" d:DesignWidth="840">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Label Grid.Column="0" Grid.Row="0">Language</Label>
+        <Label Grid.Column="0" Grid.Row="1">Currency Symbol</Label>
+        <Label Grid.Column="0" Grid.Row="2">Auto Print</Label>
+        <Label Grid.Column="0" Grid.Row="3">Customer Points Amount</Label>
+        <Label Grid.Column="0" Grid.Row="4">Ticket Printer</Label>
+        <Label Grid.Column="0" Grid.Row="5">Barocde Printer</Label>
+        <Label Grid.Column="0" Grid.Row="6">Report Printer</Label>
+        <Label Grid.Column="0" Grid.Row="7">Ticket Size</Label>
+        <Label Grid.Column="0" Grid.Row="8">Report Size</Label>
+        
+        <ComboBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" 
+                  ItemsSource="{Binding Path=Languages}" SelectedItem="{Binding Path=SelectedLanguage}"
+                  DisplayMemberPath="DisplayName"/>
+        
+        <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" Text="{Binding Path=CurrencySymbol}"/>
+
+        <!--<Controls:ToggleSwitch OnLabel="Yes" OffLabel="No" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=AutoPrint}"/>-->
+        <CheckBox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding Path=AutoPrint}"/>
+        
+        <TextBox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" Text="{Binding Path=CustomerPointsAmount}"/>
+
+        <ComboBox Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" 
+                  ItemsSource="{Binding Path=Printers}" SelectedValue="{Binding Path=TicketPrinter}"/>
+        <ComboBox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" 
+                  ItemsSource="{Binding Path=Printers}" SelectedValue="{Binding Path=BarcodePrinter}"/>
+        <ComboBox Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" 
+                  ItemsSource="{Binding Path=Printers}" SelectedValue="{Binding Path=ReportPrinter}"/>
+
+        <StackPanel Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Orientation="Horizontal">
+            <Label>Width:</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Text="{Binding Path=TicketWidth}"/>
+            <Label>Height:</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Text="{Binding Path=TicketHeight}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Column="1" Grid.Row="8" VerticalAlignment="Center" Orientation="Horizontal">
+            <Label>Width:</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Text="{Binding Path=ReportWidth}"/>
+            <Label>Height:</Label>
+            <TextBox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Width="100" Text="{Binding Path=ReportHeight}"/>
+        </StackPanel>
+        
+        <StackPanel Grid.ColumnSpan="2" Grid.Row="9" HorizontalAlignment="Left" Margin="165,5" Orientation="Horizontal">
+            <Button Command="{Binding ResetCommand}" Content="Reset" Width="80" Height="30" Margin="0,0,10,0"/>
+            <Button Command="{Binding SaveCommand}" Content="Save" Width="80" Height="30"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

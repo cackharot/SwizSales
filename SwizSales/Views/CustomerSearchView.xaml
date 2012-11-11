@@ -1,0 +1,110 @@
+﻿<Controls:MetroWindow x:Class="SwizSales.Views.CustomerSearchView"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:local="clr-namespace:SwizSales"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Title="Select Customer"
+             mc:Ignorable="d" ShowInTaskbar="False" ShowMinButton="False" ShowMaxRestoreButton="False" SnapsToDevicePixels="True"
+             SizeToContent="Manual" Topmost="True" DataContext="{Binding}" FocusManager.FocusedElement="{Binding ElementName=txtSearch}"
+             MinWidth="500" MinHeight="350"  Focusable="False"
+             d:DesignHeight="300" d:DesignWidth="450" SaveWindowPosition="True" WindowStartupLocation="CenterOwner">
+    <Controls:MetroContentControl Focusable="False">
+        <Grid Margin="10" Focusable="False">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
+                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}"
+                     Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+            <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
+                <ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
+            Grid.Row="1" Name="grdCustomer" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
+                 local:ControlItemDoubleClick.ItemsDoubleClick="True" ItemsSource="{Binding Path=CustomerList}" SelectedItem="{Binding Path=SelectedCustomer}"
+                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid DataContext="{Binding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=SSN}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=ContactDetail.ContactName}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Mobile}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Landline}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Email}"/>                                
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.Style>
+                        <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Style.Resources>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                    <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
+                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <Grid Margin="4,0,4,4">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
+                                                    <ContentPresenter Margin="8,5"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <MultiTrigger>
+                                                        <MultiTrigger.Conditions>
+                                                            <Condition Property="IsMouseOver" Value="True" />
+                                                            <Condition Property="IsSelected" Value="False"/>
+                                                        </MultiTrigger.Conditions>
+                                                        <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
+                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
+                                                    </MultiTrigger>
+                                                    <Trigger Property="IsSelected" Value="True">
+                                                        <Setter Property="Background" Value="Transparent" />
+                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Style.Resources>
+                        </Style>
+                    </ListBox.Style>
+                    <ListBox.InputBindings>
+                        <KeyBinding Command="{Binding SelectCommand}" Gesture="ENTER" />
+                        <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
+                    </ListBox.InputBindings>
+                </ListBox>
+            </Controls:TransitioningContentControl>
+            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+            <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="5">
+                <Button Width="80" Height="30" Margin="0,0,10,0" IsCancel="True">Cancel</Button>
+                <Button x:Name="btnSelect" Command="{Binding SelectCommand}" Width="80" Height="30" Margin="0,0,0,0" IsDefault="True">Select</Button>
+            </StackPanel>
+        </Grid>
+    </Controls:MetroContentControl>
+</Controls:MetroWindow>
