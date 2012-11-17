@@ -52,11 +52,11 @@ namespace SwizSales.Core.Services
                     {
                         items.Where(x => x.BillAmount >= condition.MinAmount && x.BillAmount <= condition.MaxAmount);
                     }
-                    else if (condition.MinAmount < 0 && condition.MaxAmount >= 0)
+                    else if (condition.MinAmount <= 0 && condition.MaxAmount > 0)
                     {
                         items.Where(x => x.BillAmount <= condition.MaxAmount);
                     }
-                    else if (condition.MinAmount >= 0 && condition.MaxAmount < 0)
+                    else if (condition.MinAmount > 0 && condition.MaxAmount <= 0)
                     {
                         items.Where(x => x.BillAmount >= condition.MinAmount);
                     }

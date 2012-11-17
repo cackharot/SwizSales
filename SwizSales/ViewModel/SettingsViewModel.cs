@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -19,6 +20,10 @@ using System.Xml;
 using System.IO;
 using System.Text;
 using System.Windows.Markup;
+using SwizSales.Core.Services;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Threading;
 
 namespace SwizSales.ViewModel
 {
@@ -39,6 +44,13 @@ namespace SwizSales.ViewModel
             this.settingService = serviceAgent;
             LoadTemplates();
             LoadPrinters();
+
+            LoadMockOrder();
+        }
+
+        private void LoadMockOrder()
+        {
+            this.Order = new OrderService().Search(new OrderSearchCondition { PageNo = 1, PageSize = 1, MinAmount = 1000 }).FirstOrDefault();
         }
 
         private void LoadTemplates()
@@ -128,50 +140,26 @@ namespace SwizSales.ViewModel
             }
         }
 
+        private Order _order;
+        public Order Order
+        {
+            get { return _order; }
+            set
+            {
+                _order = value;
+                NotifyPropertyChanged(m => m.Order);
+            }
+        }
+
         private Setting selectedTemplate;
         public Setting SelectedTemplate
         {
             get { return selectedTemplate; }
             set
             {
-                if (this.selectedTemplate != null)
-                {
-                    this.selectedTemplate.PropertyChanged -= selectedTemplate_PropertyChanged;
-                }
-
                 selectedTemplate = value;
-
-                if (this.selectedTemplate != null)
-                {
-                    this.selectedTemplate.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(selectedTemplate_PropertyChanged);
-                }
-
                 NotifyPropertyChanged(m => m.SelectedTemplate);
                 PreviewTemplate();
-            }
-        }
-
-        void selectedTemplate_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "Value" && !string.IsNullOrEmpty(SelectedTemplate.Value))
-            {
-                PreviewTemplate();
-            }
-        }
-
-        private void PreviewTemplate()
-        {
-            try
-            {
-                var xml = this.SelectedTemplate.Value;
-                var xmldoc = new XmlDocument();
-                xmldoc.LoadXml(xml);
-
-                this.PreviewTemplateContent = DeserializeXaml(xmldoc.InnerXml);
-            }
-            catch (Exception ex)
-            {
-                NotifyError("Error while preview", ex);
             }
         }
 
@@ -393,6 +381,35 @@ namespace SwizSales.ViewModel
                 }));
             }
             private set { deleteTemplateCommand = value; }
+        }
+
+        private DelegateCommand previewTemplateCommand;
+        public DelegateCommand PreviewTemplateCommand
+        {
+            get
+            {
+                return previewTemplateCommand ?? (previewTemplateCommand = new DelegateCommand(() =>
+                {
+                    PreviewTemplate();
+                }));
+            }
+            private set { previewTemplateCommand = value; }
+        }
+
+        private void PreviewTemplate()
+        {
+            if (string.IsNullOrEmpty(SelectedTemplate.Value))
+                return;
+
+            try
+            {
+                var xml = this.SelectedTemplate.Value;
+                this.PreviewTemplateContent = PrintHelper.GetPrintDocument(xml, this.Order);
+            }
+            catch (Exception ex)
+            {
+                NotifyError("Error while preview", ex);
+            }
         }
 
         #endregion

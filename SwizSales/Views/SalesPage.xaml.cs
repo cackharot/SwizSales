@@ -146,20 +146,7 @@ namespace SwizSales.Views
         {
             try
             {
-                var order = e.Data;
-                XmlDocument template = PrintHelper.GetPrintTicketTemplate(order);
-
-                var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(template.OuterXml)));
-
-                flowDocument.DataContext = order;
-                flowDocument.PageHeight = order.OrderDetails.Count * ApplicationSettings.LineHeight + ApplicationSettings.ExtraHeight;
-                flowDocument.PageWidth = ApplicationSettings.PageWidth;
-
-                // we need to give the binding infrastructure a push as we
-                // are operating outside of the intended use of WPF
-                var dispatcher = Dispatcher.CurrentDispatcher;
-                dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback(delegate { return null; }), null);
-
+                var flowDocument = PrintHelper.GetPrintDocument(e.Message, e.Data);
                 var xps = PrintHelper.GetXpsDocument(flowDocument);
                 var document = xps.GetFixedDocumentSequence();
 

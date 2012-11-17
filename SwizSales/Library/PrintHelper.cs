@@ -14,12 +14,36 @@ using System.Xml;
 using SwizSales.Core.Model;
 using SwizSales.Core.Library;
 using System.Windows.Xps.Serialization;
+using SwizSales.Library;
 
 namespace SwizSales
 {
     public static class PrintHelper
     {
         private static string PrintTicketTemplate = ApplicationSettings.PrintTicketTemplate;
+
+        public static FlowDocument GetPrintDocument(string templateXml, Order order)
+        {
+            var doc = new XmlDocument();
+            doc.LoadXml(templateXml);
+
+            PopulateTemplate(doc, order);
+
+            var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(doc.OuterXml)));
+
+            flowDocument.DataContext = order;
+            flowDocument.PageHeight = order.OrderDetails.Count * ApplicationSettings.LineHeight + ApplicationSettings.ExtraHeight;
+            flowDocument.PageWidth = ApplicationSettings.PageWidth;
+
+            // we need to give the binding infrastructure a push as we
+            // are operating outside of the intended use of WPF
+            var dispatcher = Dispatcher.CurrentDispatcher;
+            dispatcher.Thread.CurrentCulture = SwizConfigurationManager.GetCulture();
+            LanguageManipulator.SetXmlLanguage(dispatcher.Thread.CurrentCulture);
+            dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback(delegate { return null; }), null);
+
+            return flowDocument;
+        }
 
         public static XmlDocument GetPrintTicketTemplate(Order order)
         {
@@ -43,7 +67,7 @@ namespace SwizSales
             foreach (XmlElement row in tableRows)
             {
                 if (row.HasAttribute("Name")
-                    && row.Attributes["Name"].Value.ToString().Equals("itemRow", StringComparison.InvariantCultureIgnoreCase))
+                    && row.Attributes["Name"].Value.ToString().Equals("itemRow", StringComparison.OrdinalIgnoreCase))
                 {
                     itemRow = row;
                     break;
@@ -195,7 +219,7 @@ namespace SwizSales
             {
                 PrintQueue pq = LocalPrintServer.GetDefaultPrintQueue();
                 PrintTicket ticket = pq.UserPrintTicket;
-                return ticket.PageMediaSize.Height ?? ApplicationSettings.PageHeight;
+                return ticket.PageMediaSize.Height ?? SwizSales.Properties.Settings.Default.TicketHeight;
             }
         }
 
@@ -205,7 +229,7 @@ namespace SwizSales
             {
                 PrintQueue pq = LocalPrintServer.GetDefaultPrintQueue();
                 PrintTicket ticket = pq.UserPrintTicket;
-                return ticket.PageMediaSize.Width ?? ApplicationSettings.PageWidth;
+                return ticket.PageMediaSize.Width ?? SwizSales.Properties.Settings.Default.TicketWidth;
             }
         }
     }

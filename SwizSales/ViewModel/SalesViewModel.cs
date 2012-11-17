@@ -40,6 +40,7 @@ namespace SwizSales.ViewModel
         private IOrderService serviceAgent;
         private IProductService productService;
         private IReportService reportService;
+        private ISettingsService settingsService;
 
         public SalesViewModel() { }
 
@@ -48,6 +49,7 @@ namespace SwizSales.ViewModel
             this.serviceAgent = serviceAgent;
             this.productService = productService;
             this.reportService = new ReportService();
+            this.settingsService = new SettingsService();
 
             Init();
         }
@@ -76,6 +78,7 @@ namespace SwizSales.ViewModel
             };
 
             LoadTodayOrders();
+            LoadTemplates();
         }
 
         void LoadOrders(object sender, DoWorkEventArgs e)
@@ -494,14 +497,39 @@ namespace SwizSales.ViewModel
 
             if (printToPrinter)
             {
-                SendMessage<Guid>(MessageTokens.PrintOrder, new NotificationEventArgs<Guid>("Print Order", this.Model.Id));
+                //SendMessage<Guid>(MessageTokens.PrintOrder, new NotificationEventArgs<Guid>("Print Order", this.Model.Id));
+                PrintOrderToPrinter(this.Model);
             }
             else
             {
                 if (PreviewNotice != null)
                 {
-                    PreviewNotice(this, new NotificationEventArgs<Order>("Preview", this.Model));
+                    PreviewNotice(this, new NotificationEventArgs<Order>(this.SelectedTemplate.Value, this.Model));
                 }
+            }
+        }
+
+        private void PrintOrderToPrinter(Order order)
+        {
+            if (this.SelectedTemplate == null)
+            {
+                NotifyError("Print template is not selected!", null);
+            }
+
+            if (string.IsNullOrEmpty(this.SelectedTemplate.Value))
+            {
+                NotifyError("Print template does not have valid text!", null);
+            }
+
+            try
+            {
+                var flowDocument = PrintHelper.GetPrintDocument(this.SelectedTemplate.Value, this.Model);
+                var xps = PrintHelper.GetXpsDocument(flowDocument);
+                PrintHelper.PrintXpsToPrinter(xps, Properties.Settings.Default.TicketPrinter);
+            }
+            catch (Exception ex)
+            {
+                NotifyError("Error printing order", ex);
             }
         }
 
@@ -519,6 +547,7 @@ namespace SwizSales.ViewModel
                     refreshCommand = new DelegateCommand(() =>
                     {
                         LoadTodayOrders();
+                        LoadTemplates();
                         this.Model = null;
                         this.SelectedOrder = null;
                         this.LineItems = null;
@@ -774,6 +803,49 @@ namespace SwizSales.ViewModel
             PrintCommand.RaiseCanExecuteChanged();
             PreviewCommand.RaiseCanExecuteChanged();
             SearchProductCommand.RaiseCanExecuteChanged();
+        }
+
+        #endregion
+
+        #region Print Templates Settings
+
+        private ObservableCollection<Setting> _templates;
+        public ObservableCollection<Setting> Templates
+        {
+            get { return _templates; }
+            set
+            {
+                _templates = value;
+                NotifyPropertyChanged(m => m.Templates);
+            }
+        }
+
+        private Setting selectedTemplate;
+        public Setting SelectedTemplate
+        {
+            get { return selectedTemplate; }
+            set
+            {
+                selectedTemplate = value;
+                NotifyPropertyChanged(m => m.SelectedTemplate);
+            }
+        }
+
+        private void LoadTemplates()
+        {
+            this.Templates = new ObservableCollection<Setting>(this.settingsService.GetSettingsByCategory("Templates"));
+
+            if (this.Templates != null && this.Templates.Count > 0)
+            {
+                foreach (var item in this.Templates)
+                {
+                    if (item.Name.EndsWith(Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName))
+                    {
+                        this.SelectedTemplate = item;
+                        break;
+                    }
+                }
+            }
         }
 
         #endregion

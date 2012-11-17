@@ -20,31 +20,42 @@ namespace SwizSales.Library
 
         private static void InitializeCultures()
         {
-            var enInCulture = CultureInfo.CreateSpecificCulture(string.IsNullOrEmpty(Settings.Default.Culture) ? "en-IN" : Settings.Default.Culture);
-
-            enInCulture.NumberFormat.CurrencyDecimalDigits = Settings.Default.CurrencyDecimalDigits;
-            enInCulture.NumberFormat.CurrencySymbol = string.IsNullOrEmpty(Settings.Default.CurrencySymbol) ? "`" : Settings.Default.CurrencySymbol;
+            var enInCulture = GetCulture();
 
             Thread.CurrentThread.CurrentCulture = enInCulture;
             Thread.CurrentThread.CurrentUICulture = enInCulture;
 
             LanguageManipulator.SetXmlLanguage();
         }
+
+        public static CultureInfo GetCulture()
+        {
+            var enInCulture = CultureInfo.CreateSpecificCulture(string.IsNullOrEmpty(Settings.Default.Culture) ? "en-IN" : Settings.Default.Culture);
+            enInCulture.NumberFormat.CurrencyDecimalDigits = Settings.Default.CurrencyDecimalDigits;
+            enInCulture.NumberFormat.CurrencySymbol = string.IsNullOrEmpty(Settings.Default.CurrencySymbol) ? "`" : Settings.Default.CurrencySymbol;
+            return enInCulture;
+        }
     }
 
     public static class LanguageManipulator
     {
-        public static void SetXmlLanguage()
+        private static bool isInit = false;
+        public static void SetXmlLanguage(CultureInfo culture)
         {
-            var curr = CultureInfo.CurrentCulture;
-            var lang = XmlLanguage.GetLanguage(curr.Name);
-
-            SetCulture(lang, curr);
-
+            var lang = XmlLanguage.GetLanguage(culture.Name);
+            SetCulture(lang, culture);
             var meteadata = new FrameworkPropertyMetadata(lang);
 
-            FrameworkElement.LanguageProperty.OverrideMetadata(
-                typeof(FrameworkElement), meteadata);
+            if (!isInit)
+            {
+                FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), meteadata);
+                isInit = true;
+            }
+        }
+
+        public static void SetXmlLanguage()
+        {
+            SetXmlLanguage(CultureInfo.CurrentCulture); 
         }
 
         private static void SetCulture(

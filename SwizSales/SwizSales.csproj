@@ -100,6 +100,7 @@
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Library\MessageTokens.cs" />
+    <Compile Include="Library\PrintHelper.cs" />
     <Compile Include="Library\SwizConfigurationManager.cs" />
     <Compile Include="ReportLayouts\PrintTicketTemplate.xaml.cs">
       <DependentUpon>PrintTicketTemplate.xaml</DependentUpon>

@@ -60,7 +60,6 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Library\ContextExtensions.cs" />
     <Compile Include="Library\LogService.cs" />
-    <Compile Include="Library\PrintHelper.cs" />
     <Compile Include="Model\CustomerExtentions.cs" />
     <Compile Include="Model\CustomerSearchCondition.cs" />
     <Compile Include="Model\EmployeeSearchCondition.cs" />

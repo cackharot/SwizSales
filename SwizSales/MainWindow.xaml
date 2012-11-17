@@ -58,10 +58,10 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TabControl Margin="0,10,0,0">
-                    <TabItem Header="Dashboard">
+                    <!--<TabItem Header="Dashboard">
                         <Controls:MetroContentControl>
                         </Controls:MetroContentControl>
-                    </TabItem>
+                    </TabItem>-->
                     <TabItem Header="Sales">
                         <Controls:MetroContentControl>
                             <v:SalesPage x:Name="salesPage" Focusable="False"/>
@@ -91,11 +91,11 @@
                             <v:SettingsView Focusable="False"/>
                         </Controls:MetroContentControl>
                     </TabItem>
-                    <TabItem Header="Print">
+                    <!--<TabItem Header="Print">
                         <Controls:MetroContentControl>
                             <v:PrintView x:Name="printView" Focusable="False"/>
                         </Controls:MetroContentControl>
-                    </TabItem>
+                    </TabItem>-->
                 </TabControl>
                 <!--<StackPanel Grid.Column="1" Margin="50,25,25,0">
                     <TextBlock Margin="0,10,0,10" FontSize="18" Foreground="{StaticResource Foreground}" Text="Actions"/>

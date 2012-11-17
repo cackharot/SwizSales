@@ -56,6 +56,11 @@
         </Expander>
         <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
         <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5,0,0,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Width="120">Print Template:</TextBlock>
+                <ComboBox ItemsSource="{Binding Path=Templates}" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedTemplate}" MinWidth="150"/>
+            </StackPanel>
+            <Separator BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=BorderBrushSelected}"/>
             <TextBlock FontSize="14" FontWeight="Bold" Text="Order Details"/>
             <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
             <Grid DataContext="{Binding Path=Model,Mode=OneWay}">
@@ -107,7 +112,7 @@
                 <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding Path=Customer.SSN}"/>
                 <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding Path=Customer.ContactDetail.ContactName}" FontWeight="Bold" FontSize="20"/>
                 <TextBlock Grid.Column="1" Grid.Row="8" Text="{Binding Path=Customer.ContactDetail.Mobile}"/>
-                <TextBlock Grid.Column="1" Grid.Row="10" Style="{StaticResource StandardTextBlock}" FontSize="20" VerticalAlignment="Center">
+                <TextBlock Grid.Column="1" Grid.Row="10" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" >
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} / {1:#,#0.##}">
                         <Binding Path="TotalItems" />

@@ -91,18 +91,19 @@
                         <Button Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Width="80" Height="30" Content="New" Command="{Binding Path=NewTemplateCommand}" Margin="0,0,10,0"/>
                         <Button Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Width="80" Height="30" Content="Save" Command="{Binding Path=SaveTemplateCommand}" Margin="0,0,10,0"/>
                         <Button Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Width="80" Height="30" Content="Delete" Command="{Binding Path=DeleteTemplateCommand}" Margin="0,0,10,0"/>
+                        <Button Grid.Column="1" Grid.Row="0" VerticalAlignment="Top" Width="80" Height="30" Content="Preview" Command="{Binding Path=PreviewTemplateCommand}" Margin="0,0,10,0"/>
                     </StackPanel>
                     <ListBox Grid.Column="0" DisplayMemberPath="Name" Grid.Row="1" ItemsSource="{Binding Path=Templates}" SelectedItem="{Binding Path=SelectedTemplate}" Margin="0,0,5,0"/>
                     <Grid Grid.Column="1" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0" Text="{Binding Path=SelectedTemplate.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                        <TextBox Grid.Column="0" Text="{Binding Path=SelectedTemplate.Value,Mode=TwoWay,UpdateSourceTrigger=LostFocus}" 
                              AcceptsReturn="True" AcceptsTab="True" FontFamily="Courier New" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
                         <GridSplitter Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ResizeDirection="Columns" Height="Auto" BorderThickness="3" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
-                        <ContentControl Grid.Column="2" Content="{Binding Path=PreviewTemplateContent,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" />
+                        <ContentControl Grid.Column="2" Background="White" Content="{Binding Path=PreviewTemplateContent,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,NotifyOnValidationError=True}" />
                     </Grid>
                 </Grid>
             </Controls:MetroContentControl>
