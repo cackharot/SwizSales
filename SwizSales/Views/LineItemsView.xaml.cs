@@ -23,5 +23,15 @@ namespace SwizSales.Views
         {
             InitializeComponent();
         }
+
+        protected void Item_GotFocus(object sender, RoutedEventArgs e)
+        {
+            var item = sender as ListViewItem;
+
+            if (item != null)
+            {
+                lstOrders.SelectedItem = item.DataContext;
+            }
+        }
     }
 }

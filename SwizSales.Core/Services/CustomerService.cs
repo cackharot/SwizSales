@@ -19,14 +19,15 @@ namespace SwizSales.Core.Services
                 {
                     ctx.ContextOptions.LazyLoadingEnabled = false;
                     ctx.Customers.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
 
-                    var customers = ctx.Customers.Include("ContactDetail").Where(x => x.Status == true);
+                    var items = ctx.Customers.Include("ContactDetail").Where(x => x.Status == true);
 
                     if (!string.IsNullOrEmpty(condition.Number) && !string.IsNullOrEmpty(condition.Mobile)
                         && !string.IsNullOrEmpty(condition.Email)
                         && !string.IsNullOrEmpty(condition.Email))
                     {
-                        customers = customers.Where(x => x.SSN.Contains(condition.Number)
+                        items = items.Where(x => x.SSN.Contains(condition.Number)
                             || x.ContactDetail.ContactName.Contains(condition.Name)
                             || x.ContactDetail.Mobile.Contains(condition.Mobile)
                             || x.ContactDetail.Email.Contains(condition.Email));
@@ -35,27 +36,33 @@ namespace SwizSales.Core.Services
                     {
                         if (!string.IsNullOrEmpty(condition.Number))
                         {
-                            customers = customers.Where(x => x.SSN.Contains(condition.Number));
+                            items = items.Where(x => x.SSN.Contains(condition.Number));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Name))
+                        
+                        if (!string.IsNullOrEmpty(condition.Name))
                         {
-                            customers = customers.Where(x => x.ContactDetail.ContactName.Contains(condition.Name));
+                            items = items.Where(x => x.ContactDetail.ContactName.Contains(condition.Name));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Mobile))
+                        
+                        if (!string.IsNullOrEmpty(condition.Mobile))
                         {
-                            customers = customers.Where(x => x.ContactDetail.Mobile.Contains(condition.Mobile));
+                            items = items.Where(x => x.ContactDetail.Mobile.Contains(condition.Mobile));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Email))
+                        
+                        if (!string.IsNullOrEmpty(condition.Email))
                         {
-                            customers = customers.Where(x => x.ContactDetail.Email.Contains(condition.Email));
+                            items = items.Where(x => x.ContactDetail.Email.Contains(condition.Email));
                         }
                     }
 
-                    customers = customers.OrderBy(x => x.ContactDetail.ContactName);
+                    items = items.OrderBy(x => x.ContactDetail.ContactName);
 
-                    customers = customers.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    if (condition.PageNo > 0 && condition.PageSize > 0)
+                    {
+                        items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    }
 
-                    return new Collection<Customer>(customers.ToList());
+                    return new Collection<Customer>(items.ToList());
                 }
             }
             catch (Exception ex)
@@ -74,6 +81,7 @@ namespace SwizSales.Core.Services
                 using (OpenPOSDbEntities ctx = new OpenPOSDbEntities())
                 {
                     ctx.Customers.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
                     return ctx.Customers.Include("ContactDetail").SingleOrDefault(x => x.Id.Equals(id));
                 }
             }
@@ -91,6 +99,7 @@ namespace SwizSales.Core.Services
                 using (OpenPOSDbEntities ctx = new OpenPOSDbEntities())
                 {
                     ctx.Customers.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
                     return ctx.Customers.Include("ContactDetail").SingleOrDefault(x => x.SSN.Equals(ssn, StringComparison.OrdinalIgnoreCase) && x.Status == true);
                 }
             }

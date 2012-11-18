@@ -170,7 +170,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" x:Name="txtBarcode" Style="{StaticResource StandardTextBox}" 
+                <TextBox Grid.Column="0" x:Name="txtBarcode" Style="{StaticResource StandardTextBox}" FontSize="16"
                          Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Barcode..."
                          Text="{Binding Path=Barcode,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
                          MaxLength="30" SnapsToDevicePixels="True" ForceCursor="True" AutoWordSelection="True" />

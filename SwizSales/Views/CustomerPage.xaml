@@ -9,6 +9,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=CustomerViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=StandardTextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding Command="{Binding SearchCommand}" Gesture="CTRL+R" />
         <KeyBinding Command="{Binding SearchCommand}" Gesture="CTRL+S" />

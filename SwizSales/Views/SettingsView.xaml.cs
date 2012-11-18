@@ -26,8 +26,12 @@ namespace SwizSales.Views
             InitializeComponent();
 
             var vm = this.DataContext as SettingsViewModel;
-            vm.ErrorNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Exception>>(vm_ErrorNotice);
-            vm.NewTemplateNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<bool, Core.Model.Setting>>(vm_NewTemplateNotice);
+
+            if (vm != null)
+            {
+                vm.ErrorNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Exception>>(vm_ErrorNotice);
+                vm.NewTemplateNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<bool, Core.Model.Setting>>(vm_NewTemplateNotice);
+            }
         }
 
         void vm_NewTemplateNotice(object sender, SimpleMvvmToolkit.NotificationEventArgs<bool, Core.Model.Setting> e)

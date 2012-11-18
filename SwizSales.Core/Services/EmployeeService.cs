@@ -20,14 +20,15 @@ namespace SwizSales.Core.Services
                 {
                     ctx.ContextOptions.LazyLoadingEnabled = false;
                     ctx.Employees.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
 
-                    var employees = ctx.Employees.Include("ContactDetail").Where(x => x.Status == true);
+                    var items = ctx.Employees.Include("ContactDetail").Where(x => x.Status == true);
 
                     if (!string.IsNullOrEmpty(condition.Mobile)
                         && !string.IsNullOrEmpty(condition.Email)
                         && !string.IsNullOrEmpty(condition.Email))
                     {
-                        employees = employees.Where(x => x.ContactDetail.ContactName.Contains(condition.Name)
+                        items = items.Where(x => x.ContactDetail.ContactName.Contains(condition.Name)
                             || x.ContactDetail.Mobile.Contains(condition.Mobile)
                             || x.ContactDetail.Email.Contains(condition.Email));
                     }
@@ -35,23 +36,28 @@ namespace SwizSales.Core.Services
                     {
                         if (!string.IsNullOrEmpty(condition.Name))
                         {
-                            employees = employees.Where(x => x.ContactDetail.ContactName.Contains(condition.Name));
+                            items = items.Where(x => x.ContactDetail.ContactName.Contains(condition.Name));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Mobile))
+                        
+                        if (!string.IsNullOrEmpty(condition.Mobile))
                         {
-                            employees = employees.Where(x => x.ContactDetail.Mobile.Contains(condition.Mobile));
+                            items = items.Where(x => x.ContactDetail.Mobile.Contains(condition.Mobile));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Email))
+                        
+                        if (!string.IsNullOrEmpty(condition.Email))
                         {
-                            employees = employees.Where(x => x.ContactDetail.Email.Contains(condition.Email));
+                            items = items.Where(x => x.ContactDetail.Email.Contains(condition.Email));
                         }
                     }
 
-                    employees = employees.OrderBy(x => x.ContactDetail.ContactName);
+                    items = items.OrderBy(x => x.ContactDetail.ContactName);
 
-                    employees = employees.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    if (condition.PageNo > 0 && condition.PageSize > 0)
+                    {
+                        items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    }
 
-                    return new Collection<Employee>(employees.ToList());
+                    return new Collection<Employee>(items.ToList());
                 }
             }
             catch (Exception ex)

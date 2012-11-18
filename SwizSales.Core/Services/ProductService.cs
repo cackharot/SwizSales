@@ -34,11 +34,13 @@ namespace SwizSales.Core.Services
                         {
                             items = items.Where(x => x.Barcode.Contains(condition.Barcode));
                         }
-                        else if (!string.IsNullOrEmpty(condition.Name))
+
+                        if (!string.IsNullOrEmpty(condition.Name))
                         {
                             items = items.Where(x => x.Name.Contains(condition.Name));
                         }
-                        else if (condition.SupplierId != Guid.Empty)
+
+                        if (condition.SupplierId != Guid.Empty)
                         {
                             items = items.Where(x => x.SupplierId == condition.SupplierId);
                         }
@@ -46,11 +48,40 @@ namespace SwizSales.Core.Services
                         {
                             items = items.Where(x => x.Supplier.Name.Contains(condition.SupplierName));
                         }
+
+                        if (condition.MinMRP > 0 && condition.MaxMRP > 0)
+                        {
+                            items = items.Where(x => x.MRP >= condition.MinMRP && x.MRP <= condition.MaxMRP);
+                        }
+                        else if (condition.MinMRP > 0 && condition.MaxMRP <= 0)
+                        {
+                            items = items.Where(x => x.MRP >= condition.MinMRP);
+                        }
+                        else if (condition.MinMRP <= 0 && condition.MaxMRP > 0)
+                        {
+                            items = items.Where(x => x.MRP <= condition.MaxMRP);
+                        }
+
+                        if (condition.MinSellPrice > 0 && condition.MaxSellPrice > 0)
+                        {
+                            items = items.Where(x => x.SellPrice >= condition.MinSellPrice && x.SellPrice <= condition.MaxSellPrice);
+                        }
+                        else if (condition.MinSellPrice > 0 && condition.MaxSellPrice <= 0)
+                        {
+                            items = items.Where(x => x.SellPrice >= condition.MinSellPrice);
+                        }
+                        else if (condition.MinSellPrice <= 0 && condition.MaxSellPrice > 0)
+                        {
+                            items = items.Where(x => x.SellPrice <= condition.MaxSellPrice);
+                        }
                     }
 
                     items = items.OrderBy(x => x.Name);
 
-                    items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    if (condition.PageNo > 0 && condition.PageSize > 0)
+                    {
+                        items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    }
 
                     return new Collection<Product>(items.ToList());
                 }
@@ -60,8 +91,6 @@ namespace SwizSales.Core.Services
                 LogService.Error("Error while searching products", ex);
                 throw ex;
             }
-
-            return null;
         }
 
         public Product GetProductById(Guid id)
@@ -123,7 +152,7 @@ namespace SwizSales.Core.Services
                 }
             }
         }
-        
+
         public void Update(Product entity)
         {
             if (entity.Id.Equals(Guid.Empty))

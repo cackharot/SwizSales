@@ -32,17 +32,20 @@ namespace SwizSales.Views
 
             var vm = this.DataContext as SalesViewModel;
 
-            vm.ErrorNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Exception>>(vm_ErrorNotice);
+            if (vm != null)
+            {
+                vm.ErrorNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Exception>>(vm_ErrorNotice);
 
-            vm.SelectBarcode += new EventHandler(vm_SelectBarcode);
+                vm.SelectBarcode += new EventHandler(vm_SelectBarcode);
 
-            vm.PreviewNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order>>(vm_PreviewNotice);
+                vm.PreviewNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order>>(vm_PreviewNotice);
 
-            vm.CheckoutNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order, bool>>(vm_CheckoutNotice);
+                vm.CheckoutNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order, bool>>(vm_CheckoutNotice);
 
-            vm.ChangeCustomerNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order, Core.Model.Customer>>(vm_ChangeCustomerNotice);
+                vm.ChangeCustomerNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order, Core.Model.Customer>>(vm_ChangeCustomerNotice);
 
-            vm.SearchProductNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<List<Core.Model.Product>, Core.Model.Product>>(vm_SearchProductNotice);
+                vm.SearchProductNotice += new EventHandler<SimpleMvvmToolkit.NotificationEventArgs<List<Core.Model.Product>, Core.Model.Product>>(vm_SearchProductNotice);
+            }
 
             this.Loaded += new RoutedEventHandler(SalesPage_Loaded);
         }

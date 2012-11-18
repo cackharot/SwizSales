@@ -138,21 +138,21 @@
                                     </MultiBinding>
                                 </GridViewColumn.DisplayMemberBinding>
                             </GridViewColumn>
-                            <GridViewColumn Header="Total" Width="Auto">
+                            <GridViewColumn Header="Total" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=ActualTotalAmount,StringFormat='{}{0:C}'}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Paid" Width="Auto">
+                            <GridViewColumn Header="Paid" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                            <GridViewColumn Header="Balance" Width="Auto" >
+                            <GridViewColumn Header="Balance" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}"/>

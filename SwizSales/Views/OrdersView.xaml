@@ -8,6 +8,15 @@
              xmlns:local="clr-namespace:SwizSales"
              DataContext="{Binding Source={StaticResource Locator}, Path=OrdersViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=StandardTextBox}">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <DockPanel DataContext="{Binding}" Margin="0,5,0,0">
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -104,21 +113,21 @@
                                 </MultiBinding>
                             </GridViewColumn.DisplayMemberBinding>
                         </GridViewColumn>
-                        <GridViewColumn Header="Total" Width="120">
+                        <GridViewColumn Header="Total" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Paid" Width="120">
+                        <GridViewColumn Header="Paid" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Balance" Width="120" >
+                        <GridViewColumn Header="Balance" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}"/>

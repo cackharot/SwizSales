@@ -23,13 +23,16 @@ namespace SwizSales.ViewModel
         #region Initialization and Cleanup
 
         internal IProductService serviceAgent;
+        private readonly BackgroundWorker worker = new BackgroundWorker();
 
         public ProductViewModel() { }
 
         public ProductViewModel(IProductService serviceAgent)
         {
             this.serviceAgent = serviceAgent;
-            Load(new ProductSearchCondition() { });
+            this.SearchCondition = new ProductSearchCondition();
+            this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
+            Init();
         }
 
         #endregion
@@ -45,6 +48,28 @@ namespace SwizSales.ViewModel
         #endregion
 
         #region Properties
+
+        private ObservableCollection<int> pageSizes;
+        public ObservableCollection<int> PageSizes
+        {
+            get { return pageSizes; }
+            set
+            {
+                pageSizes = value;
+                NotifyPropertyChanged(m => m.PageSizes);
+            }
+        }
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value;
+                NotifyPropertyChanged(m => m.IsBusy);
+            }
+        }
 
         private ObservableCollection<Product> _productCollection;
         public ObservableCollection<Product> ProductCollection
@@ -96,37 +121,73 @@ namespace SwizSales.ViewModel
             this.ResetCommand.RaiseCanExecuteChanged();
         }
 
-        private string _searchText;
-        public string SearchText
+        private ProductSearchCondition _searchCondition;
+        public ProductSearchCondition SearchCondition
         {
-            get { return _searchText; }
+            get { return _searchCondition; }
             set
             {
-                _searchText = value;
-                NotifyPropertyChanged(m => m.SearchText);
-                SearchCommand.RaiseCanExecuteChanged();
+                _searchCondition = value;
+                NotifyPropertyChanged(m => m.SearchCondition);
             }
         }
 
         #endregion
 
         #region Methods
-
-        public void Load(ProductSearchCondition condition)
+        
+        private void Init()
         {
-            try
+            worker.DoWork += new DoWorkEventHandler(Search);
+            worker.RunWorkerCompleted += (s, e) =>
             {
-                var lst = serviceAgent.Search(condition);
+                IsBusy = false;
 
-                if (lst != null)
+                if (e.Cancelled)
+                    return;
+
+                if (e.Error != null)
                 {
-                    this.ProductCollection = new ObservableCollection<Product>(lst);
+                    NotifyError("Error while loading Products", e.Error);
+                    return;
                 }
-            }
-            catch (Exception ex)
+
+                var res = e.Result as Collection<Product>;
+
+                if (res != null)
+                {
+                    this.ProductCollection = new ObservableCollection<Product>(res);
+                }
+            };
+
+            DoSearch();
+        }
+
+        void Search(object sender, DoWorkEventArgs e)
+        {
+            var condition = e.Argument as ProductSearchCondition;
+
+            if (condition != null)
             {
-                NotifyError(ex.Message, ex);
+                var cuslst = this.serviceAgent.Search(condition);
+                e.Result = cuslst;
+                Thread.Sleep(500);
             }
+        }
+
+        void DoSearch()
+        {
+            this.SelectedProduct = null;
+            this.ProductCollection = new ObservableCollection<Product>();
+
+            if (this.worker.IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            this.worker.RunWorkerAsync(this.SearchCondition);
         }
 
         public void Delete(Product entity)
@@ -214,16 +275,26 @@ namespace SwizSales.ViewModel
             {
                 return _searchCommand ?? (_searchCommand = new DelegateCommand(() =>
                 {
-                    Load(new ProductSearchCondition()
-                    {
-                        Barcode = SearchText,
-                        Name = SearchText
-                    });
+                    DoSearch();
                 }, () =>
                 {
                     return true;
                 }));
             }
+        }
+
+        private DelegateCommand _resetSearchCommand;
+        public DelegateCommand ResetSearchCommand
+        {
+            get
+            {
+                return _resetSearchCommand ?? (_resetSearchCommand = new DelegateCommand(() =>
+                {
+                    this.SearchCondition = new ProductSearchCondition();
+                    DoSearch();
+                }));
+            }
+            private set { _resetSearchCommand = value; }
         }
 
         private DelegateCommand _addCommand;
@@ -296,10 +367,8 @@ namespace SwizSales.ViewModel
 
         #region Helpers
 
-        // Helper method to notify View of an error
         private void NotifyError(string message, Exception error)
         {
-            // Notify view of an error
             SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(message));
             Notify(ErrorNotice, new NotificationEventArgs<Exception>(message, error));
             LogService.Error(message, error);

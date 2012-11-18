@@ -97,6 +97,7 @@
     </ApplicationDefinition>
     <Compile Include="Extentions.cs" />
     <Compile Include="Helpers\AccessKeyScope.cs" />
+    <Compile Include="Helpers\BoolToVisibilityConvertor.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Library\MessageTokens.cs" />

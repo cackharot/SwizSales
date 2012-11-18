@@ -35,22 +35,22 @@
                         <GridView>
                             <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="110" />
                             <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"  Width="150"/>
-                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}"  Width="Auto"/>
-                            <GridViewColumn Header="MRP" Width="100">
+                            <!--<GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}"  Width="130"/>-->
+                            <GridViewColumn Header="MRP" Width="110" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" HorizontalAlignment="Right" Text="{Binding Path=MRP,StringFormat={}{0:C}}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Discount" Width="60">
+                            <GridViewColumn Header="Discount" Width="80" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Price" Width="100">
+                            <GridViewColumn Header="Price" Width="110" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" HorizontalAlignment="Right" Text="{Binding Path=SellPrice,StringFormat={}{0:C}}" />

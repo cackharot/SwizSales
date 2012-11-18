@@ -38,52 +38,60 @@ namespace SwizSales.Core.Services
                     {
                         items = items.Where(x => x.BillNo == condition.BillNo);
                     }
-                    else if (!string.IsNullOrEmpty(condition.SupplierName))
+                    else
                     {
-                        items = items.Where(x => x.Supplier.Name.Contains(condition.SupplierName));
+                        if (condition.SupplierId != Guid.Empty)
+                        {
+                            items = items.Where(x => x.SupplierId == condition.SupplierId);
+                        }
+                        else if (!string.IsNullOrEmpty(condition.SupplierName))
+                        {
+                            items = items.Where(x => x.Supplier.Name.Contains(condition.SupplierName));
+                        }
+                        
+                        if (condition.EmployeeId != Guid.Empty)
+                        {
+                            items = items.Where(x => x.EmployeeId == condition.EmployeeId);
+                        }
+                        
+                        if (condition.MinAmount >= 0 && condition.MaxAmount >= 0)
+                        {
+                            items.Where(x => x.TotalAmount >= condition.MinAmount && x.TotalAmount <= condition.MaxAmount);
+                        }
+                        else if (condition.MinAmount < 0 && condition.MaxAmount >= 0)
+                        {
+                            items.Where(x => x.TotalAmount <= condition.MaxAmount);
+                        }
+                        else if (condition.MinAmount >= 0 && condition.MaxAmount < 0)
+                        {
+                            items.Where(x => x.TotalAmount >= condition.MinAmount);
+                        }
+                        
+                        if ((condition.FromDate != DateTime.MinValue && condition.ToDate != DateTime.MinValue)
+                            && (condition.FromDate == condition.ToDate))
+                        {
+                            items.Where(x => x.PurchaseDate == condition.FromDate);
+                        }
+                        else if (condition.FromDate != DateTime.MinValue && condition.ToDate != DateTime.MinValue)
+                        {
+                            items.Where(x => x.PurchaseDate >= condition.FromDate && x.PurchaseDate <= condition.ToDate);
+                        }
+                        else if (condition.FromDate != DateTime.MinValue && condition.ToDate >= DateTime.MinValue)
+                        {
+                            items.Where(x => x.PurchaseDate <= condition.ToDate);
+                        }
+                        else if (condition.FromDate >= DateTime.MinValue && condition.ToDate != DateTime.MinValue)
+                        {
+                            items.Where(x => x.PurchaseDate >= condition.FromDate);
+                        }
                     }
-                    else if (condition.SupplierId != Guid.Empty)
-                    {
-                        items = items.Where(x => x.SupplierId == condition.SupplierId);
-                    }
-                    else if (condition.EmployeeId != Guid.Empty)
-                    {
-                        items = items.Where(x => x.EmployeeId == condition.EmployeeId);
-                    }
-                    else if (condition.MinAmount >= 0 && condition.MaxAmount >= 0)
-                    {
-                        items.Where(x => x.TotalAmount >= condition.MinAmount && x.TotalAmount <= condition.MaxAmount);
-                    }
-                    else if (condition.MinAmount < 0 && condition.MaxAmount >= 0)
-                    {
-                        items.Where(x => x.TotalAmount <= condition.MaxAmount);
-                    }
-                    else if (condition.MinAmount >= 0 && condition.MaxAmount < 0)
-                    {
-                        items.Where(x => x.TotalAmount >= condition.MinAmount);
-                    }
-                    else if ((condition.FromDate != DateTime.MinValue && condition.ToDate != DateTime.MinValue)
-                        && (condition.FromDate == condition.ToDate))
-                    {
-                        items.Where(x => x.PurchaseDate == condition.FromDate);
-                    }
-                    else if (condition.FromDate != DateTime.MinValue && condition.ToDate != DateTime.MinValue)
-                    {
-                        items.Where(x => x.PurchaseDate >= condition.FromDate && x.PurchaseDate <= condition.ToDate);
-                    }
-                    else if (condition.FromDate != DateTime.MinValue && condition.ToDate >= DateTime.MinValue)
-                    {
-                        items.Where(x => x.PurchaseDate <= condition.ToDate);
-                    }
-                    else if (condition.FromDate >= DateTime.MinValue && condition.ToDate != DateTime.MinValue)
-                    {
-                        items.Where(x => x.PurchaseDate >= condition.FromDate);
-                    }
-
 
                     items = items.OrderByDescending(x => x.BillNo).OrderByDescending(x => x.PurchaseDate);
 
-                    items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    if (condition.PageNo > 0 && condition.PageSize > 0)
+                    {
+                        items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    }
 
                     return new Collection<Purchase>(items.ToList());
                 }

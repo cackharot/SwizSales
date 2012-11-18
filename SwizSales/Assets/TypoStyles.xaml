@@ -14,6 +14,6 @@
         <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontFamily" Value="Rupee Foradian"/>
-        <Setter Property="Margin" Value="10,0,20,0"/>
+        <Setter Property="Margin" Value="5,0,0,0"/>
     </Style>
 </ResourceDictionary>

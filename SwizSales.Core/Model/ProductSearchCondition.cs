@@ -11,13 +11,13 @@ namespace SwizSales.Core.Model
 
         public string Name { get; set; }
 
-        public decimal MinMRP { get; set; }
+        public double MinMRP { get; set; }
 
-        public decimal MaxMRP { get; set; }
+        public double MaxMRP { get; set; }
 
-        public decimal MinSellPrice { get; set; }
+        public double MinSellPrice { get; set; }
 
-        public decimal MaxSellPrice { get; set; }
+        public double MaxSellPrice { get; set; }
 
         public Guid SupplierId { get; set; }
 

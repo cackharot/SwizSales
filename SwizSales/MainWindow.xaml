@@ -49,8 +49,8 @@
                 Sri Durga Home Needs Super Market, #25, M.G. Road, Puducherry - 605 001.
             </TextBlock>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" DataContext="{Binding Source={StaticResource Locator}, Path=NotificationViewModel}">
-                <TextBlock Text="Status:" Foreground="CadetBlue" Margin="0,0,10,0"/>
-                <TextBlock Foreground="CadetBlue" Text="{Binding Path=Status}" ></TextBlock>
+                <TextBlock Text="Status:" Foreground="#FF0087FF" Margin="0,0,10,0"/>
+                <TextBlock Foreground="#FF00C4FF" Text="{Binding Path=Status}" ></TextBlock>
             </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>

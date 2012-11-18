@@ -399,6 +399,10 @@ namespace SwizSales.ViewModel
                     Quantity = 1
                 });
             }
+            else
+            {
+                SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(string.Format("Item '{0}' not found!", value)));
+            }
         }
 
         private void AddItem(OrderDetail orderDetail)
