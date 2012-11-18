@@ -9,7 +9,7 @@
              DataContext="{Binding Source={StaticResource Locator}, Path=OrdersViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=StandardTextBox}">
+        <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
@@ -82,7 +82,7 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,10,5" HorizontalAlignment="Right">
                 <Label VerticalAlignment="Center">Count:</Label>
-                <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Orders.Count}" Width="100"/>
+                <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="{Binding Path=Orders.Count}" Width="100"/>
                 <Label VerticalAlignment="Center">Total Amount: </Label>
                 <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Foreground="Green" Text="{Binding Path=SearchTotal,StringFormat={}{0:C}}" Width="150"/>
                 <Label VerticalAlignment="Center">Total Paid:</Label>
@@ -90,13 +90,19 @@
                 <Label VerticalAlignment="Center">Total Balance:</Label>
                 <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Text="{Binding Path=SearchTotalBalance,StringFormat={}{0:C}}" Width="100"/>
             </StackPanel>
-            <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
+            <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=Orders}" SelectedItem="{Binding Path=SelectedOrder}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Order No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
-                        <GridViewColumn Header="Order Date" DisplayMemberBinding="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" local:GridViewColumnResize.Width="*"/>
+                        <GridViewColumn Header="Order Date" local:GridViewColumnResize.Width="0.9*">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" ToolTip="{Binding Path=OrderDate,StringFormat='{}{0:dd dddd MMMM, yyyy hh:mm tt}'}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="Customer Name" local:GridViewColumnResize.Width="0.9*">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -113,21 +119,21 @@
                                 </MultiBinding>
                             </GridViewColumn.DisplayMemberBinding>
                         </GridViewColumn>
-                        <GridViewColumn Header="Total" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                        <GridViewColumn Header="Total" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Paid" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                        <GridViewColumn Header="Paid" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Balance" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                        <GridViewColumn Header="Balance" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}"/>
@@ -144,10 +150,10 @@
             </ListView>
             <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Show"/>
+                <TextBlock VerticalAlignment="Center" Text="Show"/>
                 <ComboBox Width="60" Margin="5,0,0,0" SelectedValue="{Binding Path=SearchCondition.PageSize}" ItemsSource="{Binding Path=PageSizes}">
                 </ComboBox>
-                <TextBlock Text="of Page" Margin="5,0,0,0"/>
+                <TextBlock VerticalAlignment="Center" Text="of Page" Margin="5,0,0,0"/>
                 <TextBox Text="{Binding Path=SearchCondition.PageNo}" VerticalAlignment="Center" Width="50" Margin="5,0,0,0" FontSize="14"/>
                 <Button Command="{Binding Path=SearchCommand}" Content="Go" Width="30" Margin="5,0,0,0"/>
             </StackPanel>

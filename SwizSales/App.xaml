@@ -7,58 +7,16 @@
         <ResourceDictionary>
             <vm:ViewModelLocator xmlns:vm="clr-namespace:SwizSales.ViewModel" x:Key="Locator" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
+                
                 <ResourceDictionary Source="pack://application:,,,/Assets/Resources.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Assets/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Tooltip.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml"/>
-
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />-->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />-->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Tooltip.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Buttons.xaml"/>-->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />-->
-
-
-
-                <!--<ResourceDictionary>
-                <SolidColorBrush x:Key="AmountHighlight" Color="#FFFF0000"/>
-                <SolidColorBrush x:Key="Foreground" Color="Black"/>
-
-    <SolidColorBrush x:Key="BorderBrushSelected" Color="#1C97EA"/>
-    <SolidColorBrush x:Key="BackgroundHighlighted" Color="#FFB2E0F4"/>
-    <SolidColorBrush x:Key="BorderBrushHighlighted" Color="#6A6A75"/>
-                    <Style x:Key="StandardButton" TargetType="Button">
-                    </Style>
-                    <Style TargetType="TextBox" x:Key="StandardTextBox"></Style>
-                    <Style TargetType="{x:Type TextBox}" x:Key="ValidationTextBox" BasedOn="{StaticResource StandardTextBox}">
-                        <Style.Triggers>
-                            <Trigger Property="Validation.HasError" Value="true">
-                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                    <Style TargetType="TextBox" x:Key="SearchTextBox"></Style>
-                    <Style TargetType="TextBlock" x:Key="StandardTextBlock">
-                        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="FontSize" Value="12"/>
-                    </Style>
-                    <Style TargetType="TextBlock" x:Key="CurrencyTextBlock">
-                        <Setter Property="HorizontalAlignment" Value="Right"/>
-                        <Setter Property="VerticalAlignment" Value="Center"/>
-                        <Setter Property="Foreground" Value="{StaticResource Foreground}"/>
-                        <Setter Property="FontSize" Value="36"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
-                        <Setter Property="FontFamily" Value="Rupee Foradian"/>
-                        <Setter Property="Margin" Value="10,0,20,0"/>
-                    </Style>
-                    <Style x:Key="StandardListBox" TargetType="{x:Type ListBox}"></Style>
-                </ResourceDictionary>-->
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -8,6 +8,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="600" d:DesignWidth="400" 
         MinWidth="300" MinHeight="400" ShowInTaskbar="False" ShowMinButton="False"
         SizeToContent="Manual" WindowStartupLocation="CenterScreen" SaveWindowPosition="True" WindowStyle="ToolWindow">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <DocumentViewer x:Name="docViewer" SnapsToDevicePixels="True" OverridesDefaultStyle="False">
 

@@ -26,12 +26,12 @@
         <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Paid Amount</Label>
         <Label Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Print Ticket</Label>
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=BillNo}"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=BillNo}"/>
         <TextBlock FontSize="28" Foreground="Green" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Style="{StaticResource CurrencyTextBlock}" 
                    HorizontalAlignment="Left"
                    Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}"/>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource StandardTextBlock}" MinWidth="220">
+            <TextBlock FontSize="14" MinWidth="220">
             <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} [{1}]">
                         <Binding Path="Customer.ContactDetail.ContactName" />
@@ -40,7 +40,7 @@
                 </TextBlock.Text>
             </TextBlock>
         </StackPanel>
-        <TextBox FontSize="28" x:Name="txtPaidAmount" Grid.Column="1" Grid.Row="3" Style="{StaticResource StandardTextBox}" Text="{Binding Path=CurrentPaidAmount,FallbackValue='000.00'}" VerticalAlignment="Center"/>
+        <TextBox FontSize="28" x:Name="txtPaidAmount" Grid.Column="1" Grid.Row="3" Text="{Binding Path=CurrentPaidAmount,FallbackValue='000.00'}" VerticalAlignment="Center"/>
         <!--<Controls:ToggleSwitch OnLabel="Yes" OffLabel="No" Grid.Column="1" Grid.Row="4" Name="chkPrint" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
         <CheckBox Grid.Column="1" Grid.Row="4" Name="chkPrint" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 

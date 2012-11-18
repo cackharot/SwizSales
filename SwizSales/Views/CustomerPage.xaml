@@ -10,7 +10,7 @@
              mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=CustomerViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=StandardTextBox}">
+        <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
@@ -66,14 +66,14 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,10,5" HorizontalAlignment="Right">
                 <Label VerticalAlignment="Center">Count:</Label>
-                <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=CustomerCollection.Count}" Width="100"/>
+                <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="{Binding Path=CustomerCollection.Count}" Width="100"/>
             </StackPanel>
             <ListBox Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
                      local:ControlItemDoubleClick.ItemsDoubleClick="True"
                  x:Name="lstboxCustomer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding CustomerCollection}" SelectedItem="{Binding Path=SelectedCustomer}">
                 <ListBox.Style>
-                    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
+                    <Style TargetType="{x:Type ListBox}">
                         <Setter Property="Visibility" Value="Visible" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
@@ -98,10 +98,10 @@
             </ListBox>
             <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Show"/>
+                <TextBlock VerticalAlignment="Center" Text="Show"/>
                 <ComboBox Width="60" Margin="5,0,0,0" SelectedValue="{Binding Path=SearchCondition.PageSize}" ItemsSource="{Binding Path=PageSizes}">
                 </ComboBox>
-                <TextBlock Text="of Page" Margin="5,0,0,0"/>
+                <TextBlock VerticalAlignment="Center" Text="of Page" Margin="5,0,0,0"/>
                 <TextBox Text="{Binding Path=SearchCondition.PageNo}" VerticalAlignment="Center" Width="50" Margin="5,0,0,0" FontSize="14"/>
                 <Button Command="{Binding Path=SearchCommand}" Content="Go" Width="30" Margin="5,0,0,0"/>
             </StackPanel>

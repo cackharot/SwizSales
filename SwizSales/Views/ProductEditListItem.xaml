@@ -7,7 +7,6 @@
              mc:Ignorable="d" Height="Auto" Width="Auto" MinWidth="800">
     <StackPanel Orientation="Vertical" DataContext="{Binding}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <TextBlock Grid.Row="0" Grid.Column="0" 
-                       Style="{StaticResource StandardTextBlock}" 
                        Text="{Binding Path=Name,FallbackValue='Item Name'}" 
                        FontSize="24" />
         <Grid Grid.Row="1" DataContext="{Binding}" Grid.ColumnSpan="2">
@@ -55,9 +54,9 @@
             <TextBox Grid.Column="2" Grid.Row="0" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Barcode,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="30" />
             <TextBox Grid.Column="2" Grid.Row="1" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Name,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="50" />
 
-            <TextBlock Grid.Column="2" Grid.Row="2" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=Supplier.Name,FallbackValue='Supplier name'}" />
-            <TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=Category.Name,FallbackValue='Category name'}" />
-            <TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=TaxCategory.Name,FallbackValue='Tax category name'}" />
+            <TextBlock VerticalAlignment="Center" Grid.Column="2" Grid.Row="2" Text="{Binding Path=Supplier.Name,FallbackValue='Supplier name'}" />
+            <TextBlock VerticalAlignment="Center" Grid.Column="2" Grid.Row="3" Text="{Binding Path=Category.Name,FallbackValue='Category name'}" />
+            <TextBlock VerticalAlignment="Center" Grid.Column="2" Grid.Row="4" Text="{Binding Path=TaxCategory.Name,FallbackValue='Tax category name'}" />
 
             <TextBox Grid.Column="4" Grid.Row="0" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=MRP,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
             <TextBox Grid.Column="4" Grid.Row="1" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Discount,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />

@@ -9,6 +9,18 @@
              SizeToContent="Manual" Topmost="True" DataContext="{Binding}" FocusManager.FocusedElement="{Binding ElementName=txtSearch}"
              MinWidth="600" MinHeight="350"  Focusable="False"
              d:DesignHeight="300" d:DesignWidth="450" SaveWindowPosition="True" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Controls:MetroContentControl Focusable="False">
         <Grid Margin="10" Focusable="False">
             <Grid.RowDefinitions>
@@ -23,8 +35,9 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
-                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}" ToolTip="Enter name or number or mobile."
+                <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center"  Controls:TextboxHelper.ClearTextButton="True"
+                         ToolTip="Enter name or number or mobile."
                      Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
                 <Button Content="Search" Grid.Column="2" Width="80" Height="25" Command="{Binding Path=SearchCommand}" ToolTip="Click to search for customers!" IsDefault="True"/>
             </Grid>

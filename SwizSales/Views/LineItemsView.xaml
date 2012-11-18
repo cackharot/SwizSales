@@ -9,41 +9,36 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="350" d:DesignWidth="800">
     <UserControl.Resources>
-        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource ResourceKey=StandardTextBox}">
+        <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
                     <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <DataTemplate x:Key="viewLineItemTemplate">
-            <v:LineItemListItem/>
-        </DataTemplate>
-        <DataTemplate x:Key="editLineTemplate">
-            <v:LineItemEdit/>
-        </DataTemplate>
     </UserControl.Resources>
-    <Grid DataContext="{Binding}">
-        <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
+    <Controls:TransitioningContentControl Transition="DownTransition">
+        <ListView local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
                  x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding}" KeyboardNavigation.TabNavigation="Continue" local:GridViewColumnResize.Enabled="True"
                  SelectedItem="{Binding DataContext.SelectedLineItem,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}">
             <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey=StandardListViewItem}">
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <EventSetter Event="GotFocus" Handler="Item_GotFocus"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="130" />
-                    <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="*">
+                    <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="0.8*">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=ItemName,UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="MRP" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="MRP" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=MRP,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
@@ -51,7 +46,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Discount" Width="110" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="Discount" Width="110">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
@@ -59,7 +54,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Price" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="Price" Width="120">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Price,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
@@ -67,7 +62,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Quantity" Width="110" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="Quantity" Width="110">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Quantity,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
@@ -75,7 +70,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Line Total" Width="140" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="Line Total" Width="140">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" VerticalAlignment="Center" FontSize="16" Text="{Binding Path=LineTotal,StringFormat='{}{0:C}'}" 
@@ -89,5 +84,5 @@
                 <KeyBinding Command="{Binding DataContext.DeleteLineItemCommand,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}" Gesture="DELETE" />
             </ListView.InputBindings>
         </ListView>
-    </Grid>
+    </Controls:TransitioningContentControl>
 </UserControl>

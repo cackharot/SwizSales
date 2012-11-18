@@ -27,7 +27,7 @@
                 <Style TargetType="{x:Type Expander}">
                     <Setter Property="Header">
                         <Setter.Value>
-                            <TextBlock Foreground="{StaticResource Foreground}" VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center">
                                 <TextBlock.LayoutTransform>
                                     <RotateTransform Angle="90"/>
                                 </TextBlock.LayoutTransform>
@@ -44,7 +44,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0" Margin="5,0,5,2" DataContext="{Binding}">
-                    <TextBlock FontSize="14" FontWeight="Bold" Text="Today Orders"/>
+                    <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="Today Orders"/>
                     <Button DockPanel.Dock="Right" Command="{Binding Path=RefreshCommand}" Content="Refresh" Margin="10,0,0,0" Width="60" Height="25"/>
                 </DockPanel>
                 <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
@@ -57,7 +57,7 @@
         <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
         <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5,0,0,0" MinWidth="320">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Width="120">Print Template:</TextBlock>
+                <TextBlock VerticalAlignment="Center" Width="120">Print Template:</TextBlock>
                 <ComboBox ItemsSource="{Binding Path=Templates}" Foreground="Black" Background="WhiteSmoke" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedTemplate}" MinWidth="150"/>
             </StackPanel>
             <Separator BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=BorderBrushSelected}"/>
@@ -124,12 +124,12 @@
                     <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="0">Items/Quantity</Label>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="1">Savings Amount</Label>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="2">Round Off</Label>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="3">Total Amount</Label>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="4">Paid Amount</Label>
-                <Label VerticalAlignment="Center" FontSize="16" Grid.Column="0" Grid.Row="5">Balance Amount</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">Items/Quantity</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="1">Savings Amount</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="2">Round Off</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="3">Total Amount</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="4">Paid Amount</Label>
+                <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="5">Balance Amount</Label>
 
                 <TextBlock Grid.Column="1" Grid.Row="0" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" >
                 <TextBlock.Text>
@@ -170,7 +170,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" x:Name="txtBarcode" Style="{StaticResource StandardTextBox}" FontSize="16"
+                <TextBox Grid.Column="0" x:Name="txtBarcode" FontSize="16"
                          Controls:TextboxHelper.ClearTextButton="True" Controls:TextboxHelper.Watermark="Barcode..."
                          Text="{Binding Path=Barcode,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
                          MaxLength="30" SnapsToDevicePixels="True" ForceCursor="True" AutoWordSelection="True" />

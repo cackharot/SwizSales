@@ -7,11 +7,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
         Title="Siwz Sales" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
         VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  Focusable="False"                     
+        ShowIconOnTitleBar="True"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="720" d:DesignWidth="1020" Height="Auto" Width="Auto"
         SizeToContent="Manual" WindowStartupLocation="CenterScreen" WindowState="Maximized">
     <Window.Resources>
         <ResourceDictionary>
-            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Grid Focusable="False">
@@ -50,8 +58,8 @@
                 Sri Durga Home Needs Super Market, #25, M.G. Road, Puducherry - 605 001.
             </TextBlock>
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" DataContext="{Binding Source={StaticResource Locator}, Path=NotificationViewModel}">
-                <TextBlock Text="Status:" Foreground="#FF0087FF" Margin="0,0,10,0"/>
-                <TextBlock Foreground="#FF00C4FF" Text="{Binding Path=Status}" ></TextBlock>
+                <TextBlock Text="Status:" Margin="0,0,10,0"/>
+                <TextBlock Foreground="Red" Text="{Binding Path=Status}" ></TextBlock>
             </StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>

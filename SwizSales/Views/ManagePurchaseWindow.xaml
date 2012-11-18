@@ -8,13 +8,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="700" d:DesignWidth="1000" 
         SizeToContent="Manual" WindowStartupLocation="CenterOwner">
     <Window.Resources>
-        <Style TargetType="{x:Type TextBox}">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBox}">
+                <Style.Triggers>
+                    <Trigger Property="Validation.HasError" Value="true">
+                        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>        
     </Window.Resources>
     <Controls:MetroContentControl Focusable="False">
         <DockPanel Grid.Row="1" Margin="0,5,10,0">
@@ -139,11 +149,11 @@
                         <TextBlock Grid.Column="7" FontWeight="Bold" Text="Total" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0" />
                     </Grid>-->
                 <ListView Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False" local:GridViewColumnResize.Enabled="True"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                             ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="120" />
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="*"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="0.7*"/>
                             <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Path=Quantity}"  Width="70"/>
                             <GridViewColumn Header="MRP" Width="100">
                                 <GridViewColumn.CellTemplate>

@@ -4,10 +4,23 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Quick Search Product" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterOwner"
-        WindowStyle="ToolWindow" AllowsTransparency="True" ShowMaxRestoreButton="False" MinWidth="550" MinHeight="300" Focusable="False"
-                      FocusManager.FocusedElement="{Binding ElementName=txtSearch}" 
-        ShowMinButton="False" SnapsToDevicePixels="True" SaveWindowPosition="True" ForceCursor="True" d:DesignHeight="300" d:DesignWidth="550" SizeToContent="Manual">
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"  
+             ShowInTaskbar="False" ShowMinButton="False" ShowMaxRestoreButton="False" SnapsToDevicePixels="True"
+             SizeToContent="Manual" Topmost="True" DataContext="{Binding}" FocusManager.FocusedElement="{Binding ElementName=txtSearch}"
+             MinWidth="600" MinHeight="350"  Focusable="False"
+             d:DesignHeight="300" d:DesignWidth="450" SaveWindowPosition="True" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Controls:MetroContentControl Focusable="False">
         <Grid Margin="10" DataContext="{Binding}">
             <Grid.RowDefinitions>
@@ -22,8 +35,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
-                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}"
+                <TextBlock VerticalAlignment="Center" Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
+                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Controls:TextboxHelper.ClearTextButton="True"
                      Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" ToolTip="Enter name or barcode."/>
                 <Button Content="Search" Grid.Column="2" Width="80" Height="25" Command="{Binding Path=SearchCommand}" IsDefault="True" ToolTip="Click to search for products!" />
             </Grid>

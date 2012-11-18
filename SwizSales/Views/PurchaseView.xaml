@@ -25,7 +25,7 @@
                 <Style TargetType="{x:Type Expander}">
                     <Setter Property="Header">
                         <Setter.Value>
-                            <TextBlock Foreground="{StaticResource Foreground}" VerticalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center">
                                 <TextBlock.LayoutTransform>
                                     <RotateTransform Angle="90"/>
                                 </TextBlock.LayoutTransform>
@@ -60,11 +60,11 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Label Grid.Column="0" Grid.Row="0" Content="Bill No#"/>
-                        <Label Grid.Column="0" Grid.Row="1" Content="Supplier"/>
-                        <Label Grid.Column="0" Grid.Row="2" Content="Employee"/>
-                        <Label Grid.Column="0" Grid.Row="3" Content="Date"/>
-                        <Label Grid.Column="0" Grid.Row="4" Content="Amount"/>
+                        <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Content="Bill No#"/>
+                        <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="1" Content="Supplier"/>
+                        <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="2" Content="Employee"/>
+                        <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Content="Date"/>
+                        <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" Content="Amount"/>
 
                         <TextBox FontSize="16" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SearchCondition.BillNo}" VerticalAlignment="Center"/>
                         <ComboBox FontSize="16" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding Path=Suppliers}" SelectedValue="{Binding Path=SearchCondition.SupplierId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
@@ -122,14 +122,20 @@
                     <TextBlock Grid.Column="5" FontWeight="Bold" Text="Paid"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" />
                     <TextBlock Grid.Column="6" FontWeight="Bold" Text="Balance" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0"/>
                 </Grid>-->
-                <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
+                <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                  x:Name="lstPurchases" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=Purchases}" SelectedItem="{Binding Path=SelectedPurchase}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Bill No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
-                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}" local:GridViewColumnResize.Width="0.8*"/>
-                            <GridViewColumn Header="Purchase Date" DisplayMemberBinding="{Binding Path=PurchaseDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" local:GridViewColumnResize.Width="*"/>
+                            <GridViewColumn Header="Purchase Date" local:GridViewColumnResize.Width="0.9*">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Path=PurchaseDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" ToolTip="{Binding Path=PurchaseDate,StringFormat='{}{0:dd dddd MMMM, yyyy hh:mm tt}'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}" local:GridViewColumnResize.Width="0.7*"/>
                             <GridViewColumn Header="Items/Quantity" Width="110">
                                 <GridViewColumn.DisplayMemberBinding>
                                     <MultiBinding StringFormat="{}{0} / {1}">
@@ -138,21 +144,21 @@
                                     </MultiBinding>
                                 </GridViewColumn.DisplayMemberBinding>
                             </GridViewColumn>
-                            <GridViewColumn Header="Total" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                            <GridViewColumn Header="Total" Width="Auto">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=ActualTotalAmount,StringFormat='{}{0:C}'}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Paid" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                            <GridViewColumn Header="Paid" Width="Auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                            <GridViewColumn Header="Balance" Width="Auto" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                            <GridViewColumn Header="Balance" Width="Auto">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                         <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}"/>
