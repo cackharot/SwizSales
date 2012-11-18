@@ -30,13 +30,13 @@
             </Grid>
             <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
                 <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" Visibility="{Binding Path=ListVisibility}"
-                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=CustomerList}" SelectedItem="{Binding Path=SelectedCustomer}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="SSN#" DisplayMemberBinding="{Binding Path=SSN}" Width="80" />
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=ContactDetail.ContactName}"  Width="150"/>
-                            <GridViewColumn Header="Mobile" DisplayMemberBinding="{Binding Path=ContactDetail.Mobile}"  Width="120"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=ContactDetail.ContactName}" local:GridViewColumnResize.Width="*"/>
+                            <GridViewColumn Header="Mobile" DisplayMemberBinding="{Binding Path=ContactDetail.Mobile}" local:GridViewColumnResize.Width="0.8*"/>
                             <GridViewColumn Header="Landline" DisplayMemberBinding="{Binding Path=ContactDetail.Landline}"  Width="100"/>
                             <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Path=ContactDetail.Email}"  Width="Auto"/>
                             <GridViewColumn Header="Points" DisplayMemberBinding="{Binding Path=Points}"  Width="60"/>
@@ -47,78 +47,6 @@
                         <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
                     </ListView.InputBindings>
                 </ListView>
-                <!--<ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
-            Grid.Row="1" Name="grdCustomer" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
-                 local:ControlItemDoubleClick.ItemsDoubleClick="True" ItemsSource="{Binding Path=CustomerList}" SelectedItem="{Binding Path=SelectedCustomer}"
-                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid DataContext="{Binding}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition MinWidth="70" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition MinWidth="90" />
-                                    <ColumnDefinition MinWidth="70" />
-                                    <ColumnDefinition MinWidth="80" />
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=SSN}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=ContactDetail.ContactName}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Mobile}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="3" Text="{Binding Path=ContactDetail.Landline}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="4" Text="{Binding Path=ContactDetail.Email}"/>                                
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.Style>
-                        <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
-                            <Setter Property="Visibility" Value="Visible" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Style.Resources>
-                                <Style TargetType="{x:Type ListBoxItem}">
-                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                    <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
-                                    <Setter Property="BorderBrush" Value="Transparent"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                <Grid Margin="4,0,4,4">
-                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
-                                                    <ContentPresenter Margin="8,5"/>
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <MultiTrigger>
-                                                        <MultiTrigger.Conditions>
-                                                            <Condition Property="IsMouseOver" Value="True" />
-                                                            <Condition Property="IsSelected" Value="False"/>
-                                                        </MultiTrigger.Conditions>
-                                                        <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
-                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
-                                                    </MultiTrigger>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter Property="Background" Value="Transparent" />
-                                                        <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Style.Resources>
-                        </Style>
-                    </ListBox.Style>
-                    <ListBox.InputBindings>
-                        <KeyBinding Command="{Binding SelectCommand}" Gesture="ENTER" />
-                        <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
-                    </ListBox.InputBindings>
-                </ListBox>-->
             </Controls:TransitioningContentControl>
             <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}"/>
             <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="5">

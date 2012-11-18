@@ -138,12 +138,12 @@
                         <TextBlock Grid.Column="6" FontWeight="Bold" Text="Sell Price" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" />
                         <TextBlock Grid.Column="7" FontWeight="Bold" Text="Total" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0" />
                     </Grid>-->
-                <ListView Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False"
+                <ListView Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False" local:GridViewColumnResize.Enabled="True"
                              ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="120" />
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" Width="200" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="*"/>
                             <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Path=Quantity}"  Width="70"/>
                             <GridViewColumn Header="MRP" Width="100">
                                 <GridViewColumn.CellTemplate>

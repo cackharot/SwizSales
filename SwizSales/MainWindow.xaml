@@ -1,4 +1,5 @@
 ﻿<Controls:MetroWindow x:Class="SwizSales.MainWindow"
+        xmlns:Behaviours="clr-namespace:SwizSales"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:v="clr-namespace:SwizSales.Views"
         xmlns:System="clr-namespace:System;assembly=mscorlib"

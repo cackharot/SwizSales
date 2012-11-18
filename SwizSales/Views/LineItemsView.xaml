@@ -26,7 +26,7 @@
     <Grid DataContext="{Binding}">
         <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
                  x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding}" KeyboardNavigation.TabNavigation="Continue"
+                 ItemsSource="{Binding}" KeyboardNavigation.TabNavigation="Continue" local:GridViewColumnResize.Enabled="True"
                  SelectedItem="{Binding DataContext.SelectedLineItem,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey=StandardListViewItem}">
@@ -36,10 +36,10 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="130" />
-                    <GridViewColumn Header="Name" Width="220">
+                    <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="*">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" HorizontalAlignment="Stretch" Text="{Binding Path=ItemName,UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=ItemName,UpdateSourceTrigger=PropertyChanged}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -47,7 +47,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=MRP,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                         TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -55,7 +55,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                         TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -63,7 +63,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Price,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                         TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -71,15 +71,15 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Quantity,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                         TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="Line Total" Width="120" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
+                    <GridViewColumn Header="Line Total" Width="140" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" VerticalAlignment="Center" FontSize="16" Text="{Binding Path=LineTotal,StringFormat='{}{0:C}'}" 
-                                         HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                         TextAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

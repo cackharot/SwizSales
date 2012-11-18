@@ -91,13 +91,13 @@
                 <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Text="{Binding Path=SearchTotalBalance,StringFormat={}{0:C}}" Width="100"/>
             </StackPanel>
             <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
-                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=Orders}" SelectedItem="{Binding Path=SelectedOrder}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Order No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
-                        <GridViewColumn Header="Order Date" DisplayMemberBinding="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}"  Width="170"/>
-                        <GridViewColumn Header="Customer Name" Width="180" >
+                        <GridViewColumn Header="Order Date" DisplayMemberBinding="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" local:GridViewColumnResize.Width="*"/>
+                        <GridViewColumn Header="Customer Name" local:GridViewColumnResize.Width="0.9*">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Customer.ContactDetail.ContactName}" ToolTip="{Binding Path=Customer.ContactDetail.Mobile}"/>

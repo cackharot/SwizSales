@@ -123,13 +123,13 @@
                     <TextBlock Grid.Column="6" FontWeight="Bold" Text="Balance" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0"/>
                 </Grid>-->
                 <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
-                 x:Name="lstPurchases" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 x:Name="lstPurchases" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=Purchases}" SelectedItem="{Binding Path=SelectedPurchase}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Bill No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
-                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}" Width="200" />
-                            <GridViewColumn Header="Purchase Date" DisplayMemberBinding="{Binding Path=PurchaseDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}"  Width="150"/>
+                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}" local:GridViewColumnResize.Width="0.8*"/>
+                            <GridViewColumn Header="Purchase Date" DisplayMemberBinding="{Binding Path=PurchaseDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" local:GridViewColumnResize.Width="*"/>
                             <GridViewColumn Header="Items/Quantity" Width="110">
                                 <GridViewColumn.DisplayMemberBinding>
                                     <MultiBinding StringFormat="{}{0} / {1}">

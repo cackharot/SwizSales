@@ -29,12 +29,12 @@
             </Grid>
             <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
                 <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" Visibility="{Binding Path=ListVisibility}"
-                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" local:GridViewColumnResize.Enabled="True"
                  ItemsSource="{Binding Path=Products}" SelectedItem="{Binding Path=SelectedProduct}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="110" />
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"  Width="150"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="*"/>
                             <!--<GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}"  Width="130"/>-->
                             <GridViewColumn Header="MRP" Width="110" HeaderContainerStyle="{StaticResource ResourceKey=rightAlignStyle}">
                                 <GridViewColumn.CellTemplate>
