@@ -67,6 +67,11 @@
                             <v:SalesPage x:Name="salesPage" Focusable="False"/>
                         </Controls:MetroContentControl>
                     </TabItem>
+                    <TabItem Header="Orders">
+                        <Controls:MetroContentControl>
+                            <v:OrdersView x:Name="ordersPage" Focusable="False"/>
+                        </Controls:MetroContentControl>
+                    </TabItem>
                     <TabItem Header="Products">
                         <Controls:MetroContentControl>
                             <v:ProductPage x:Name="productPage" Focusable="False"/>

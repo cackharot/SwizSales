@@ -15,7 +15,7 @@ namespace SwizSales.Core.ServiceContracts
 
         Order GetOrderByOrderNo(int orderNo);
 
-        Order NewOrder();
+        Order NewOrder(Guid customerId, Guid employeeId);
 
         Guid Add(Order entity);
 

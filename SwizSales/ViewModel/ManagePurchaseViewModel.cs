@@ -12,6 +12,7 @@ using SwizSales.Core.Library;
 using System.ComponentModel;
 using SwizSales.Library;
 using System.Collections.Specialized;
+using SwizSales.Properties;
 
 namespace SwizSales.ViewModel
 {
@@ -40,6 +41,8 @@ namespace SwizSales.ViewModel
 
             this.Model = model;
             this.CurrentLineItem = new PurchaseDetail();
+            this.CurrentLineItem.CategoryId = Settings.Default.DefaultCategoryId;
+            this.CurrentLineItem.TaxCategoryId = Settings.Default.DefaultTaxCategoryId;
             this.Suppliers = new ObservableCollection<Supplier>(supplierService.Search(new SupplierSearchCondition()));
             this.Categories = new ObservableCollection<Category>(this.categoryService.Search());
             this.TaxCategories = new ObservableCollection<TaxCategory>(this.taxCategoryService.Search());
@@ -200,6 +203,10 @@ namespace SwizSales.ViewModel
             {
                 LoadProduct(this.CurrentLineItem.Barcode);
             }
+            else if (e.PropertyName == "MRP")
+            {
+                this.CurrentLineItem.BuyPrice = this.CurrentLineItem.MRP - (this.CurrentLineItem.MRP * (Settings.Default.PurchaseDiscount/ 100.0));
+            }
         }
 
         public void AddLineItem()
@@ -224,6 +231,8 @@ namespace SwizSales.ViewModel
             UpdateProduct(item);
 
             this.CurrentLineItem = new PurchaseDetail();
+            this.CurrentLineItem.CategoryId = Settings.Default.DefaultCategoryId;
+            this.CurrentLineItem.TaxCategoryId = Settings.Default.DefaultTaxCategoryId;
         }
 
         private void UpdateProduct(PurchaseDetail item)
@@ -336,7 +345,7 @@ namespace SwizSales.ViewModel
                 if (this.Model != null)
                 {
                     this.Model.PurchaseDate = DateTime.Now;
-                    this.Model.EmployeeId = ApplicationSettings.DefaultEmployeeId;
+                    this.Model.EmployeeId = Settings.Default.DefaultEmployeeId;
                     this.Model.SystemId = Environment.MachineName;
                     this.Model.Status = true;
 
@@ -383,6 +392,8 @@ namespace SwizSales.ViewModel
                 return resetCommand ?? (resetCommand = new DelegateCommand(() =>
                 {
                     this.CurrentLineItem = new PurchaseDetail();
+                    this.CurrentLineItem.CategoryId = Settings.Default.DefaultCategoryId;
+                    this.CurrentLineItem.TaxCategoryId = Settings.Default.DefaultTaxCategoryId;
                 }));
             }
             private set { resetCommand = value; }

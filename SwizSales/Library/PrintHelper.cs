@@ -15,13 +15,12 @@ using SwizSales.Core.Model;
 using SwizSales.Core.Library;
 using System.Windows.Xps.Serialization;
 using SwizSales.Library;
+using System.Threading;
 
 namespace SwizSales
 {
     public static class PrintHelper
     {
-        private static string PrintTicketTemplate = ApplicationSettings.PrintTicketTemplate;
-
         public static FlowDocument GetPrintDocument(string templateXml, Order order)
         {
             var doc = new XmlDocument();
@@ -29,34 +28,23 @@ namespace SwizSales
 
             PopulateTemplate(doc, order);
 
-            var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(doc.OuterXml)));
+            var xml = doc.OuterXml;
+            var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(xml)));
 
+            flowDocument.Language = XmlLanguage.GetLanguage(Thread.CurrentThread.CurrentCulture.IetfLanguageTag);
             flowDocument.DataContext = order;
-            flowDocument.PageHeight = order.OrderDetails.Count * ApplicationSettings.LineHeight + ApplicationSettings.ExtraHeight;
-            flowDocument.PageWidth = ApplicationSettings.PageWidth;
-
+            flowDocument.PageHeight = order.OrderDetails.Count * Properties.Settings.Default.LineHeight + Properties.Settings.Default.ExtraHeight;
+            flowDocument.PageWidth = Properties.Settings.Default.TicketWidth;
+            
             // we need to give the binding infrastructure a push as we
             // are operating outside of the intended use of WPF
             var dispatcher = Dispatcher.CurrentDispatcher;
-            dispatcher.Thread.CurrentCulture = SwizConfigurationManager.GetCulture();
-            LanguageManipulator.SetXmlLanguage(dispatcher.Thread.CurrentCulture);
-            dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback(delegate { return null; }), null);
+            dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback((arg) =>
+            {
+                return null;
+            }), order);
 
             return flowDocument;
-        }
-
-        public static XmlDocument GetPrintTicketTemplate(Order order)
-        {
-            XmlDocument doc = new XmlDocument();
-
-            using (FileStream fs = File.Open(PrintTicketTemplate, FileMode.Open, FileAccess.ReadWrite))
-            {
-                doc.Load(fs);
-            }
-
-            PopulateTemplate(doc, order);
-
-            return doc;
         }
 
         private static void PopulateTemplate(XmlDocument doc, Order order)
@@ -185,8 +173,8 @@ namespace SwizSales
 
         public static void PrintXpsToPrinter(XpsDocument xpsDocument, string printQueueName = null)
         {
-            PrintTicket ticket = new PrintTicket();
-            PrintQueue queue = LocalPrintServer.GetDefaultPrintQueue();
+            //PrintTicket ticket = new PrintTicket();
+            PrintQueue queue = null;
 
             if (!string.IsNullOrEmpty(printQueueName))
             {
@@ -197,11 +185,16 @@ namespace SwizSales
                 catch (Exception ex)
                 {
                     LogService.Error("Error while getting print queue " + printQueueName, ex);
+                    queue = LocalPrintServer.GetDefaultPrintQueue();
                 }
             }
+            else
+            {
+                queue = LocalPrintServer.GetDefaultPrintQueue();
+            }
 
-            ticket.PageMediaSize = new PageMediaSize(PageWidth, PageHeight);
-            queue.UserPrintTicket = ticket;
+            //ticket.PageMediaSize = new PageMediaSize(PageWidth, PageHeight);
+            //queue.UserPrintTicket = ticket;
 
             XpsDocumentWriter pwriter = PrintQueue.CreateXpsDocumentWriter(queue);
 
@@ -210,16 +203,15 @@ namespace SwizSales
 
             };
 
-            pwriter.WriteAsync(xpsDocument.GetFixedDocumentSequence(), ticket);
+            //pwriter.WriteAsync(xpsDocument.GetFixedDocumentSequence(), ticket);
+            pwriter.WriteAsync(xpsDocument.GetFixedDocumentSequence());
         }
 
         public static double PageHeight
         {
             get
             {
-                PrintQueue pq = LocalPrintServer.GetDefaultPrintQueue();
-                PrintTicket ticket = pq.UserPrintTicket;
-                return ticket.PageMediaSize.Height ?? SwizSales.Properties.Settings.Default.TicketHeight;
+                return Properties.Settings.Default.TicketHeight;
             }
         }
 
@@ -227,9 +219,7 @@ namespace SwizSales
         {
             get
             {
-                PrintQueue pq = LocalPrintServer.GetDefaultPrintQueue();
-                PrintTicket ticket = pq.UserPrintTicket;
-                return ticket.PageMediaSize.Width ?? SwizSales.Properties.Settings.Default.TicketWidth;
+                return Properties.Settings.Default.TicketWidth;
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -14,6 +15,8 @@ using System.Windows.Threading;
 using System.ComponentModel;
 using SwizSales.Core.Library;
 using SwizSales.Library;
+using SwizSales.Core.Services;
+using SwizSales.Properties;
 
 namespace SwizSales.ViewModel
 {
@@ -28,22 +31,22 @@ namespace SwizSales.ViewModel
         #region Initialization and Cleanup
 
         internal ICustomerService serviceAgent;
+        internal IReportService reportService;
+        private readonly BackgroundWorker worker = new BackgroundWorker();
 
-        // Default ctor
-        public CustomerViewModel() { }
-
-        // TODO: ctor that accepts IXxxServiceAgent
-        public CustomerViewModel(ICustomerService serviceAgent)
+        public CustomerViewModel(ICustomerService serviceAgent, IReportService reportService)
         {
             this.serviceAgent = serviceAgent;
-            Load(new CustomerSearchCondition() { });
+            this.reportService = reportService;
+            this.SearchCondition = new CustomerSearchCondition();
+            this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
+            Init();
         }
 
         #endregion
 
         #region Notifications
 
-        // TODO: Add events to notify the view or obtain data from the view
         public event EventHandler<NotificationEventArgs<Exception>> ErrorNotice;
 
         public event EventHandler<NotificationEventArgs<Customer, bool>> DeleteCustomerNotice;
@@ -54,7 +57,28 @@ namespace SwizSales.ViewModel
 
         #region Properties
 
-        // TODO: Add properties using the mvvmprop code snippet
+        private ObservableCollection<int> pageSizes;
+        public ObservableCollection<int> PageSizes
+        {
+            get { return pageSizes; }
+            set
+            {
+                pageSizes = value;
+                NotifyPropertyChanged(m => m.PageSizes);
+            }
+        }
+
+        private bool _isBusy;
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set
+            {
+                _isBusy = value;
+                NotifyPropertyChanged(m => m.IsBusy);
+            }
+        }
+
         private ObservableCollection<Customer> _customerCollection;
         public ObservableCollection<Customer> CustomerCollection
         {
@@ -63,7 +87,6 @@ namespace SwizSales.ViewModel
             {
                 _customerCollection = value;
                 NotifyPropertyChanged(m => m.CustomerCollection);
-                //NotifyPropertyChanged(m => m.HasCustomers);
             }
         }
 
@@ -78,26 +101,90 @@ namespace SwizSales.ViewModel
             }
         }
 
-        private string _searchText;
-        public string SearchText
+        private CustomerSearchCondition _searchCondition;
+        public CustomerSearchCondition SearchCondition
         {
-            get { return _searchText; }
+            get { return _searchCondition; }
             set
             {
-                _searchText = value;
-                NotifyPropertyChanged(m => m.SearchText);
-                SearchCommand.RaiseCanExecuteChanged();
+                _searchCondition = value;
+                NotifyPropertyChanged(m => m.SearchCondition);
             }
         }
-
-        //public Visibility HasCustomers
-        //{
-        //    get { return this.CustomerCollection != null && this.CustomerCollection.Count > 0 ? Visibility.Visible : Visibility.Collapsed; }
-        //}
 
         #endregion
 
         #region Methods
+
+        private void Init()
+        {
+            worker.DoWork += new DoWorkEventHandler(Search);
+            worker.RunWorkerCompleted += (s, e) =>
+            {
+                IsBusy = false;
+
+                if (e.Cancelled)
+                    return;
+
+                if (e.Error != null)
+                {
+                    NotifyError("Error while loading Customers", e.Error);
+                    return;
+                }
+
+                var res = e.Result as Collection<Customer>;
+
+                if (res != null)
+                {
+                    this.CustomerCollection = new ObservableCollection<Customer>(res);
+                }
+            };
+
+            DoSearch();
+        }
+
+        void Search(object sender, DoWorkEventArgs e)
+        {
+            var condition = e.Argument as CustomerSearchCondition;
+
+            if (condition != null)
+            {
+                var cuslst = this.serviceAgent.Search(condition);
+
+                if (cuslst != null && cuslst.Count > 0)
+                {
+                    var customerIds = cuslst.Where(x => x.Id != Settings.Default.DefaultCustomerId).Select(x => x.Id).Distinct();
+
+                    var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds);
+
+                    if (cusTotalAmounts != null)
+                    {
+                        foreach (var cus in cuslst)
+                        {
+                            cus.Points = Convert.ToInt32(cusTotalAmounts.ContainsKey(cus.Id) ? (cusTotalAmounts[cus.Id] / Properties.Settings.Default.CustomerPointsAmount) : 0);
+                        }
+                    }
+                }
+
+                e.Result = cuslst;
+                Thread.Sleep(500);
+            }
+        }
+
+        void DoSearch()
+        {
+            this.SelectedCustomer = null;
+            this.CustomerCollection = new ObservableCollection<Customer>();
+
+            if (this.worker.IsBusy)
+            {
+                return;
+            }
+
+            IsBusy = true;
+
+            this.worker.RunWorkerAsync(this.SearchCondition);
+        }
 
         public void Load(CustomerSearchCondition condition)
         {
@@ -105,9 +192,13 @@ namespace SwizSales.ViewModel
             {
                 var lst = serviceAgent.Search(condition);
 
-                if (lst != null)
+                if (lst != null && lst.Count > 0)
                 {
                     this.CustomerCollection = new ObservableCollection<Customer>(lst);
+                }
+                else
+                {
+                    this.CustomerCollection.Clear();
                 }
             }
             catch (Exception ex)
@@ -115,7 +206,7 @@ namespace SwizSales.ViewModel
                 NotifyError(ex.Message, ex);
             }
         }
-        
+
         public void Delete(Customer entity)
         {
             this.CustomerCollection.Remove(entity);
@@ -175,18 +266,26 @@ namespace SwizSales.ViewModel
             {
                 return _searchCommand ?? (_searchCommand = new DelegateCommand(() =>
                 {
-                    Load(new CustomerSearchCondition()
-                    {
-                        Number = SearchText,
-                        Name = SearchText,
-                        Mobile = SearchText,
-                        Email = SearchText
-                    });
+                    DoSearch();
                 }, () =>
                 {
                     return true;
                 }));
             }
+        }
+
+        private DelegateCommand _resetCommand;
+        public DelegateCommand ResetCommand
+        {
+            get
+            {
+                return _resetCommand ?? (_resetCommand = new DelegateCommand(() =>
+                {
+                    this.SearchCondition = new CustomerSearchCondition();
+                    DoSearch();
+                }));
+            }
+            private set { _resetCommand = value; }
         }
 
         private DelegateCommand _addCommand;

@@ -51,11 +51,15 @@
             <Label Grid.Column="1" Grid.Row="3">Landline</Label>
             <Label Grid.Column="1" Grid.Row="4">Address</Label>
 
-            <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=SSN,FallbackValue='000'}"/>
-            <TextBlock Grid.Column="2" Grid.Row="1" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Email,FallbackValue='thiru.shanmugam@gmail.com'}"/>
-            <TextBlock Grid.Column="2" Grid.Row="2" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Mobile,FallbackValue='+91 963214785'}" />
-            <TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Landline,FallbackValue='0413-1236544'}" />
-            <TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource StandardTextBlock}" TextWrapping="WrapWithOverflow" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding Path=SSN,FallbackValue='000'}" Margin="0,0,10,0" Width="180"/>
+                <Label Margin="0,0,10,0">POINTS: </Label>
+                <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=Points}" Margin="0,0,10,0" Width="100"/>
+            </StackPanel>
+            <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding Path=ContactDetail.Email,FallbackValue='thiru.shanmugam@gmail.com'}"/>
+            <TextBlock Grid.Column="2" Grid.Row="2" Text="{Binding Path=ContactDetail.Mobile,FallbackValue='+91 963214785'}" />
+            <TextBlock Grid.Column="2" Grid.Row="3" Text="{Binding Path=ContactDetail.Landline,FallbackValue='0413-1236544'}" />
+            <TextBlock Grid.Column="2" Grid.Row="4" TextWrapping="WrapWithOverflow" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0},{1}{2}{3}{4} - {5}">
                         <Binding Path="ContactDetail.Street" />

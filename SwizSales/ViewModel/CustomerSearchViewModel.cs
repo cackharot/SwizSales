@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -14,6 +15,7 @@ using SwizSales.Core.Library;
 using SwizSales.Core.Services;
 using System.ComponentModel;
 using SwizSales.Library;
+using SwizSales.Properties;
 
 namespace SwizSales.ViewModel
 {
@@ -29,12 +31,14 @@ namespace SwizSales.ViewModel
 
         private readonly BackgroundWorker worker = new BackgroundWorker();
         internal ICustomerService serviceAgent;
+        internal IReportService reportService;
 
-        public CustomerSearchViewModel() : this(new CustomerService()) { }
+        public CustomerSearchViewModel() : this(new CustomerService(), new ReportService()) { }
 
-        public CustomerSearchViewModel(ICustomerService serviceAgent)
+        public CustomerSearchViewModel(ICustomerService serviceAgent, IReportService reportService)
         {
             this.serviceAgent = serviceAgent;
+            this.reportService = reportService;
             Init();
         }
 
@@ -65,7 +69,7 @@ namespace SwizSales.ViewModel
 
         #region Notifications
 
-        public event EventHandler<NotificationEventArgs<Exception>> ErrorNotice; 
+        public event EventHandler<NotificationEventArgs<Exception>> ErrorNotice;
         public event EventHandler<NotificationEventArgs> CloseNotice;
 
         #endregion
@@ -97,7 +101,6 @@ namespace SwizSales.ViewModel
             {
                 _searchText = value;
                 NotifyPropertyChanged(m => m.SearchText);
-                DoSearch();
             }
         }
 
@@ -151,7 +154,7 @@ namespace SwizSales.ViewModel
 
                 if (!string.IsNullOrEmpty(searchValue))
                 {
-                    var lst = this.serviceAgent.Search(new CustomerSearchCondition
+                    var cuslst = this.serviceAgent.Search(new CustomerSearchCondition
                     {
                         Email = searchValue,
                         Name = searchValue,
@@ -162,7 +165,22 @@ namespace SwizSales.ViewModel
                         Status = true
                     });
 
-                    e.Result = lst;
+                    if (cuslst != null && cuslst.Count > 0)
+                    {
+                        var customerIds = cuslst.Where(x => x.Id != Settings.Default.DefaultCustomerId).Select(x => x.Id).Distinct();
+
+                        var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds);
+
+                        if (cusTotalAmounts != null)
+                        {
+                            foreach (var cus in cuslst)
+                            {
+                                cus.Points = Convert.ToInt32(cusTotalAmounts.ContainsKey(cus.Id) ? (cusTotalAmounts[cus.Id] / Properties.Settings.Default.CustomerPointsAmount) : 0);
+                            }
+                        }
+                    }
+
+                    e.Result = cuslst;
                     Thread.Sleep(500);
                 }
             }
@@ -193,8 +211,15 @@ namespace SwizSales.ViewModel
             }
         }
 
+        private DelegateCommand searchCommand;
+        public DelegateCommand SearchCommand
+        {
+            get { return searchCommand ?? (searchCommand = new DelegateCommand(() => { DoSearch(); })); }
+            private set { searchCommand = value; }
+        }
+
         #endregion
-        
+
         #region Helpers
 
         // Helper method to notify View of an error

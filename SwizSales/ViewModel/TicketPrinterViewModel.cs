@@ -110,24 +110,24 @@ namespace SwizSales.ViewModel
 
             try
             {
-                XmlDocument template = PrintHelper.GetPrintTicketTemplate(order);
+                //XmlDocument template = PrintHelper.GetPrintTicketTemplate(order);
 
-                var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(template.OuterXml)));
+                //var flowDocument = (FlowDocument)XamlReader.Load(new XmlTextReader(new StringReader(template.OuterXml)));
 
-                flowDocument.DataContext = order;
-                flowDocument.PageHeight = order.OrderDetails.Count * ApplicationSettings.LineHeight + ApplicationSettings.ExtraHeight;
-                flowDocument.PageWidth = ApplicationSettings.PageWidth;
+                //flowDocument.DataContext = order;
+                //flowDocument.PageHeight = order.OrderDetails.Count * ApplicationSettings.LineHeight + ApplicationSettings.ExtraHeight;
+                //flowDocument.PageWidth = ApplicationSettings.PageWidth;
 
                 // we need to give the binding infrastructure a push as we
                 // are operating outside of the intended use of WPF
-                var dispatcher = Dispatcher.CurrentDispatcher;
-                dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback(delegate { return null; }), null);
+                //var dispatcher = Dispatcher.CurrentDispatcher;
+                //dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback(delegate { return null; }), null);
 
-                var xps = PrintHelper.GetXpsDocument(flowDocument);
-                this.Document = xps.GetFixedDocumentSequence();
+                //var xps = PrintHelper.GetXpsDocument(flowDocument);
+                //this.Document = xps.GetFixedDocumentSequence();
 
-                if (!preview)
-                    PrintHelper.PrintXpsToPrinter(xps, Properties.Settings.Default.TicketPrinter);
+                //if (!preview)
+                //PrintHelper.PrintXpsToPrinter(xps, Properties.Settings.Default.TicketPrinter);
             }
             catch (Exception ex)
             {

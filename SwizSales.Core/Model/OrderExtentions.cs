@@ -34,15 +34,15 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return Math.Floor(this._TotalAmount);
+                return Math.Round(this._TotalAmount);
             }
         }
-        
+
         public double RoundOff
         {
             get
             {
-                return (Math.Floor(this._TotalAmount) - this._TotalAmount);
+                return (this.TotalAmount - this._TotalAmount);
             }
         }
 
@@ -75,7 +75,7 @@ namespace SwizSales.Core.Model
 
         public double PaidAmount
         {
-            get { return Math.Floor(_PaidAmount); }
+            get { return Math.Round(_PaidAmount); }
         }
 
         public double BalanceAmount
@@ -161,7 +161,14 @@ namespace SwizSales.Core.Model
         partial void OnDiscountChanged()
         {
             if (!dontChange)
-                this.Price = this.MRP - (this.MRP * (this.Discount / 100.0));
+            {
+                var ap = this.MRP - (this.MRP * (this.Discount / 100.0));
+                if (ap != this.Price)
+                {
+                    //System.Diagnostics.Trace.WriteLine(string.Format("Price diff: Calculated: {0:C}, Actual: {1:C}", ap, this.Price));
+                }
+                this.Price = ap;
+            }
         }
 
         private bool dontChange;

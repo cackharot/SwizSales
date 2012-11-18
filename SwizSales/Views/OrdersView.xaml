@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="SwizSales.Views.OrdersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:SwizSales"
+             DataContext="{Binding Source={StaticResource Locator}, Path=OrdersViewModel}"
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <DockPanel DataContext="{Binding}" Margin="0,5,0,0">
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,0,0,5" >
+                <Button Content="Edit" Command="{Binding Path=EditCommand}"  Width="80" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Payments" Command="{Binding Path=PaymentsCommand}"  Width="130" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Print" Command="{Binding Path=PrintCommand}" Name="btnPrint"  Width="80" Height="30" Margin="0,0,10,0"/>
+                <Button Content="Preview" Command="{Binding Path=PreviewCommand}"  Width="80" Height="30" Margin="0,0,10,0"/>
+                <!--<Button Content="Refresh" Command="{Binding Path=RefreshCommand}"  Width="80" Height="30" Margin="0,0,10,0"/>-->
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="220"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">Order No#</Label>
+                <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Order Date</Label>
+                <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Order Amount</Label>
+
+                <Label Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Customer No#</Label>
+                <Label Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">Customer Name</Label>
+                <Label Grid.Column="2" Grid.Row="2" VerticalAlignment="Center">Customer Mobile</Label>
+
+                <TextBox FontSize="16" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.OrderNo,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.FromOrderDate,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" FirstDayOfWeek="Monday" />
+                    <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.ToOrderDate,UpdateSourceTrigger=PropertyChanged}" FirstDayOfWeek="Monday" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                    <TextBox FontSize="16" Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MinAmount,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                    <TextBox FontSize="16" Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MaxAmount,UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <TextBox FontSize="16" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.CustomerNo,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox FontSize="16" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.CustomerName,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox FontSize="16" Grid.Column="3" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.CustomerMobile,UpdateSourceTrigger=PropertyChanged}"/>
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center">
+                    <Button Command="{Binding Path=ResetCommand}" Margin="0,0,10,0" Content="Reset" Width="80" Height="30"/>
+                    <Button Command="{Binding Path=SearchCommand}" Content="Search" Width="80" Height="30" IsDefault="True"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <Border BorderThickness="1" DockPanel.Dock="Top" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}" Margin="0,5"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,10,5" HorizontalAlignment="Right">
+                <Label VerticalAlignment="Center">Count:</Label>
+                <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=Orders.Count}" Width="100"/>
+                <Label VerticalAlignment="Center">Total Amount: </Label>
+                <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Foreground="Green" Text="{Binding Path=SearchTotal,StringFormat={}{0:C}}" Width="150"/>
+                <Label VerticalAlignment="Center">Total Paid:</Label>
+                <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Text="{Binding Path=SearchTotalPaid,StringFormat={}{0:C}}" Width="150"/>
+                <Label VerticalAlignment="Center">Total Balance:</Label>
+                <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="16" FontWeight="Bold" Text="{Binding Path=SearchTotalBalance,StringFormat={}{0:C}}" Width="100"/>
+            </StackPanel>
+            <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Path=Orders}" SelectedItem="{Binding Path=SelectedOrder}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Order No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
+                        <GridViewColumn Header="Order Date" DisplayMemberBinding="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}"  Width="170"/>
+                        <GridViewColumn Header="Customer Name" Width="180" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path=Customer.ContactDetail.ContactName}" ToolTip="{Binding Path=Customer.ContactDetail.Mobile}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Customer No#" DisplayMemberBinding="{Binding Path=Customer.SSN}" Width="110" />
+                        <GridViewColumn Header="Items/Quantity" Width="110">
+                            <GridViewColumn.DisplayMemberBinding>
+                                <MultiBinding StringFormat="{}{0} / {1}">
+                                    <Binding Path="TotalItems" />
+                                    <Binding Path="TotalQuantity" />
+                                </MultiBinding>
+                            </GridViewColumn.DisplayMemberBinding>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Total" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Paid" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Balance" Width="120" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.InputBindings>
+                    <KeyBinding Command="{Binding EditCommand}" Gesture="ENTER" />
+                    <MouseBinding Command="{Binding EditCommand}" Gesture="LeftDoubleClick" />
+                    <KeyBinding Command="{Binding DeleteCommand}" Gesture="DELETE" />
+                </ListView.InputBindings>
+            </ListView>
+            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Show"/>
+                <ComboBox Width="60" Margin="5,0,0,0" SelectedValue="{Binding Path=SearchCondition.PageSize}" ItemsSource="{Binding Path=PageSizes}">
+                </ComboBox>
+                <TextBlock Text="of Page" Margin="5,0,0,0"/>
+                <TextBox Text="{Binding Path=SearchCondition.PageNo}" VerticalAlignment="Center" Width="50" Margin="5,0,0,0" FontSize="14"/>
+                <Button Command="{Binding Path=SearchCommand}" Content="Go" Width="30" Margin="5,0,0,0"/>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

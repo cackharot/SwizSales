@@ -22,6 +22,8 @@ namespace SwizSales.Core.Model
 
         public string CustomerName { get; set; }
 
+        public string CustomerMobile { get; set; }
+
         public string CustomerNo { get; set; }
 
         public Guid EmployeeId { get; set; }

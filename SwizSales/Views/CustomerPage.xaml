@@ -15,30 +15,50 @@
     </UserControl.InputBindings>
     <DockPanel DataContext="{Binding}">
         <Button Margin="0,10" Height="30" Width="200" DockPanel.Dock="Bottom" Command="{Binding Path=AddCommand}">Add Customer</Button>
-        <Grid Margin="10" DataContext="{Binding}">
+        <Grid Grid.Row="1" DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="35"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="130"/>
+                <ColumnDefinition Width="220"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">No#</Label>
+            <Label Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">Name</Label>
+            <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">Email</Label>
+
+            <Label Grid.Column="2" Grid.Row="0" VerticalAlignment="Center">Mobile</Label>
+            <Label Grid.Column="2" Grid.Row="1" VerticalAlignment="Center">Landline</Label>
+
+            <TextBox Grid.Column="1" Grid.Row="0" FontSize="16" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.Number,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="1" Grid.Row="1" FontSize="16" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.Name,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Grid.Column="1" Grid.Row="2" FontSize="16" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.Email,UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox FontSize="16" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.Mobile,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox FontSize="16" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.Landline,UpdateSourceTrigger=PropertyChanged}"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="4" HorizontalAlignment="Center">
+                <Button Command="{Binding Path=ResetCommand}" Margin="0,0,10,0" Content="Reset" Width="80" Height="30"/>
+                <Button Command="{Binding Path=SearchCommand}" Content="Search" Width="80" Height="30" IsDefault="True"/>
+            </StackPanel>
+        </Grid>
+        <Border BorderThickness="1" DockPanel.Dock="Top" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}" Margin="0,5"/>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0" Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Grid.Column="0" VerticalAlignment="Stretch">
-                    <TextBox Style="{Binding Source={StaticResource SearchTextBox}}" 
-                             Controls:TextboxHelper.ClearTextButton="True" 
-                             Text="{Binding Path=SearchText,FallbackValue=Search...,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="300"/>
-                    <Button Width="50" Height="20" Margin="20,0,0,0"
-                        Command="{Binding Path=SearchCommand}" IsDefault="True">
-                        Search
-                    </Button>
-                </StackPanel>
-                <Button Grid.Column="1" Width="50" Height="20" Margin="20,0,0,0" 
-                        Command="{Binding Path=SearchCommand}" HorizontalAlignment="Right">
-                    Refresh
-                </Button>
-            </Grid>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,10,5" HorizontalAlignment="Right">
+                <Label VerticalAlignment="Center">Count:</Label>
+                <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding Path=CustomerCollection.Count}" Width="100"/>
+            </StackPanel>
             <ListBox Grid.Row="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
                      local:ControlItemDoubleClick.ItemsDoubleClick="True"
                  x:Name="lstboxCustomer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -67,23 +87,14 @@
                     <KeyBinding Command="{Binding DeleteCommand}" CommandParameter="{Binding Path=SelectedCustomer}" Gesture="DELETE" />
                 </ListBox.InputBindings>
             </ListBox>
-            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <StackPanel.Style>
-                    <Style TargetType="{x:Type StackPanel}">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <DataTrigger Value="False" Binding="{Binding ElementName=lstboxCustomer,Path=HasItems}">
-                                <Setter Property="Visibility" Value="Visible" />
-                            </DataTrigger>
-                            <DataTrigger Value="True" Binding="{Binding ElementName=lstboxCustomer,Path=HasItems}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-                <TextBlock Foreground="{Binding Source={StaticResource Foreground}}" FontSize="20" DataContext="{Binding}">
-                    No customers found! 
-                </TextBlock>
+            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Show"/>
+                <ComboBox Width="60" Margin="5,0,0,0" SelectedValue="{Binding Path=SearchCondition.PageSize}" ItemsSource="{Binding Path=PageSizes}">
+                </ComboBox>
+                <TextBlock Text="of Page" Margin="5,0,0,0"/>
+                <TextBox Text="{Binding Path=SearchCondition.PageNo}" VerticalAlignment="Center" Width="50" Margin="5,0,0,0" FontSize="14"/>
+                <Button Command="{Binding Path=SearchCommand}" Content="Go" Width="30" Margin="5,0,0,0"/>
             </StackPanel>
         </Grid>
     </DockPanel>

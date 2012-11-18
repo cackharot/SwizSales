@@ -157,6 +157,12 @@ namespace SwizSales.ViewModel
                 if (_model != null)
                 {
                     this.LineItems = new ObservableCollection<OrderDetail>(_model.OrderDetails);
+
+                    if (_model.Customer.Id != Settings.Default.DefaultCustomerId)
+                    {
+                        var totalAmount = this.reportService.GetCusomerTotalAmount(_model.Customer.Id);
+                        _model.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);
+                    }
                 }
 
                 NotifyPropertyChanged(m => m.Model);
@@ -423,7 +429,7 @@ namespace SwizSales.ViewModel
         {
             try
             {
-                this.Model = this.serviceAgent.NewOrder();
+                this.Model = this.serviceAgent.NewOrder(Settings.Default.DefaultCustomerId, Settings.Default.DefaultEmployeeId);
                 this.TodayOrders.Insert(0, this.Model);
                 this.SelectedOrder = this.Model;
             }
@@ -465,7 +471,7 @@ namespace SwizSales.ViewModel
                                 OrderId = this.Model.Id,
                                 PaidAmount = this.Model.CurrentPaidAmount,
                                 PaymentDate = DateTime.Now,
-                                EmployeeId = ApplicationSettings.DefaultEmployeeId,
+                                EmployeeId = Settings.Default.DefaultEmployeeId,
                                 SystemId = this.Model.SystemId,
                                 Type = (short)PaymentType.Cash
                             });
@@ -489,11 +495,11 @@ namespace SwizSales.ViewModel
                 return;
             }
 
-            if (this.Model.Customer.Id != ApplicationSettings.DefaultCustomerId)
-            {
-                var totalAmount = this.reportService.GetCusomerTotalAmount(this.Model.Customer.Id);
-                this.Model.Customer.Points = (int)(totalAmount / Settings.Default.CustomerPointsAmount);
-            }
+            //if (this.Model.Customer.Id != ApplicationSettings.DefaultCustomerId)
+            //{
+            //    var totalAmount = this.reportService.GetCusomerTotalAmount(this.Model.Customer.Id);
+            //    this.Model.Customer.Points = (int)(totalAmount / Settings.Default.CustomerPointsAmount);
+            //}
 
             if (printToPrinter)
             {
@@ -668,6 +674,13 @@ namespace SwizSales.ViewModel
                             if (cus != null)
                             {
                                 this.Model.Customer = cus;
+
+                                if (cus.Id != Settings.Default.DefaultCustomerId && cus.Points == 0)
+                                {
+                                    var totalAmount = this.reportService.GetCusomerTotalAmount(cus.Id);
+                                    this.Model.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);
+                                }
+
                                 this.Model.NotifyChanges();
                                 this.serviceAgent.UpdateOrderCustomer(this.Model);
                             }

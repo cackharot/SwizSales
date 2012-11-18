@@ -66,7 +66,7 @@ namespace SwizSales.ViewModel
             get
             {
                 ICustomerService serviceAgent = new CustomerService();
-                return new CustomerViewModel(serviceAgent);
+                return new CustomerViewModel(serviceAgent, new ReportService());
             }
         }
 
@@ -119,6 +119,14 @@ namespace SwizSales.ViewModel
             get
             {
                 return new NotificationViewModel();
+            }
+        }
+
+        public OrdersViewModel OrdersViewModel
+        {
+            get
+            {
+                return new OrdersViewModel(new OrderService());
             }
         }
     }

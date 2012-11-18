@@ -35,7 +35,7 @@
                     </Setter>
                 </Style>
             </Expander.Style>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Margin="0,0,6,0">
                 <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
                 <Grid Margin="5,0,0,0">
                     <Grid.RowDefinitions>
@@ -66,16 +66,16 @@
                         <Label Grid.Column="0" Grid.Row="3" Content="Date"/>
                         <Label Grid.Column="0" Grid.Row="4" Content="Amount"/>
 
-                        <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding Path=SearchCondition.BillNo}" VerticalAlignment="Center"/>
-                        <ComboBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding Path=Suppliers}" SelectedValue="{Binding Path=SearchCondition.SupplierId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
-                        <ComboBox Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" ItemsSource="{Binding Path=Employees}" SelectedValue="{Binding Path=SearchCondition.EmployeeId}" SelectedValuePath="Id" DisplayMemberPath="ContactDetail.ContactName"/>
+                        <TextBox FontSize="16" Grid.Column="1" Grid.Row="0" Text="{Binding Path=SearchCondition.BillNo}" VerticalAlignment="Center"/>
+                        <ComboBox FontSize="16" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding Path=Suppliers}" SelectedValue="{Binding Path=SearchCondition.SupplierId}" SelectedValuePath="Id" DisplayMemberPath="Name"/>
+                        <ComboBox FontSize="16" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" ItemsSource="{Binding Path=Employees}" SelectedValue="{Binding Path=SearchCondition.EmployeeId}" SelectedValuePath="Id" DisplayMemberPath="ContactDetail.ContactName"/>
                         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-                            <DatePicker VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.FromDate}" Margin="0,0,10,0"/>
-                            <DatePicker VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.ToDate}"/>
+                            <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.FromDate}" Margin="0,0,10,0"/>
+                            <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.ToDate}"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-                            <TextBox Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MinAmount}" Margin="0,0,10,0"/>
-                            <TextBox Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MaxAmount}"/>
+                            <TextBox FontSize="16" Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MinAmount}" Margin="0,0,10,0"/>
+                            <TextBox FontSize="16" Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MaxAmount}"/>
                         </StackPanel>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">

@@ -99,6 +99,7 @@ namespace SwizSales.Views
                 win.Close();
             };
 
+            win.txtSearch.Focus();
             win.ShowDialog();
 
             if (!selected)

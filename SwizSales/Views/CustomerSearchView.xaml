@@ -7,27 +7,47 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" Title="Select Customer"
              mc:Ignorable="d" ShowInTaskbar="False" ShowMinButton="False" ShowMaxRestoreButton="False" SnapsToDevicePixels="True"
              SizeToContent="Manual" Topmost="True" DataContext="{Binding}" FocusManager.FocusedElement="{Binding ElementName=txtSearch}"
-             MinWidth="500" MinHeight="350"  Focusable="False"
+             MinWidth="600" MinHeight="350"  Focusable="False"
              d:DesignHeight="300" d:DesignWidth="450" SaveWindowPosition="True" WindowStartupLocation="CenterOwner">
     <Controls:MetroContentControl Focusable="False">
         <Grid Margin="10" Focusable="False">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid>
+            <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
-                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}"
-                     Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}" ToolTip="Enter name or number or mobile."
+                     Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>
+                <Button Content="Search" Grid.Column="2" Width="80" Height="25" Command="{Binding Path=SearchCommand}" ToolTip="Click to search for customers!" IsDefault="True"/>
             </Grid>
             <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
-                <ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
+                <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" Visibility="{Binding Path=ListVisibility}"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Path=CustomerList}" SelectedItem="{Binding Path=SelectedCustomer}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="SSN#" DisplayMemberBinding="{Binding Path=SSN}" Width="80" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=ContactDetail.ContactName}"  Width="150"/>
+                            <GridViewColumn Header="Mobile" DisplayMemberBinding="{Binding Path=ContactDetail.Mobile}"  Width="120"/>
+                            <GridViewColumn Header="Landline" DisplayMemberBinding="{Binding Path=ContactDetail.Landline}"  Width="100"/>
+                            <GridViewColumn Header="Email" DisplayMemberBinding="{Binding Path=ContactDetail.Email}"  Width="Auto"/>
+                            <GridViewColumn Header="Points" DisplayMemberBinding="{Binding Path=Points}"  Width="60"/>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.InputBindings>
+                        <KeyBinding Command="{Binding SelectCommand}" Gesture="ENTER" />
+                        <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
+                    </ListView.InputBindings>
+                </ListView>
+                <!--<ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
             Grid.Row="1" Name="grdCustomer" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
                  local:ControlItemDoubleClick.ItemsDoubleClick="True" ItemsSource="{Binding Path=CustomerList}" SelectedItem="{Binding Path=SelectedCustomer}"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -35,18 +55,18 @@
                         <DataTemplate>
                             <Grid DataContext="{Binding}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition MinWidth="70" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition MinWidth="90" />
+                                    <ColumnDefinition MinWidth="70" />
+                                    <ColumnDefinition MinWidth="80" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=SSN}"/>
                                 <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=ContactDetail.ContactName}"/>
                                 <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Mobile}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Landline}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=ContactDetail.Email}"/>                                
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="3" Text="{Binding Path=ContactDetail.Landline}"/>
+                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="4" Text="{Binding Path=ContactDetail.Email}"/>                                
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -98,12 +118,12 @@
                         <KeyBinding Command="{Binding SelectCommand}" Gesture="ENTER" />
                         <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
                     </ListBox.InputBindings>
-                </ListBox>
+                </ListBox>-->
             </Controls:TransitioningContentControl>
-            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+            <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}"/>
             <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="5">
                 <Button Width="80" Height="30" Margin="0,0,10,0" IsCancel="True">Cancel</Button>
-                <Button x:Name="btnSelect" Command="{Binding SelectCommand}" Width="80" Height="30" Margin="0,0,0,0" IsDefault="True">Select</Button>
+                <Button x:Name="btnSelect" Command="{Binding SelectCommand}" Width="80" Height="30" Margin="0,0,0,0">Select</Button>
             </StackPanel>
         </Grid>
     </Controls:MetroContentControl>

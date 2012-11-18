@@ -21,6 +21,12 @@ namespace SwizSales.Core.Services
                 {
                     ctx.ContextOptions.LazyLoadingEnabled = false;
                     ctx.Purchases.MergeOption = MergeOption.NoTracking;
+                    ctx.Suppliers.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
+                    ctx.PurchasePayments.MergeOption = MergeOption.NoTracking;
+                    ctx.Employees.MergeOption = MergeOption.NoTracking;
+                    ctx.PurchaseDetails.MergeOption = MergeOption.NoTracking;
+                    ctx.Purchases.MergeOption = MergeOption.NoTracking;
 
                     var items = ctx.Purchases.Include("Supplier")
                         .Include("Supplier.ContactDetail")
@@ -98,7 +104,14 @@ namespace SwizSales.Core.Services
             {
                 using (OpenPOSDbEntities ctx = new OpenPOSDbEntities())
                 {
-                    ctx.Orders.MergeOption = MergeOption.NoTracking;
+                    ctx.Purchases.MergeOption = MergeOption.NoTracking;
+                    ctx.Suppliers.MergeOption = MergeOption.NoTracking;
+                    ctx.ContactDetails.MergeOption = MergeOption.NoTracking;
+                    ctx.PurchasePayments.MergeOption = MergeOption.NoTracking;
+                    ctx.Employees.MergeOption = MergeOption.NoTracking;
+                    ctx.PurchaseDetails.MergeOption = MergeOption.NoTracking;
+                    ctx.Purchases.MergeOption = MergeOption.NoTracking;
+
                     var entity = ctx.Purchases.Include("Supplier").Include("Supplier.ContactDetail")
                         .Include("PurchaseDetails")
                         .Include("PurchasePayments")

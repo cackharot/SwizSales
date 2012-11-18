@@ -29,14 +29,14 @@ namespace SwizSales.Core.Model
         public PurchaseDetail()
         {
             this.PropertyChanged += new PropertyChangedEventHandler(PurchaseDetail_PropertyChanged);
-            this.CategoryId = ApplicationSettings.DefaultCategoryId;
-            this.TaxCategoryId = ApplicationSettings.DefaultTaxCategoryId;
+            //this.CategoryId = ApplicationSettings.DefaultCategoryId;
+            //this.TaxCategoryId = ApplicationSettings.DefaultTaxCategoryId;
         }
 
         partial void OnMRPChanged()
         {
             this.SellPrice = this.MRP - (this.MRP * (this.Discount / 100.0));
-            this.BuyPrice = this.MRP - (this.MRP * (ApplicationSettings.PuchaseDiscount / 100.0));
+            //this.BuyPrice = this.MRP - (this.MRP * (ApplicationSettings.PuchaseDiscount / 100.0));
         }
 
         public void OnDiscountChanged()

@@ -32,56 +32,77 @@ namespace SwizSales.Core.Services
                     {
                         items = items.Where(x => x.BillNo == condition.OrderNo);
                     }
-                    else if (!string.IsNullOrEmpty(condition.CustomerName))
+                    else
                     {
-                        items = items.Where(x => x.Customer.ContactDetail.ContactName.Contains(condition.CustomerName));
-                    }
-                    else if (!string.IsNullOrEmpty(condition.CustomerNo))
-                    {
-                        items = items.Where(x => x.Customer.SSN.Contains(condition.CustomerNo));
-                    }
-                    else if (condition.CustomerId != Guid.Empty)
-                    {
-                        items = items.Where(x => x.CustomerId == condition.CustomerId);
-                    }
-                    else if (condition.EmployeeId != Guid.Empty)
-                    {
-                        items = items.Where(x => x.EmployeeId == condition.EmployeeId);
-                    }
-                    else if (condition.MinAmount >= 0 && condition.MaxAmount >= 0)
-                    {
-                        items.Where(x => x.BillAmount >= condition.MinAmount && x.BillAmount <= condition.MaxAmount);
-                    }
-                    else if (condition.MinAmount <= 0 && condition.MaxAmount > 0)
-                    {
-                        items.Where(x => x.BillAmount <= condition.MaxAmount);
-                    }
-                    else if (condition.MinAmount > 0 && condition.MaxAmount <= 0)
-                    {
-                        items.Where(x => x.BillAmount >= condition.MinAmount);
-                    }
-                    else if ((condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
-                        && (condition.FromOrderDate == condition.ToOrderDate))
-                    {
-                        items.Where(x => x.OrderDate == condition.FromOrderDate);
-                    }
-                    else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
-                    {
-                        items.Where(x => x.OrderDate >= condition.FromOrderDate && x.OrderDate <= condition.ToOrderDate);
-                    }
-                    else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate >= DateTime.MinValue)
-                    {
-                        items.Where(x => x.OrderDate <= condition.ToOrderDate);
-                    }
-                    else if (condition.FromOrderDate >= DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
-                    {
-                        items.Where(x => x.OrderDate >= condition.FromOrderDate);
-                    }
+                        if (condition.CustomerId != Guid.Empty)
+                        {
+                            items = items.Where(x => x.CustomerId == condition.CustomerId);
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(condition.CustomerMobile))
+                            {
+                                items = items.Where(x => x.Customer.ContactDetail.Mobile.Contains(condition.CustomerMobile));
+                            }
 
+                            if (!string.IsNullOrEmpty(condition.CustomerName))
+                            {
+                                items = items.Where(x => x.Customer.ContactDetail.ContactName.Contains(condition.CustomerName));
+                            }
+
+                            if (!string.IsNullOrEmpty(condition.CustomerNo))
+                            {
+                                items = items.Where(x => x.Customer.SSN.Contains(condition.CustomerNo));
+                            }
+                        }
+
+                        if (condition.EmployeeId != Guid.Empty)
+                        {
+                            items = items.Where(x => x.EmployeeId == condition.EmployeeId);
+                        }
+                        
+                        if (condition.MinAmount >= 0 && condition.MaxAmount >= 0)
+                        {
+                            items.Where(x => x.BillAmount >= condition.MinAmount && x.BillAmount <= condition.MaxAmount);
+                        }
+                        else if (condition.MinAmount <= 0 && condition.MaxAmount > 0)
+                        {
+                            items.Where(x => x.BillAmount <= condition.MaxAmount);
+                        }
+                        else if (condition.MinAmount > 0 && condition.MaxAmount <= 0)
+                        {
+                            items.Where(x => x.BillAmount >= condition.MinAmount);
+                        }
+                        
+                        if ((condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
+                            && (condition.FromOrderDate == condition.ToOrderDate))
+                        {
+                            items.Where(x => x.OrderDate == condition.FromOrderDate);
+                        }
+                        else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
+                        {
+                            items.Where(x => x.OrderDate >= condition.FromOrderDate && x.OrderDate <= condition.ToOrderDate);
+                        }
+                        else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate >= DateTime.MinValue)
+                        {
+                            items.Where(x => x.OrderDate <= condition.ToOrderDate);
+                        }
+                        else if (condition.FromOrderDate >= DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
+                        {
+                            items.Where(x => x.OrderDate >= condition.FromOrderDate);
+                        }
+                    }
 
                     items = items.OrderByDescending(x => x.BillNo).OrderByDescending(x => x.OrderDate);
 
-                    items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    if (condition.PageNo > 0 && condition.PageSize > 0)
+                    {
+                        items = items.Skip((condition.PageNo - 1) * condition.PageSize).Take(condition.PageSize);
+                    }
+                    else
+                    {
+                        items.Take(1000);
+                    }
 
                     return new Collection<Order>(items.ToList());
                 }
@@ -135,7 +156,7 @@ namespace SwizSales.Core.Services
             }
         }
 
-        public Order NewOrder()
+        public Order NewOrder(Guid customerId, Guid employeeId)
         {
             using (var scope = new TransactionScope(TransactionScopeOption.Required))
             {
@@ -149,8 +170,8 @@ namespace SwizSales.Core.Services
                     entity.BillNo = ctx.Orders.Max(x => x.BillNo) + 1;
                 }
 
-                entity.CustomerId = ApplicationSettings.DefaultCustomerId;
-                entity.EmployeeId = ApplicationSettings.DefaultEmployeeId;
+                entity.CustomerId = customerId;
+                entity.EmployeeId = employeeId;
 
                 Add(entity);
 

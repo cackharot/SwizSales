@@ -11,12 +11,12 @@
     <Controls:MetroContentControl Focusable="False">
         <Grid Margin="10" DataContext="{Binding}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="35" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Grid>
+            <Grid Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -24,11 +24,47 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Enter search text:" Grid.Column="0" Margin="0,0,10,0"/>
                 <TextBox Name="txtSearch" Grid.Column="1" FontSize="14" VerticalAlignment="Center" Style="{StaticResource SearchTextBox}"
-                     Text="{Binding Path=SearchText}" Margin="0,0,10,0"/>
-                <Button Content="Search" Grid.Column="2" Width="80" Height="30" Command="{Binding Path=SearchCommand}" IsDefault="True"/>
+                     Text="{Binding Path=SearchText,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" ToolTip="Enter name or barcode."/>
+                <Button Content="Search" Grid.Column="2" Width="80" Height="25" Command="{Binding Path=SearchCommand}" IsDefault="True" ToolTip="Click to search for products!" />
             </Grid>
             <Controls:TransitioningContentControl Grid.Row="1" Transition="DownTransition" Focusable="False">
-                <ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
+                <ListView Grid.Row="1" local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" Visibility="{Binding Path=ListVisibility}"
+                 x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                 ItemsSource="{Binding Path=Products}" SelectedItem="{Binding Path=SelectedProduct}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="110" />
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}"  Width="150"/>
+                            <GridViewColumn Header="Supplier" DisplayMemberBinding="{Binding Path=Supplier.Name}"  Width="Auto"/>
+                            <GridViewColumn Header="MRP" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" HorizontalAlignment="Right" Text="{Binding Path=MRP,StringFormat={}{0:C}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Discount" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Price" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{StaticResource ResourceKey=CurrencyTextBlock}" HorizontalAlignment="Right" Text="{Binding Path=SellPrice,StringFormat={}{0:C}}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                    <ListView.InputBindings>
+                        <KeyBinding Command="{Binding SelectCommand}" Gesture="ENTER" />
+                        <MouseBinding Command="{Binding SelectCommand}" Gesture="LeftDoubleClick" />
+                    </ListView.InputBindings>
+                </ListView>
+                <!--<ListBox Visibility="{Binding Path=ListVisibility}" Width="auto" Height="auto" Focusable="False"
             Grid.Row="1" Name="lstProducts" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DataContext="{Binding}" 
                  local:ControlItemDoubleClick.ItemsDoubleClick="True" ItemsSource="{Binding Path=Products}" SelectedItem="{Binding Path=SelectedProduct}"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
@@ -36,20 +72,20 @@
                         <DataTemplate>
                             <Grid DataContext="{Binding}">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="1.2*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="0.7*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                    <ColumnDefinition Width="90" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="90" />
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=Barcode}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=Name}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=Supplier.Name}"/>
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="3" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="4" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
-                                <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="5" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}"  HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                <TextBlock Grid.Column="0" Text="{Binding Path=Barcode}"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Path=Name}" Margin="10,0,0,0"/>
+                                <TextBlock Grid.Column="2" Text="{Binding Path=Supplier.Name}"/>
+                                <TextBlock Grid.Column="3" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                <TextBlock Grid.Column="4" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
+                                <TextBlock Grid.Column="5" Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}"  HorizontalAlignment="Stretch" TextAlignment="Right" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -101,7 +137,7 @@
                         <KeyBinding Command="{Binding SelectCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="ENTER" />
                         <MouseBinding Command="{Binding SelectCommand}" CommandParameter="{Binding Path=SelectedProduct}" Gesture="LeftDoubleClick" />
                     </ListBox.InputBindings>
-                </ListBox>
+                </ListBox>-->
             </Controls:TransitioningContentControl>
             <!--<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel.Style>
@@ -124,7 +160,7 @@
             <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
             <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
                 <Button Width="80" Height="30" Content="Cancel" Margin="0,0,10,0" IsCancel="True"/>
-                <Button Name="btnSelect" Command="{Binding Path=SelectCommand}" Width="80" Height="30" Content="Select" IsDefault="True"/>
+                <Button Name="btnSelect" Command="{Binding Path=SelectCommand}" Width="80" Height="30" Content="Select" ToolTip="Add the selected item to the current order." UseLayoutRounding="True" />
             </StackPanel>
         </Grid>
     </Controls:MetroContentControl>

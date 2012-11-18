@@ -10,6 +10,7 @@ namespace SwizSales.Core.Model
         public string Number { get; set; }
         public string Name { get; set; }
         public string Mobile { get; set; }
+        public string Landline { get; set; }
         public string Email { get; set; }
 
         public int PageSize { get; set; }

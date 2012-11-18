@@ -207,6 +207,36 @@ namespace SwizSales.ViewModel
             }
         }
 
+        public double PurchaseDiscount
+        {
+            get { return Properties.Settings.Default.PurchaseDiscount; }
+            set
+            {
+                Properties.Settings.Default.PurchaseDiscount = value;
+                NotifyPropertyChanged(m => m.PurchaseDiscount);
+            }
+        }
+
+        public int LineHeight
+        {
+            get { return Properties.Settings.Default.LineHeight; }
+            set
+            {
+                Properties.Settings.Default.LineHeight = value;
+                NotifyPropertyChanged(m => m.LineHeight);
+            }
+        }
+
+        public int ExtraHeight
+        {
+            get { return Properties.Settings.Default.ExtraHeight; }
+            set
+            {
+                Properties.Settings.Default.ExtraHeight = value;
+                NotifyPropertyChanged(m => m.ExtraHeight);
+            }
+        }
+
         public double TicketWidth
         {
             get { return Properties.Settings.Default.TicketWidth; }

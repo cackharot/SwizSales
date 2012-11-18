@@ -119,6 +119,7 @@
     </Compile>
     <Compile Include="ViewModel\ManagePurchaseViewModel.cs" />
     <Compile Include="ViewModel\NotificationViewModel.cs" />
+    <Compile Include="ViewModel\OrdersViewModel.cs" />
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\PurchaseViewModel.cs" />
     <Compile Include="ViewModel\QuickSearchProductViewModel.cs" />
@@ -172,6 +173,9 @@
     </Compile>
     <Compile Include="Views\OrderListItem.xaml.cs">
       <DependentUpon>OrderListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OrdersView.xaml.cs">
+      <DependentUpon>OrdersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PreviewTicket.xaml.cs">
       <DependentUpon>PreviewTicket.xaml</DependentUpon>
@@ -327,6 +331,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OrderListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OrdersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
