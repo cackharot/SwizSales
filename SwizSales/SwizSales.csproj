@@ -482,6 +482,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <SplashScreen Include="Splash.png" />
     <Resource Include="appbar.currency.rupee.ico" />
     <Content Include="ReportLayouts\PrintTicketTemplate.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
