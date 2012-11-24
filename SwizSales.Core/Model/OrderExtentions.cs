@@ -90,7 +90,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return this.OrderDetails.Sum(x => x.Quantity);
+                return this.OrderDetails.Where(x => !x.Barcode.StartsWith(".")).Sum(x => x.Quantity);
             }
         }
 
@@ -98,7 +98,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return this.OrderDetails.Count;
+                return this.OrderDetails.Where(x => !x.Barcode.StartsWith(".")).Count();
             }
         }
 

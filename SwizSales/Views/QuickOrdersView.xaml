@@ -17,7 +17,19 @@
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <v:OrderListItem Margin="0,5" Focusable="False"/>
+                    <Border x:Name="bdr" BorderBrush="Transparent" BorderThickness="2" CornerRadius="0">
+                        <v:OrderListItem Margin="0,5" Focusable="False"/>
+                    </Border>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Path=IsPaid}" Value="False">
+                            <Setter TargetName="bdr" Property="BorderBrush" Value="Red"/>
+                            <Setter TargetName="bdr" Property="Background" Value="#f2f2f2ff"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsPaid}" Value="True">
+                            <Setter TargetName="bdr" Property="BorderBrush" Value="Transparent"/>
+                            <Setter TargetName="bdr" Property="Background" Value="Transparent"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
                 </DataTemplate>
             </ListBox.ItemTemplate>
             <ListBox.InputBindings>

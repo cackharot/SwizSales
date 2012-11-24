@@ -54,9 +54,9 @@
 
                 <TextBox FontSize="16" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.OrderNo,UpdateSourceTrigger=PropertyChanged}"/>
 
-                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-                    <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.FromOrderDate,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" FirstDayOfWeek="Monday" />
-                    <DatePicker FontSize="16" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.ToOrderDate,UpdateSourceTrigger=PropertyChanged}" FirstDayOfWeek="Monday" />
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <DatePicker FontSize="12" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.FromOrderDate,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0" FirstDayOfWeek="Monday" />
+                    <DatePicker FontSize="12" VerticalAlignment="Center" SelectedDate="{Binding Path=SearchCondition.ToOrderDate,UpdateSourceTrigger=PropertyChanged}" FirstDayOfWeek="Monday" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
                     <TextBox FontSize="16" Width="80" VerticalAlignment="Center" Text="{Binding Path=SearchCondition.MinAmount,UpdateSourceTrigger=PropertyChanged}" Margin="0,0,10,0"/>

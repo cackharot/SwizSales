@@ -50,7 +50,7 @@ namespace SwizSales.ViewModel
 
         private void LoadMockOrder()
         {
-            this.Order = new OrderService().Search(new OrderSearchCondition { PageNo = 1, PageSize = 1, MinAmount = 1000 }).FirstOrDefault();
+            this.Order = new OrderService().Search(new OrderSearchCondition { PageNo = 1, PageSize = 1, FromOrderDate = DateTime.MinValue, ToOrderDate = DateTime.MinValue }).FirstOrDefault();
         }
 
         private void LoadTemplates()
@@ -434,7 +434,11 @@ namespace SwizSales.ViewModel
             try
             {
                 var xml = this.SelectedTemplate.Value;
-                this.PreviewTemplateContent = PrintHelper.GetPrintDocument(xml, this.Order);
+
+                if (this.Order != null)
+                {
+                    this.PreviewTemplateContent = PrintHelper.GetPrintDocument(xml, this.Order);
+                }
             }
             catch (Exception ex)
             {

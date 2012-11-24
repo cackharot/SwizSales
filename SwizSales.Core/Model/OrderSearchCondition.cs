@@ -47,7 +47,10 @@ namespace SwizSales.Core.Model
         public OrderSearchCondition()
         {
             this.PageNo = 1;
-            this.PageSize = 25;
+            this.PageSize = 100;
+
+            this.FromOrderDate = DateTime.Today.AddDays(-1);
+            this.ToOrderDate = DateTime.Today;
         }
     }
 }

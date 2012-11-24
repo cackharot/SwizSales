@@ -25,10 +25,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <!--<Style x:Key="rightAlignStyle" TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+    <Style x:Key="rightAlignStyle" TargetType="{x:Type GridViewColumnHeader}" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="HorizontalContentAlignment" Value="Right"/>
-    </Style>-->
+    </Style>
     
     <!--<Style TargetType="Button" BasedOn="{StaticResource StandardButton}"/>
     <Style TargetType="Window" BasedOn="{StaticResource StandardWindow}"/>

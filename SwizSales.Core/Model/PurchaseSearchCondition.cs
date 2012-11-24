@@ -34,7 +34,10 @@ namespace SwizSales.Core.Model
         public PurchaseSearchCondition()
         {
             this.PageNo = 1;
-            this.PageSize = 25;
+            this.PageSize = 100;
+
+            //this.FromDate = DateTime.Today.AddMonths(-1);
+            //this.ToDate = DateTime.Today;
         }
     }
 }

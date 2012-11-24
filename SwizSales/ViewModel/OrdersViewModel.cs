@@ -33,7 +33,7 @@ namespace SwizSales.ViewModel
         public OrdersViewModel(IOrderService orderService)
         {
             this.orderService = orderService;
-            this.SearchCondition = new OrderSearchCondition();
+            this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddDays(-7), ToOrderDate = DateTime.Today };
             this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
             Init();
         }
@@ -202,7 +202,7 @@ namespace SwizSales.ViewModel
             {
                 return _resetCommand ?? (_resetCommand = new DelegateCommand(() =>
                 {
-                    this.SearchCondition = new OrderSearchCondition();
+                    this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddDays(-7), ToOrderDate = DateTime.Today };
                     DoSearch();
                 }));
             }

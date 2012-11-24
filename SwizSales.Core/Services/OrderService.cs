@@ -61,35 +61,35 @@ namespace SwizSales.Core.Services
                             items = items.Where(x => x.EmployeeId == condition.EmployeeId);
                         }
                         
-                        if (condition.MinAmount >= 0 && condition.MaxAmount >= 0)
+                        if (condition.MinAmount > 0 && condition.MaxAmount > 0)
                         {
-                            items.Where(x => x.BillAmount >= condition.MinAmount && x.BillAmount <= condition.MaxAmount);
+                            items = items.Where(x => x.BillAmount >= condition.MinAmount && x.BillAmount <= condition.MaxAmount);
                         }
                         else if (condition.MinAmount <= 0 && condition.MaxAmount > 0)
                         {
-                            items.Where(x => x.BillAmount <= condition.MaxAmount);
+                            items = items.Where(x => x.BillAmount <= condition.MaxAmount);
                         }
                         else if (condition.MinAmount > 0 && condition.MaxAmount <= 0)
                         {
-                            items.Where(x => x.BillAmount >= condition.MinAmount);
+                            items = items.Where(x => x.BillAmount >= condition.MinAmount);
                         }
                         
                         if ((condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
                             && (condition.FromOrderDate == condition.ToOrderDate))
                         {
-                            items.Where(x => x.OrderDate == condition.FromOrderDate);
+                            items = items.Where(x => EntityFunctions.TruncateTime(x.OrderDate) == condition.FromOrderDate);
                         }
                         else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
                         {
-                            items.Where(x => x.OrderDate >= condition.FromOrderDate && x.OrderDate <= condition.ToOrderDate);
+                            items = items.Where(x => EntityFunctions.TruncateTime(x.OrderDate) > condition.FromOrderDate && EntityFunctions.TruncateTime(x.OrderDate) <= condition.ToOrderDate);
                         }
                         else if (condition.FromOrderDate != DateTime.MinValue && condition.ToOrderDate >= DateTime.MinValue)
                         {
-                            items.Where(x => x.OrderDate <= condition.ToOrderDate);
+                            items = items.Where(x => EntityFunctions.TruncateTime(x.OrderDate) <= condition.ToOrderDate);
                         }
                         else if (condition.FromOrderDate >= DateTime.MinValue && condition.ToOrderDate != DateTime.MinValue)
                         {
-                            items.Where(x => x.OrderDate >= condition.FromOrderDate);
+                            items = items.Where(x => EntityFunctions.TruncateTime(x.OrderDate) >= condition.FromOrderDate);
                         }
                     }
 
@@ -101,7 +101,7 @@ namespace SwizSales.Core.Services
                     }
                     else
                     {
-                        items.Take(1000);
+                        items.Take(500);
                     }
 
                     return new Collection<Order>(items.ToList());

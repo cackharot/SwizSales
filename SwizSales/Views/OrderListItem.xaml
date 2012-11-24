@@ -34,7 +34,7 @@
                     </MultiBinding> 
                 </TextBlock.Text>
             </TextBlock>
-            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="14" Margin="0" Style="{StaticResource CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" HorizontalAlignment="Left" />
+            <TextBlock Grid.Column="1" Grid.Row="3" FontSize="14" Margin="0" Style="{StaticResource CurrencyTextBlock}" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C0}'}" HorizontalAlignment="Left" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}" />
         </Grid>
     </Controls:TransitioningContentControl>
 </UserControl>

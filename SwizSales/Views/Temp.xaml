@@ -4,67 +4,231 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="19" d:DesignWidth="421">
-    <Grid DataContext="{Binding}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="1.5*" />
-            <ColumnDefinition Width="1.5*" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="0.7*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="0" Text="{Binding Path=Barcode}"/>
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=ItemName}"/>
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="1" Text="{Binding Path=Supplier.Name}"/>
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="2" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="3" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" HorizontalAlignment="Stretch" TextAlignment="Right" />
-        <TextBlock VerticalAlignment="Center" FontSize="16" Grid.Column="4" Text="{Binding Path=Price,StringFormat='{}{0:C}'}"  HorizontalAlignment="Stretch" TextAlignment="Right" />
-    </Grid>
-    <!--<Grid DataContext="{Binding}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="180" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.ContactName,FallbackValue='Customer Name'}" FontSize="24"/>
-        <Grid Grid.Row="1" DataContext="{Binding}" Grid.ColumnSpan="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180"/>
-                <ColumnDefinition Width="120" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" Name="imgCustomer" Stretch="Fill" />
-            
-            <Label Grid.Column="1" Grid.Row="0">Number</Label>
-            <Label Grid.Column="1" Grid.Row="1">Email</Label>
-            <Label Grid.Column="1" Grid.Row="2">Mobile</Label>
-            <Label Grid.Column="1" Grid.Row="3">Landline</Label>
-            <Label Grid.Column="1" Grid.Row="4">Address</Label>
-            
-            <TextBlock Grid.Column="2" Grid.Row="0" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=SSN,FallbackValue='000'}"/>
-            <TextBlock Grid.Column="2" Grid.Row="1" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Email,FallbackValue='thiru.shanmugam@gmail.com'}"/>
-            <TextBlock Grid.Column="2" Grid.Row="2" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Mobile,FallbackValue='+91 963214785'}" />
-            <TextBlock Grid.Column="2" Grid.Row="3" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Landline,FallbackValue='0413-1236544'}" />
-            <TextBlock Grid.Column="2" Grid.Row="4" Style="{StaticResource StandardTextBlock}" Text="{Binding Path=ContactDetail.Address,FallbackValue='#112, Vanilla Street, K.Nagar, Pondy-3.'}" />
-            
-            <StackPanel Grid.Column="3" Grid.RowSpan="5" VerticalAlignment="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
-                <Button Style="{Binding Source={StaticResource StandardButton}}" Content="Edit" Margin="0,0,10,0" Width="50"></Button>
-                <Button Style="{Binding Source={StaticResource StandardButton}}" Content="Delete" Width="50"></Button>
-            </StackPanel>
-        </Grid>
-    </Grid>-->
+             d:DesignHeight="520" d:DesignWidth="300">
+    <StackPanel Orientation="Vertical">
+        <TextBlock Foreground="#FFED0072">sdfsldfksdjflsdjfl</TextBlock>
+        <FlowDocumentReader>
+            <FlowDocument PageHeight="520" PageWidth="300" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="White"
+                          FontFamily="DejaVu Sans Condensed"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">
+                <Paragraph TextAlignment="Center" Margin="0" FontWeight="Bold">
+                    Sree Durga Home Needs
+                    <LineBreak/> Super Market
+                </Paragraph>
+                <Paragraph TextAlignment="Center" FontSize="11" FontWeight="Bold" Margin="0">
+                    No. 25, M.G. Road, Puducherry-1.
+                    <LineBreak/> Phone: 0413-2337517
+                    <LineBreak/> TIN: 34110014710
+                </Paragraph>
+                <Table FontSize="10" FontWeight="Bold" Margin="0,5">
+                    <Table.Columns>
+                        <TableColumn Width="40"/>
+                        <TableColumn Width="90"/>
+                        <TableColumn Width="Auto"/>
+                        <TableColumn Width="50"/>
+                        <TableColumn Width="Auto"/>
+                    </Table.Columns>
+                    <TableRowGroup Name="Header">
+                        <TableRow Name="PaymentModeRow">
+                            <TableCell TextAlignment="Center" ColumnSpan="5" FontWeight="Bold">
+                                <Paragraph>
+                                    <Run Name="PaymentMode">Cash Bill</Run>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="BillNoAndDateRow">
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    Bill No:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=BillNo,FallbackValue='00000', Mode=OneTime}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell></TableCell>
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    Customer:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=Customer.ContactDetail.ContactName,FallbackValue='Default',Mode=OneTime}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="CustomerNameAndTimeRow">
+                            <TableCell>
+                                <Paragraph>
+                                    Date:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell>
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=OrderDate,StringFormat='dd/MM/yy hh:mm tt', Mode=OneTime}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell></TableCell>
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    Points:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=Customer.Points,FallbackValue=0, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5" FontSize="11" Name="lineItemsTable">
+                    <Table.Columns>
+                        <TableColumn Width="1.6*"/>
+                        <TableColumn Width=".7*"/>
+                        <TableColumn Width=".7*"/>
+                        <TableColumn Width=".7*"/>
+                        <TableColumn Width="*"/>
+                    </Table.Columns>
+                    <TableRowGroup FontWeight="Bold">
+                        <TableRow>
+                            <TableCell TextAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Name</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>MRP</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Price</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Qty</Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" BorderThickness="0,0,0,1" BorderBrush="Black">
+                                <Paragraph>Amt</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                    <TableRowGroup FontSize="10" x:Name="itemsRowGroup" FontWeight="Bold">
+                        <TableRow Name="itemRow">
+                            <TableCell Name="ItemName">
+                                <Paragraph>Item 1</Paragraph>
+                            </TableCell>
+                            <TableCell Name="MRP" TextAlignment="Right">
+                                <Paragraph>10.0</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Price" TextAlignment="Right">
+                                <Paragraph>10.00</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Quantity" TextAlignment="Right">
+                                <Paragraph>9.80</Paragraph>
+                            </TableCell>
+                            <TableCell Name="Amount" TextAlignment="Right">
+                                <Paragraph>98.0</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell ColumnSpan="5" BorderThickness="0,1,0,0" BorderBrush="Black">
+                                <Paragraph>
+                                    Count:
+                                    <Run Text="{Binding Path=TotalItems, Mode=OneTime}"/> /
+                                    <Run Text="{Binding Path=TotalQuantity, Mode=OneTime}"/>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5" FontSize="11" Name="specialItemsTable">
+                    <Table.Columns>
+                        <TableColumn Width="80"/>
+                        <TableColumn Width="Auto"/>
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell ColumnSpan="2">
+                                <Paragraph>Special Items:</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                    <TableRowGroup>
+                        <TableRow Name="specialItemRow">
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    <TextBlock TextWrapping="Wrap">@ItemName</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Left">
+                                <Paragraph>
+                                    <TextBlock>@Quantity x @Price =</TextBlock>
+                                    <TextBlock FontWeight="Bold">@Amount</TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+                <Table Margin="0,5" CellSpacing="0" BorderThickness="0">
+                    <Table.Columns>
+                        <TableColumn Width="220"/>
+                        <TableColumn Width="Auto"/>
+                    </Table.Columns>
+                    <TableRowGroup Name="AmountRowGroup"  FontFamily="Rupee Foradian">
+                        <TableRow Name="SubTotalRow">
+                            <TableCell TextAlignment="Right" FontWeight="Bold" FontSize="20">
+                                <Paragraph>
+                                    Total:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" FontWeight="Bold" FontSize="20">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=TotalAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="TenderedRow">
+                            <TableCell TextAlignment="Right" >
+                                <Paragraph>
+                                    Tendered:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right" >
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=PaidAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="ChangeRow">
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    Change:
+                                </Paragraph>
+                            </TableCell>
+                            <TableCell TextAlignment="Right">
+                                <Paragraph>
+                                    <TextBlock Text="{Binding Path=BalanceAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="SavingsRow">
+                            <TableCell TextAlignment="Center" FontWeight="Bold" FontSize="12" FontStyle="Italic" ColumnSpan="2">
+                                <Paragraph Margin="0,5">
+                                    Today's savings for you is
+                                    <TextBlock Text="{Binding Path=SavingsAmount,Mode=OneTime,StringFormat={}{0:C0}}"></TextBlock>
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow Name="MessageRow">
+                            <TableCell TextAlignment="Center" FontSize="12" ColumnSpan="2">
+                                <Paragraph>Thank you &amp; Visit Again!</Paragraph>
+                                <Paragraph>
+                                    Please AVOID CARRY BAG!
+                                </Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentReader>
+    </StackPanel>
 </UserControl>

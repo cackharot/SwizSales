@@ -22,7 +22,7 @@
     </Window.Resources>
     <Grid>
         <DocumentViewer x:Name="docViewer" SnapsToDevicePixels="True" OverridesDefaultStyle="False">
-
+            
         </DocumentViewer>
     </Grid>
 </Controls:MetroWindow>

@@ -35,7 +35,7 @@ namespace SwizSales
             flowDocument.DataContext = order;
             flowDocument.PageHeight = order.OrderDetails.Count * Properties.Settings.Default.LineHeight + Properties.Settings.Default.ExtraHeight;
             flowDocument.PageWidth = Properties.Settings.Default.TicketWidth;
-            
+
             // we need to give the binding infrastructure a push as we
             // are operating outside of the intended use of WPF
             var dispatcher = Dispatcher.CurrentDispatcher;
@@ -51,64 +51,122 @@ namespace SwizSales
         {
             var tableRows = doc.GetElementsByTagName("TableRow");
             XmlElement itemRow = null;
+            XmlElement specialItemRow = null;
 
             foreach (XmlElement row in tableRows)
             {
-                if (row.HasAttribute("Name")
-                    && row.Attributes["Name"].Value.ToString().Equals("itemRow", StringComparison.OrdinalIgnoreCase))
+                if (row.HasAttribute("Name") && !string.IsNullOrEmpty(row.Attributes["Name"].Value))
                 {
-                    itemRow = row;
-                    break;
+                    if (row.Attributes["Name"].Value.Equals("itemrow", StringComparison.OrdinalIgnoreCase))
+                    {
+                        itemRow = row;
+                    }
+                    else if (row.Attributes["Name"].Value.Equals("specialitemrow", StringComparison.OrdinalIgnoreCase))
+                    {
+                        specialItemRow = row;
+                    }
                 }
             }
 
-            if (itemRow != null)
+            if (itemRow != null && itemRow.ParentNode != null)
             {
                 XmlElement rowGroup = (XmlElement)itemRow.ParentNode;
                 XmlElement rowTemplate = (XmlElement)itemRow.CloneNode(true);
                 rowGroup.RemoveChild(itemRow);
 
-                foreach (var orderItem in order.OrderDetails)
+                foreach (var orderItem in order.OrderDetails.Where(x => !x.Barcode.StartsWith(".")))
                 {
-                    XmlElement newRow = (XmlElement)rowTemplate.CloneNode(true);
-                    newRow.RemoveAttribute("Name");
-
-                    var tableCells = newRow.GetElementsByTagName("TableCell");
-
-                    foreach (XmlElement cell in tableCells)
-                    {
-                        if (cell.HasAttribute("Name"))
-                        {
-                            switch (cell.Attributes["Name"].Value.ToString())
-                            {
-                                case "ItemName":
-                                    string iname = orderItem.ItemName;
-                                    cell.FirstChild.InnerText = iname;
-                                    break;
-                                case "MRP":
-                                    cell.FirstChild.InnerText = orderItem.MRP.ToString("F2");
-                                    break;
-                                case "Price":
-                                    cell.FirstChild.InnerText = orderItem.Price.ToString("F2");
-                                    break;
-                                case "Quantity":
-                                    cell.FirstChild.InnerText = orderItem.Quantity.ToString("F1");
-                                    break;
-                                case "Discount":
-                                    cell.FirstChild.InnerText = orderItem.Discount.ToString("P");
-                                    break;
-                                case "Amount":
-                                    cell.FirstChild.InnerText = orderItem.LineTotal.ToString("F2");
-                                    break;
-                            }
-
-                            cell.RemoveAttribute("Name");
-                        }
-                    }
-
+                    XmlElement newRow = GetItemRow(rowTemplate, orderItem);
                     rowGroup.PrependChild(newRow);
                 }
             }
+
+
+            if (specialItemRow != null && specialItemRow.ParentNode != null)
+            {
+                var rowGroup = (XmlElement)specialItemRow.ParentNode;
+                var rowTemplate = (XmlElement)specialItemRow.CloneNode(true);
+                rowGroup.RemoveChild(specialItemRow);
+
+                foreach (var orderItem in order.OrderDetails.Where(x => x.Barcode.StartsWith(".")))
+                {
+                    XmlElement newRow = GetSpecialItemRow(rowTemplate, orderItem);
+                    rowGroup.PrependChild(newRow);
+                }
+            }
+
+            if (specialItemRow == null || itemRow == null)
+            {
+                LogService.Info("Print Template does not have valid TableRow for including line items!");
+            }
+        }
+
+        private static XmlElement GetSpecialItemRow(XmlElement rowTemplate, OrderDetail orderItem)
+        {
+            XmlElement newRow = (XmlElement)rowTemplate.CloneNode(true);
+            newRow.RemoveAttribute("Name");
+
+            var tableCells = newRow.GetElementsByTagName("TableCell");
+
+            foreach (XmlElement cell in tableCells)
+            {
+                var node = cell.FirstChild;
+
+                if (cell.FirstChild == null)
+                    node = cell;
+
+                node.InnerText = node.InnerText.Replace("@Barcode", orderItem.Barcode);
+                node.InnerText = node.InnerText.Replace("@ItemName", orderItem.ItemName);
+                node.InnerText = node.InnerText.Replace("@Price", orderItem.Price.ToString("F2"));
+                node.InnerText = node.InnerText.Replace("@MRP", orderItem.MRP.ToString("F2"));
+                node.InnerText = node.InnerText.Replace("@Discount", orderItem.Discount.ToString("P"));
+                node.InnerText = node.InnerText.Replace("@Quantity", orderItem.Quantity.ToString("N0"));
+                node.InnerText = node.InnerText.Replace("@Amount", orderItem.LineTotal.ToString("F2"));
+            }
+
+            return newRow;
+        }
+
+        private static XmlElement GetItemRow(XmlElement rowTemplate, OrderDetail orderItem)
+        {
+            XmlElement newRow = (XmlElement)rowTemplate.CloneNode(true);
+            newRow.RemoveAttribute("Name");
+
+            var tableCells = newRow.GetElementsByTagName("TableCell");
+
+            foreach (XmlElement cell in tableCells)
+            {
+                if (cell.HasAttribute("Name"))
+                {
+                    switch (cell.Attributes["Name"].Value.ToString())
+                    {
+                        case "Barcode":
+                            cell.FirstChild.InnerText = orderItem.Barcode;
+                            break;
+                        case "ItemName":
+                            cell.FirstChild.InnerText = orderItem.ItemName;
+                            break;
+                        case "MRP":
+                            cell.FirstChild.InnerText = orderItem.MRP.ToString("F2");
+                            break;
+                        case "Price":
+                            cell.FirstChild.InnerText = orderItem.Price.ToString("F2");
+                            break;
+                        case "Quantity":
+                            cell.FirstChild.InnerText = orderItem.Quantity.ToString("F1");
+                            break;
+                        case "Discount":
+                            cell.FirstChild.InnerText = orderItem.Discount.ToString("P");
+                            break;
+                        case "Amount":
+                            cell.FirstChild.InnerText = orderItem.LineTotal.ToString("F2");
+                            break;
+                    }
+
+                    cell.RemoveAttribute("Name");
+                }
+            }
+            return newRow;
         }
 
         public static XpsDocument GetXpsDocument(FlowDocument document)

@@ -104,8 +104,8 @@ namespace SwizSales.ViewModel
 
             this.worker.RunWorkerAsync(new OrderSearchCondition
             {
-                FromOrderDate = DateTime.Now.Date,
-                ToOrderDate = DateTime.Now.Date,
+                FromOrderDate = DateTime.Today.AddDays(-1),
+                ToOrderDate = DateTime.Today,
                 PageSize = 100
             });
 
@@ -361,6 +361,7 @@ namespace SwizSales.ViewModel
                         if (x != null)
                         {
                             item = x;
+                            this.Barcode = x.Barcode;
                         }
                         else
                         {
@@ -463,7 +464,7 @@ namespace SwizSales.ViewModel
 
             if (this.CheckoutNotice != null)
             {
-                this.Model.CurrentPaidAmount = this.Model.BalanceAmount;
+                this.Model.CurrentPaidAmount = this.Model.BalanceAmount > 0 ? this.Model.BalanceAmount : 0;
                 this.CheckoutNotice(this, new NotificationEventArgs<Order, bool>("CheckOut", this.Model, (x) =>
                 {
                     if (x)
@@ -483,10 +484,12 @@ namespace SwizSales.ViewModel
 
                         this.Model.NotifyChanges();
                         Save();
+
+                        SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(string.Format("Order '{0}' paid and saved successfully!", this.Model.BillNo)));
                     }
                     else
                     {
-                        LogService.Info("Payment cancelled! [{0}]", this.Model.BillNo);
+                        LogService.Info("Payment cancelled! for Bill No: {0}", this.Model.BillNo);
                     }
                 }));
             }
@@ -723,6 +726,7 @@ namespace SwizSales.ViewModel
                     {
                         //this.Model = this.serviceAgent.GetOrderById(this.SelectedOrder.Id);
                         this.Model = this.SelectedOrder;
+                        this.Barcode = string.Empty;
                         NotifyCommands();
                     }
                     NotifySelectBarcode();

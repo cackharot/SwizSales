@@ -44,7 +44,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DockPanel Grid.Row="0" Margin="5,0,5,2" DataContext="{Binding}">
-                    <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="Today Orders"/>
+                    <TextBlock VerticalAlignment="Center" FontSize="14" FontWeight="Bold" Text="Latest Orders"/>
                     <Button DockPanel.Dock="Right" Command="{Binding Path=RefreshCommand}" Content="Refresh" Margin="10,0,0,0" Width="60" Height="25"/>
                 </DockPanel>
                 <Border Grid.Row="1" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
@@ -81,12 +81,12 @@
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="2">Time</Label>
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="3">Counter</Label>
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="4">Employee</Label>
-                
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=BillNo}" FontWeight="Bold" FontSize="20"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy}'}"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=OrderDate,StringFormat='{}{0:hh:mm tt}'}"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=SystemId}"/>
-                <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Path=Employee.ContactDetail.ContactName}"/>
+
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding Path=BillNo}" FontWeight="Bold" FontSize="20"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Text="{Binding Path=OrderDate,StringFormat='{}{0:hh:mm tt}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Text="{Binding Path=SystemId}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" Text="{Binding Path=Employee.ContactDetail.ContactName}"/>
             </Grid>
             <Separator BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=BorderBrushSelected}"/>
             <Grid DataContext="{Binding Path=Model,Mode=OneWay}">
@@ -105,10 +105,10 @@
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="2">Customer Phone</Label>
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="3">Customer Points</Label>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=Customer.SSN}"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Customer.ContactDetail.ContactName}" FontWeight="Bold" FontSize="20"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Path=Customer.ContactDetail.Mobile}"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Path=Customer.Points}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding Path=Customer.SSN}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Text="{Binding Path=Customer.ContactDetail.ContactName}" FontWeight="Bold" FontSize="20"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Text="{Binding Path=Customer.ContactDetail.Mobile}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" Text="{Binding Path=Customer.Points}"/>
             </Grid>
             <Separator BorderThickness="1" BorderBrush="{DynamicResource ResourceKey=BorderBrushSelected}"/>
             <Grid DataContext="{Binding Path=Model,Mode=OneWay}">
@@ -131,7 +131,7 @@
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="4">Paid Amount</Label>
                 <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="5">Balance Amount</Label>
 
-                <TextBlock Grid.Column="1" Grid.Row="0" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" >
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" >
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0} / {1:#,#0.##}">
                         <Binding Path="TotalItems" />
@@ -139,11 +139,11 @@
                     </MultiBinding> 
                 </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Grid.Column="1" Grid.Row="1" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=SavingsAmount,StringFormat='{}{0:C}'}"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=RoundOff,StringFormat='{}{0:C}'}"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" Foreground="Green" FontWeight="Bold" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
-                <TextBlock Grid.Column="1" Grid.Row="4" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C}'}" Foreground="Red"/>
-                <TextBlock Grid.Column="1" Grid.Row="5" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C}'}" FontStyle="Oblique"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=SavingsAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=RoundOff,StringFormat='{}{0:C}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C0}'}" Foreground="Green" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C0}'}" Foreground="Red"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C0}'}" FontStyle="Oblique"/>
             </Grid>
         </StackPanel>
         <Border DockPanel.Dock="Right" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
@@ -156,12 +156,12 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal" Margin="0,0,0,5" >
-                <Button Content="New [F3]" Command="{Binding Path=NewCommand}" Width="80" Height="30" Margin="0,0,10,0"/>
-                <Button Content="Cancel [F4]" Command="{Binding Path=CancelCommand}"  Width="80" Height="30" Margin="0,0,10,0"/>
-                <Button Content="Checkout [F5]" Command="{Binding Path=CheckoutCommand}" Width="80" Height="30" Margin="0,0,10,0"/>
-                <Button Content="Change Customer [F6]" Command="{Binding Path=ChangeCustomerCommand}"  Width="130" Height="30" Margin="0,0,10,0"/>
-                <Button Content="Print [F11]" Command="{Binding Path=PrintCommand}" Name="btnPrint"  Width="80" Height="30" Margin="0,0,10,0"/>
-                <Button Content="Preview [F12]" Command="{Binding Path=PreviewCommand}"  Width="80" Height="30" Margin="0,0,10,0"/>
+                <Button Content="New" Command="{Binding Path=NewCommand}" Width="80" Height="30" Margin="0,0,10,0" ToolTip="New order [F3]"/>
+                <Button Content="Cancel" Command="{Binding Path=CancelCommand}"  Width="80" Height="30" Margin="0,0,10,0" ToolTip="Cancel order [F4]"/>
+                <Button Content="Checkout" Command="{Binding Path=CheckoutCommand}" Width="80" Height="30" Margin="0,0,10,0" ToolTip="Checkout order [F5]"/>
+                <Button Content="Change Customer" Command="{Binding Path=ChangeCustomerCommand}"  Width="130" Height="30" Margin="0,0,10,0" ToolTip="Change customer [F6]"/>
+                <Button Content="Print" Command="{Binding Path=PrintCommand}" Name="btnPrint"  Width="80" Height="30" Margin="0,0,10,0" ToolTip="Print this order [F11]"/>
+                <Button Content="Preview" Command="{Binding Path=PreviewCommand}"  Width="80" Height="30" Margin="0,0,10,0" ToolTip="Print preview this order [F12]"/>
             </StackPanel>
             <!--<v:InvoiceDetailsView Grid.Row="1" DataContext="{Binding Path=Model,Mode=OneWay}"/>-->
             <Grid Grid.Row="2" Margin="5">

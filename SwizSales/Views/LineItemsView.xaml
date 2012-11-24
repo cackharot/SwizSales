@@ -18,14 +18,37 @@
         </Style>
     </UserControl.Resources>
     <Controls:TransitioningContentControl Transition="DownTransition">
-        <ListView local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True"
+        <ListView local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" AlternationCount="2"
                  x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding}" KeyboardNavigation.TabNavigation="Continue" local:GridViewColumnResize.Enabled="True"
                  SelectedItem="{Binding DataContext.SelectedLineItem,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
+                    <Style.Resources>
+                        <local:SpecialItemValueConverter x:Key="spValueConv" />
+                    </Style.Resources>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <EventSetter Event="GotFocus" Handler="Item_GotFocus"/>
+                    <Style.Triggers>
+                        <!--<Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="#FFFFFFC1"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="LightSkyBlue"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FF00B5FF"/>
+                        </Trigger>-->
+                        <DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="True">
+                            <Setter Property="Foreground" Value="#FFED0072" />
+                        </DataTrigger>
+                        <!--<DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="False">
+                            <Setter Property="Background" Value="Transparent" />
+                        </DataTrigger>-->
+                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.View>
