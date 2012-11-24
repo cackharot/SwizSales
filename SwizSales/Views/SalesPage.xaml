@@ -55,7 +55,7 @@
             </Grid>
         </Expander>
         <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
-        <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5,0,0,0" MinWidth="320">
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5,0,0,0" MinWidth="250">
             <StackPanel Orientation="Horizontal">
                 <TextBlock VerticalAlignment="Center" Width="120">Print Template:</TextBlock>
                 <ComboBox ItemsSource="{Binding Path=Templates}" Foreground="Black" Background="WhiteSmoke" DisplayMemberPath="Name" SelectedItem="{Binding Path=SelectedTemplate}" MinWidth="150"/>
@@ -141,9 +141,9 @@
                 </TextBlock>
                 <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=SavingsAmount,StringFormat='{}{0:C}'}"/>
                 <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" FontSize="20" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=RoundOff,StringFormat='{}{0:C}'}"/>
-                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C0}'}" Foreground="Green" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
-                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C0}'}" Foreground="Red"/>
-                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Stretch" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C0}'}" FontStyle="Oblique"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="3" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Right" Margin="0,0,5,0" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C0}'}" Foreground="Green" ToolTip="{Binding Path=_TotalAmount,StringFormat='{}{0:C}'}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="4" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Right" Margin="0,0,5,0" Text="{Binding Path=PaidAmount,StringFormat='{}{0:C0}'}" Foreground="Red"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="5" FontSize="32" Style="{StaticResource CurrencyTextBlock}" HorizontalAlignment="Right" Margin="0,0,5,0" Text="{Binding Path=BalanceAmount,StringFormat='{}{0:C0}'}" FontStyle="Oblique"/>
             </Grid>
         </StackPanel>
         <Border DockPanel.Dock="Right" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>

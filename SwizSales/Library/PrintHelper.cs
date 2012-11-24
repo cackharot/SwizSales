@@ -81,6 +81,7 @@ namespace SwizSales
                 }
             }
 
+            var specialItems = order.OrderDetails.Where(x => x.Barcode.StartsWith(".")).ToList();
 
             if (specialItemRow != null && specialItemRow.ParentNode != null)
             {
@@ -88,14 +89,35 @@ namespace SwizSales
                 var rowTemplate = (XmlElement)specialItemRow.CloneNode(true);
                 rowGroup.RemoveChild(specialItemRow);
 
-                foreach (var orderItem in order.OrderDetails.Where(x => x.Barcode.StartsWith(".")))
+                if (specialItems.Count > 0)
                 {
-                    XmlElement newRow = GetSpecialItemRow(rowTemplate, orderItem);
-                    rowGroup.PrependChild(newRow);
+                    foreach (var orderItem in specialItems)
+                    {
+                        XmlElement newRow = GetSpecialItemRow(rowTemplate, orderItem);
+                        rowGroup.PrependChild(newRow);
+                    }
+                }
+                else
+                {
+                    var spTables = doc.GetElementsByTagName("Table");
+
+                    foreach (XmlElement tb in spTables)
+                    {
+                        if (tb.HasAttribute("Name") && tb.Attributes["Name"].Value == "SpecialItemsTable")
+                        {
+                            tb.ParentNode.RemoveChild(tb);
+                            break;
+                        }
+                    }
                 }
             }
 
-            if (specialItemRow == null || itemRow == null)
+            if (specialItemRow == null && specialItems.Count > 0)
+            {
+                LogService.Info("Print Template does not have valid Special Items TableRow!");
+            }
+
+            if (itemRow == null)
             {
                 LogService.Info("Print Template does not have valid TableRow for including line items!");
             }
@@ -117,11 +139,11 @@ namespace SwizSales
 
                 node.InnerText = node.InnerText.Replace("@Barcode", orderItem.Barcode);
                 node.InnerText = node.InnerText.Replace("@ItemName", orderItem.ItemName);
-                node.InnerText = node.InnerText.Replace("@Price", orderItem.Price.ToString("F2"));
-                node.InnerText = node.InnerText.Replace("@MRP", orderItem.MRP.ToString("F2"));
+                node.InnerText = node.InnerText.Replace("@Price", orderItem.Price.ToString("N0"));
+                node.InnerText = node.InnerText.Replace("@MRP", orderItem.MRP.ToString("N0"));
                 node.InnerText = node.InnerText.Replace("@Discount", orderItem.Discount.ToString("P"));
                 node.InnerText = node.InnerText.Replace("@Quantity", orderItem.Quantity.ToString("N0"));
-                node.InnerText = node.InnerText.Replace("@Amount", orderItem.LineTotal.ToString("F2"));
+                node.InnerText = node.InnerText.Replace("@Amount", orderItem.LineTotal.ToString("N0"));
             }
 
             return newRow;

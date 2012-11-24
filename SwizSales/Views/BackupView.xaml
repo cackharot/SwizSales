@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="SwizSales.Views.BackupView"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=BackupViewModel}"
+             d:DesignHeight="700" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="40" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Label VerticalAlignment="Center" Content="Backup Path" Name="label1" />
+        <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0">
+            <TextBox Name="txtPath" FontSize="14" Text="{Binding Path=BackupPath,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="250" Margin="0,0,10,0"/>
+            <Button Name="btnBrose" Click="btnBrose_Click" Height="23" Width="80" VerticalAlignment="Center">Browse</Button>
+        </StackPanel>
+        <Label VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Content="Status"/>
+        <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="1" VerticalAlignment="Center">
+            <ProgressBar VerticalAlignment="Center" HorizontalAlignment="Left" Height="15" Value="{Binding Path=Progress}" Width="200"></ProgressBar>
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="Violet" Text="{Binding Path=Status}" Width="200" Margin="10,0,0,0"/>
+        </StackPanel>
+        <Button Grid.Row="2" Command="{Binding Path=BackupCommand}" 
+                Grid.Column="1" HorizontalAlignment="Left" Height="23" Width="80" VerticalAlignment="Center">Backup</Button>
+    </Grid>
+</UserControl>

@@ -129,5 +129,13 @@ namespace SwizSales.ViewModel
                 return new OrdersViewModel(new OrderService());
             }
         }
+
+        public BackupViewModel BackupViewModel
+        {
+            get
+            {
+                return new BackupViewModel();
+            }
+        }
     }
 }

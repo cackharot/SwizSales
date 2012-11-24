@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Threading;
 using System.Collections.ObjectModel;
@@ -130,6 +131,9 @@ namespace SwizSales.ViewModel
             {
                 _lstPurchase = value;
                 NotifyPropertyChanged(m => m.Purchases);
+                NotifyPropertyChanged(m => m.SearchTotal);
+                NotifyPropertyChanged(m => m.SearchTotalPaid);
+                NotifyPropertyChanged(m => m.SearchTotalBalance);
             }
         }
 
@@ -176,6 +180,21 @@ namespace SwizSales.ViewModel
                 _lstEmployee = value;
                 NotifyPropertyChanged(m => m.Employees);
             }
+        }
+
+        public double SearchTotal
+        {
+            get { return this.Purchases == null ? 0 : this.Purchases.Sum(x => x.ActualTotalAmount); }
+        }
+
+        public double SearchTotalPaid
+        {
+            get { return this.Purchases == null ? 0 : this.Purchases.Sum(x => x.PaidAmount); }
+        }
+
+        public double SearchTotalBalance
+        {
+            get { return this.Purchases == null ? 0 : this.Purchases.Sum(x => x.BalanceAmount); }
         }
 
         #endregion

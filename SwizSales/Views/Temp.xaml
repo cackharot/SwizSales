@@ -6,11 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
-        <TextBlock Foreground="#FFED0072">sdfsldfksdjflsdjfl</TextBlock>
         <FlowDocumentReader>
             <FlowDocument PageHeight="520" PageWidth="300" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="White"
-                          FontFamily="DejaVu Sans Condensed"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">
+                          FontFamily="DejaVu Sans Condensed" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">
                 <Paragraph TextAlignment="Center" Margin="0" FontWeight="Bold">
                     Sree Durga Home Needs
                     <LineBreak/> Super Market
@@ -140,29 +138,70 @@
                         </TableRow>
                     </TableRowGroup>
                 </Table>
-                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5" FontSize="11" Name="specialItemsTable">
+                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5" FontSize="11">
                     <Table.Columns>
-                        <TableColumn Width="80"/>
                         <TableColumn Width="Auto"/>
+                        <TableColumn Width="60"/>
+                        <TableColumn Width="85"/>
                     </Table.Columns>
                     <TableRowGroup>
                         <TableRow>
-                            <TableCell ColumnSpan="2">
-                                <Paragraph>Special Items:</Paragraph>
+                            <TableCell>
+                                <Table BorderThickness="0" CellSpacing="0" Padding="0" Margin="0,5" Name="SpecialItemsTable">
+                                    <Table.Columns>
+                                        <TableColumn Width="70"/>
+                                        <TableColumn Width="Auto"/>
+                                    </Table.Columns>
+                                    <TableRowGroup>
+                                        <TableRow>
+                                            <TableCell ColumnSpan="2">
+                                                <Paragraph>Special Items:</Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                    <TableRowGroup>
+                                        <TableRow Name="specialItemRow">
+                                            <TableCell TextAlignment="Left">
+                                                <Paragraph>
+                                                    <TextBlock TextWrapping="Wrap">@ItemName</TextBlock>
+                                                </Paragraph>
+                                            </TableCell>
+                                            <TableCell TextAlignment="Right">
+                                                <Paragraph Margin="0,0,10,0">
+                                                    <TextBlock>@Quantity x @Price =</TextBlock>
+                                                    <TextBlock FontWeight="Bold">@Amount</TextBlock>
+                                                </Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell ColumnSpan="2" TextAlignment="Right">
+                                                <Paragraph  Margin="0,0,10,0">
+                                                    <TextBlock>Total:</TextBlock>
+                                                    <TextBlock FontWeight="Bold" FontFamily="Rupee Foradian" Text="{Binding Path=SpecialItemsTotal,Mode=OneTime,StringFormat='{} {0:C0}'}"/>
+                                                </Paragraph>
+                                            </TableCell>
+                                        </TableRow>
+                                    </TableRowGroup>
+                                </Table>
                             </TableCell>
-                        </TableRow>
-                    </TableRowGroup>
-                    <TableRowGroup>
-                        <TableRow Name="specialItemRow">
-                            <TableCell TextAlignment="Left">
+                            <TableCell TextAlignment="Right" FontWeight="Bold">
                                 <Paragraph>
-                                    <TextBlock TextWrapping="Wrap">@ItemName</TextBlock>
+                                    <TextBlock FontSize="18">Total:</TextBlock>
+                                    <LineBreak/>
+                                    <TextBlock FontSize="16">Paid:</TextBlock>
+                                    <LineBreak/>
+                                    <TextBlock FontSize="16">Change:</TextBlock>
+                                    <LineBreak/>
                                 </Paragraph>
                             </TableCell>
-                            <TableCell TextAlignment="Left">
+                            <TableCell TextAlignment="Right" FontWeight="Bold" FontFamily="Rupee Foradian">
                                 <Paragraph>
-                                    <TextBlock>@Quantity x @Price =</TextBlock>
-                                    <TextBlock FontWeight="Bold">@Amount</TextBlock>
+                                    <TextBlock FontSize="18" Text="{Binding Path=TotalAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                    <LineBreak/>
+                                    <TextBlock FontSize="16" Text="{Binding Path=PaidAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                    <LineBreak/>
+                                    <TextBlock FontSize="16" Text="{Binding Path=BalanceAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
+                                    <LineBreak/>
                                 </Paragraph>
                             </TableCell>
                         </TableRow>
@@ -173,48 +212,12 @@
                         <TableColumn Width="220"/>
                         <TableColumn Width="Auto"/>
                     </Table.Columns>
-                    <TableRowGroup Name="AmountRowGroup"  FontFamily="Rupee Foradian">
-                        <TableRow Name="SubTotalRow">
-                            <TableCell TextAlignment="Right" FontWeight="Bold" FontSize="20">
-                                <Paragraph>
-                                    Total:
-                                </Paragraph>
-                            </TableCell>
-                            <TableCell TextAlignment="Right" FontWeight="Bold" FontSize="20">
-                                <Paragraph>
-                                    <TextBlock Text="{Binding Path=TotalAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
-                                </Paragraph>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow Name="TenderedRow">
-                            <TableCell TextAlignment="Right" >
-                                <Paragraph>
-                                    Tendered:
-                                </Paragraph>
-                            </TableCell>
-                            <TableCell TextAlignment="Right" >
-                                <Paragraph>
-                                    <TextBlock Text="{Binding Path=PaidAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
-                                </Paragraph>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow Name="ChangeRow">
-                            <TableCell TextAlignment="Right">
-                                <Paragraph>
-                                    Change:
-                                </Paragraph>
-                            </TableCell>
-                            <TableCell TextAlignment="Right">
-                                <Paragraph>
-                                    <TextBlock Text="{Binding Path=BalanceAmount,Mode=OneTime,FallbackValue=' 0000',StringFormat={}{0:C0}}"></TextBlock>
-                                </Paragraph>
-                            </TableCell>
-                        </TableRow>
+                    <TableRowGroup Name="AmountRowGroup" FontFamily="Rupee Foradian">
                         <TableRow Name="SavingsRow">
                             <TableCell TextAlignment="Center" FontWeight="Bold" FontSize="12" FontStyle="Italic" ColumnSpan="2">
                                 <Paragraph Margin="0,5">
                                     Today's savings for you is
-                                    <TextBlock Text="{Binding Path=SavingsAmount,Mode=OneTime,StringFormat={}{0:C0}}"></TextBlock>
+                                    <TextBlock Text="{Binding Path=SavingsAmount,Mode=OneTime,FallbackValue='00.00',StringFormat={}{0:C0}}"></TextBlock>
                                 </Paragraph>
                             </TableCell>
                         </TableRow>

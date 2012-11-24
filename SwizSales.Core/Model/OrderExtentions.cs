@@ -38,6 +38,14 @@ namespace SwizSales.Core.Model
             }
         }
 
+        public double SpecialItemsTotal
+        {
+            get
+            {
+                return this.OrderDetails != null ? this.OrderDetails.Where(x => x.Barcode.StartsWith(".")).Sum(x => x.LineTotal) : 0.0;
+            }
+        }
+
         public double RoundOff
         {
             get
@@ -90,7 +98,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return this.OrderDetails.Where(x => !x.Barcode.StartsWith(".")).Sum(x => x.Quantity);
+                return this.OrderDetails.Where(x => string.IsNullOrEmpty(x.Barcode) || !x.Barcode.StartsWith(".")).Sum(x => x.Quantity);
             }
         }
 
@@ -98,7 +106,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return this.OrderDetails.Where(x => !x.Barcode.StartsWith(".")).Count();
+                return this.OrderDetails.Where(x => string.IsNullOrEmpty(x.Barcode) || !x.Barcode.StartsWith(".")).Count();
             }
         }
 

@@ -5,7 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{Binding Path=Model.BillNo,StringFormat='{}Manage Purchase #{0}'}" mc:Ignorable="d"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" DataContext="{Binding}" Focusable="False"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="700" d:DesignWidth="1000" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="750" d:DesignWidth="1000" SaveWindowPosition="True"
         SizeToContent="Manual" WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <ResourceDictionary>
@@ -127,33 +127,12 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <!--<Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="130" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="60" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" FontWeight="Bold" Text="Barcode" Foreground="{StaticResource BorderBrushSelected}" Margin="10,0,0,0"/>
-                        <TextBlock Grid.Column="1" FontWeight="Bold" Text="Name" Foreground="{StaticResource BorderBrushSelected}" />
-                        <TextBlock Grid.Column="2" FontWeight="Bold" Text="Quantity" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
-                        <TextBlock Grid.Column="3" FontWeight="Bold" Text="MRP"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
-                        <TextBlock Grid.Column="4" FontWeight="Bold" Text="Discount"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
-                        <TextBlock Grid.Column="5" FontWeight="Bold" Text="Buy Price"  HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}"/>
-                        <TextBlock Grid.Column="6" FontWeight="Bold" Text="Sell Price" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" />
-                        <TextBlock Grid.Column="7" FontWeight="Bold" Text="Total" HorizontalAlignment="Right" Foreground="{StaticResource BorderBrushSelected}" Margin="0,0,30,0" />
-                    </Grid>-->
                 <ListView Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False" local:GridViewColumnResize.Enabled="True"
                              ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="120" />
-                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="0.7*"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" Width="180" />
                             <GridViewColumn Header="Quantity" DisplayMemberBinding="{Binding Path=Quantity}"  Width="70"/>
                             <GridViewColumn Header="MRP" Width="100">
                                 <GridViewColumn.CellTemplate>
@@ -196,86 +175,6 @@
                         <KeyBinding Command="{Binding DeleteCommand}" Gesture="DELETE" />
                     </ListBox.InputBindings>
                 </ListView>
-                <!--<ListBox Grid.Row="1" ItemsSource="{Binding Path=LineItems}"  SelectedItem="{Binding Path=SelectedLineItem}" Focusable="False"
-                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Controls:MetroContentControl>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="130" />
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="60" />
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="80" />
-                                            <ColumnDefinition Width="80" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding Path=Barcode}" />
-                                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=Name}" />
-                                        <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding Path=Quantity}" />
-                                        <TextBlock Grid.Column="3" FontWeight="Bold" VerticalAlignment="Center" 
-                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=MRP,StringFormat='{}{0:C}'}" />
-                                        <TextBlock Grid.Column="4" VerticalAlignment="Center" Text="{Binding Path=Discount}" />
-                                        <TextBlock Grid.Column="5" VerticalAlignment="Center"
-                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=BuyPrice,StringFormat='{}{0:C}'}" />
-                                        <TextBlock Grid.Column="6" VerticalAlignment="Center"
-                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}" />
-                                        <TextBlock Grid.Column="7" VerticalAlignment="Center" FontWeight="Bold"
-                                           Style="{StaticResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SubTotal,StringFormat='{}{0:C}'}" />
-                                    </Grid>
-                                </Controls:MetroContentControl>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                        <ListBox.Style>
-                            <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource StandardListBox}">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="False">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                                <Style.Resources>
-                                    <Style TargetType="{x:Type ListBoxItem}">
-                                        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                                        <Setter Property="Background" Value="{StaticResource BackgroundNormal}"/>
-                                        <Setter Property="BorderBrush" Value="Transparent"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                    <Grid Margin="4,0,4,4">
-                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" SnapsToDevicePixels="True"/>
-                                                        <ContentPresenter Margin="8,5"/>
-                                                    </Grid>
-                                                    <ControlTemplate.Triggers>
-                                                        <MultiTrigger>
-                                                            <MultiTrigger.Conditions>
-                                                                <Condition Property="IsMouseOver" Value="True" />
-                                                                <Condition Property="IsSelected" Value="False"/>
-                                                            </MultiTrigger.Conditions>
-                                                            <Setter Property="Background" Value="{StaticResource BackgroundHighlighted}" />
-                                                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushHighlighted}" />
-                                                        </MultiTrigger>
-                                                        <Trigger Property="IsSelected" Value="True">
-                                                            <Setter Property="Background" Value="Transparent" />
-                                                            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushSelected}" />
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Style.Resources>
-                            </Style>
-                        </ListBox.Style>
-                        <ListBox.InputBindings>
-                            <KeyBinding Command="{Binding DeleteCommand}" Gesture="DELETE" />
-                        </ListBox.InputBindings>
-                    </ListBox>-->
             </Grid>
         </DockPanel>
     </Controls:MetroContentControl>

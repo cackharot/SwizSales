@@ -37,9 +37,9 @@
                     <RowDefinition Height="35"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="130"/>
+                    <ColumnDefinition Width="110"/>
                     <ColumnDefinition Width="220"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
@@ -96,14 +96,14 @@
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Order No#" DisplayMemberBinding="{Binding Path=BillNo}" Width="120" />
-                        <GridViewColumn Header="Order Date" local:GridViewColumnResize.Width="0.9*">
+                        <GridViewColumn Header="Order Date" local:GridViewColumnResize.Width="0.7*">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=OrderDate,StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}" ToolTip="{Binding Path=OrderDate,StringFormat='{}{0:dd dddd MMMM, yyyy hh:mm tt}'}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Customer Name" local:GridViewColumnResize.Width="0.9*">
+                        <GridViewColumn Header="Customer Name" local:GridViewColumnResize.Width="0.8*">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding Path=Customer.ContactDetail.ContactName}" ToolTip="{Binding Path=Customer.ContactDetail.Mobile}"/>

@@ -7,7 +7,7 @@
         Title="Order Print Preview" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" d:DesignHeight="600" d:DesignWidth="400" 
         MinWidth="300" MinHeight="400" ShowInTaskbar="False" ShowMinButton="False"
-        SizeToContent="Manual" WindowStartupLocation="CenterScreen" SaveWindowPosition="True" WindowStyle="ToolWindow">
+        SizeToContent="Manual" WindowStartupLocation="CenterScreen" SaveWindowPosition="True">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
