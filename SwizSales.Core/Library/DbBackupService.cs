@@ -6,66 +6,151 @@ using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
 using System.Data.SqlClient;
 using System.Windows.Shapes;
+using Microsoft.SqlServer.Management.Sdk.Sfc;
+using System.Collections.Specialized;
 
 namespace SwizSales.Core.Library
 {
     public class DbBackupService
     {
-        Server DbServer { get; set; }
+        string ServerName { get; set; }
+        string UserName { get; set; }
+        string Password { get; set; }
         string DatabaseName { get; set; }
-        public Backup Backup { get; set; }
-
-        public DbBackupService(string serverName, string userName, string password)
+        
+        public DbBackupService(string serverName, string userName, string password,string databaseName)
         {
-            InitDbServer(serverName, userName, password);
+            Init(serverName, userName, password,databaseName);
         }
 
         public DbBackupService(string connectionString)
         {
             var connInfo = new SqlConnectionStringBuilder(connectionString);
-            this.DatabaseName = connInfo.InitialCatalog;
-            InitDbServer(connInfo.DataSource, connInfo.UserID, connInfo.Password);
+            Init(connInfo.DataSource, connInfo.UserID, connInfo.Password,connInfo.InitialCatalog);
         }
 
-        ~DbBackupService()
+        private void Init(string serverName, string userName, string password,string databaseName)
         {
-            if (this.DbServer != null && this.DbServer.ConnectionContext.IsOpen)
+            this.ServerName = serverName;
+            this.UserName = userName;
+            this.Password = password;
+            this.DatabaseName = databaseName;
+        }
+
+        private Server GetDbServer()
+        {
+            ServerConnection conn = new ServerConnection(this.ServerName, this.UserName, this.Password);
+            var server = new Server(conn);
+            return server;
+        }
+
+        public void BackupDataBase(string destinationPath, Action<int> percentCompleteCallback, Action completeCallback)
+        {
+            var server = GetDbServer(); 
+            
+            var backup = new Backup();
+            backup.Action = BackupActionType.Database;
+            backup.Database = this.DatabaseName;
+            backup.Devices.Add(new BackupDeviceItem(GetFileName(destinationPath, this.DatabaseName, ".bak"), DeviceType.File));
+            backup.Initialize = true;
+            backup.Checksum = true;
+            backup.ContinueAfterError = true;
+            backup.Incremental = false;
+            backup.PercentCompleteNotification = 1;
+            backup.LogTruncation = BackupTruncateLogType.Truncate;
+
+            backup.Complete += (s, e) =>
             {
-                this.DbServer.ConnectionContext.Cancel();
+                if (completeCallback != null)
+                {
+                    completeCallback();
+                }
+            };
+
+            backup.PercentComplete += (s, e) =>
+            {
+                if (percentCompleteCallback != null)
+                {
+                    percentCompleteCallback(e.Percent);
+                }
+            };
+
+            backup.SqlBackupAsync(server);
+        }
+
+        public void GenerateScriptFile(string destinationPath, Action<int> percentCompleteCallback, Action<Exception> errorCallback)
+        {
+            var server = GetDbServer();
+            var db = server.Databases[this.DatabaseName];
+
+            var scripter = new Scripter(server);
+            SetScriptOptions(destinationPath, scripter);
+
+            var smoObjects = new List<Urn>();
+
+            foreach (Table tb in db.Tables)
+            {
+                if (!tb.IsSystemObject)
+                {
+                    smoObjects.Add(tb.Urn);
+                }
+            }
+
+            scripter.ScriptingError += new ScriptingErrorEventHandler((s, e) =>
+            {
+                if (errorCallback != null)
+                {
+                    errorCallback(e.InnerException);
+                }
+            });
+
+            scripter.ScriptingProgress += new ProgressReportEventHandler((s, e) =>
+            {
+                int percent = Convert.ToInt32(((double)e.TotalCount / (double)e.Total) * 100.0);
+
+                if (percentCompleteCallback != null)
+                {
+                    percentCompleteCallback(percent);
+                }
+            });
+
+            //var sc = scripter.Script(smoObjects.ToArray());
+
+            foreach (var sc in scripter.EnumScript(smoObjects.ToArray()))
+            {
+
             }
         }
-        
-        private void InitDbServer(string serverName, string userName, string password)
+
+        private void SetScriptOptions(string destinationPath, Scripter scripter)
         {
-            ServerConnection conn = new ServerConnection(serverName, userName, password);
-            this.DbServer = new Server(conn);
-            this.Backup = new Backup();
+            scripter.Options.AppendToFile = false;
+            scripter.Options.ContinueScriptingOnError = true;
+            scripter.Options.NoCommandTerminator = true;
+            scripter.Options.DriAll = true;
+            scripter.Options.DriDefaults = true;
+            scripter.Options.FileName = GetFileName(destinationPath, this.DatabaseName, ".sql");
+            scripter.Options.IncludeDatabaseContext = false;
+            scripter.Options.IncludeIfNotExists = false;
+            scripter.Options.ScriptData = true;
+            scripter.Options.ScriptDrops = false;
+            scripter.Options.ScriptSchema = true;
+            scripter.Options.TimestampToBinary = false;
+            scripter.Options.ToFileOnly = true;
+            scripter.Options.WithDependencies = true;
         }
 
-        public void BackupDataBase(string destinationPath)
+        private static int count = 1;
+        private string GetFileName(string destinationPath, string databaseName, string extn)
         {
-            Backup.Action = BackupActionType.Database;
-            Backup.Database = this.DatabaseName;
-            destinationPath = System.IO.Path.Combine(destinationPath, this.DatabaseName + ".bak");
-            Backup.Devices.Add(new BackupDeviceItem(destinationPath, DeviceType.File));
-            Backup.Initialize = true;
-            Backup.Checksum = true;
-            Backup.ContinueAfterError = true;
-            Backup.Incremental = false;
-            Backup.PercentCompleteNotification = 1;
-            Backup.LogTruncation = BackupTruncateLogType.Truncate;
-            Backup.PercentComplete += new PercentCompleteEventHandler(backup_PercentComplete);
-            Backup.Complete += new ServerMessageEventHandler(backup_Complete);
-            Backup.SqlBackupAsync(this.DbServer);
-            string script = Backup.Script(this.DbServer);
-        }
+            var filePath = System.IO.Path.Combine(destinationPath, databaseName + extn);
 
-        static void backup_Complete(object sender, ServerMessageEventArgs e)
-        {
-        }
+            if (System.IO.File.Exists(filePath))
+            {
+                filePath = GetFileName(destinationPath, databaseName + count++, extn);
+            }
 
-        static void backup_PercentComplete(object sender, PercentCompleteEventArgs e)
-        {
+            return filePath;
         }
     }
 }

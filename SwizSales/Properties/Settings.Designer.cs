@@ -262,5 +262,17 @@ namespace SwizSales.Properties {
                 this["PurchaseDiscount"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BackupFolderPath {
+            get {
+                return ((string)(this["BackupFolderPath"]));
+            }
+            set {
+                this["BackupFolderPath"] = value;
+            }
+        }
     }
 }

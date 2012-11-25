@@ -8,6 +8,8 @@ using SimpleMvvmToolkit.ModelExtensions;
 using SwizSales.Core.Library;
 using System.Globalization;
 using System.Windows.Threading;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
 
 namespace SwizSales.ViewModel
 {
@@ -27,42 +29,13 @@ namespace SwizSales.ViewModel
         {
             if (!IsInDesignMode)
             {
-                Init();
+                using (var ctx = new SwizSales.Core.Model.OpenPOSDbEntities())
+                {
+                    var efConn = new System.Data.EntityClient.EntityConnection(ctx.Connection.ConnectionString);
+                    this.backupService = new DbBackupService(efConn.StoreConnection.ConnectionString);
+                }
+                this.BackupPath = Properties.Settings.Default.BackupFolderPath;
             }
-        }
-
-        private void Init()
-        {
-            using (var ctx = new SwizSales.Core.Model.OpenPOSDbEntities())
-            {
-                var efConn = new System.Data.EntityClient.EntityConnection(ctx.Connection.ConnectionString);
-                this.backupService = new DbBackupService(efConn.StoreConnection.ConnectionString);
-                this.backupService.Backup.PercentComplete += new Microsoft.SqlServer.Management.Smo.PercentCompleteEventHandler(Backup_PercentComplete);
-                this.backupService.Backup.Complete += new Microsoft.SqlServer.Management.Common.ServerMessageEventHandler(Backup_Complete);
-            }
-        }
-
-        void Backup_Complete(object sender, Microsoft.SqlServer.Management.Common.ServerMessageEventArgs e)
-        {
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            dispatcher.Invoke(DispatcherPriority.Normal, new DispatcherOperationCallback((percent) =>
-            {
-                //this.Progress = 0;
-                this.Status = "Backup completed!";
-                this.IsBusy = false;
-                return null;
-            }), null);
-        }
-
-        void Backup_PercentComplete(object sender, Microsoft.SqlServer.Management.Smo.PercentCompleteEventArgs e)
-        {
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback((percent) =>
-            {
-                this.Progress = (int)percent;
-                this.Status = string.Format(CultureInfo.CurrentCulture, "{0}% completed.", (int)percent);
-                return null;
-            }), e.Percent);
         }
 
         #endregion
@@ -132,16 +105,42 @@ namespace SwizSales.ViewModel
 
         private void Backup()
         {
-            this.Status = string.Empty;
+            this.Status = "Starting backup process...";
             this.Progress = 0;
 
             if (!string.IsNullOrEmpty(this.BackupPath))
             {
                 try
                 {
+                    Properties.Settings.Default.BackupFolderPath = this.BackupPath;
+                    Properties.Settings.Default.Save();
+
                     IsBusy = true;
-                    Init();
-                    this.backupService.BackupDataBase(this.BackupPath);
+
+                    System.Threading.Tasks.Task.Factory.StartNew((patharg) =>
+                    {
+                        string path = patharg as string;
+                        this.backupService.BackupDataBase(path, (arg) =>
+                        {
+                            var dispatcher = Dispatcher.CurrentDispatcher;
+                            dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback((percent) =>
+                            {
+                                this.Progress = (int)percent / 2;
+                                this.Status = string.Format(CultureInfo.CurrentCulture, "{0}% completed.", this.Progress);
+                                return null;
+                            }), arg);
+                        }, () =>
+                        {
+                            var dispatcher = Dispatcher.CurrentDispatcher;
+                            dispatcher.Invoke(DispatcherPriority.Normal, new DispatcherOperationCallback((percent) =>
+                            {
+                                GenerateBackupScript();
+                                //this.Status = "Backup completed!";
+                                //this.IsBusy = false;
+                                return null;
+                            }), null);
+                        });
+                    }, this.BackupPath);
                 }
                 catch (Exception ex)
                 {
@@ -153,6 +152,29 @@ namespace SwizSales.ViewModel
             {
                 this.Status = "Please choose a valid backup folder!";
             }
+        }
+
+        private void GenerateBackupScript()
+        {
+            this.backupService.GenerateScriptFile(this.BackupPath, (arg) =>
+            {
+                var dispatcher = Dispatcher.CurrentDispatcher;
+                dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback((percent) =>
+                {
+                    if ((int)percent == 100)
+                    {
+                        IsBusy = false;
+                        this.Status = "Backup completed!";
+                    }
+
+                    this.Progress = 50 + ((int)percent / 2);
+                    this.Status = string.Format(CultureInfo.CurrentCulture, "{0}% completed.", this.Progress);
+                    return null;
+                }), arg);
+            }, (ex) =>
+            {
+                LogService.Error("Error while generating backup database script.", ex);
+            });
         }
 
         #endregion
