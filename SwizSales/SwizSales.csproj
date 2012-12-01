@@ -125,6 +125,7 @@
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Printing" />
+    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.0.5.0.0\lib\net40\System.Windows.Interactivity.dll</HintPath>
@@ -140,6 +141,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -153,6 +155,7 @@
     <Compile Include="Helpers\SpecialItemValueConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="Library\Extentions.cs" />
     <Compile Include="Library\MessageTokens.cs" />
     <Compile Include="Library\PrintHelper.cs" />
     <Compile Include="Library\SwizConfigurationManager.cs" />
@@ -178,6 +181,7 @@
     <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="ViewModel\PurchaseViewModel.cs" />
     <Compile Include="ViewModel\QuickSearchProductViewModel.cs" />
+    <Compile Include="ViewModel\ReportsViewModel.cs" />
     <Compile Include="ViewModel\SalesViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="ViewModel\TicketPrinterViewModel.cs" />
@@ -255,6 +259,9 @@
     </Compile>
     <Compile Include="Views\QuickOrdersView.xaml.cs">
       <DependentUpon>QuickOrdersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ReportsView.xaml.cs">
+      <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SalesPage.xaml.cs">
       <DependentUpon>SalesPage.xaml</DependentUpon>
@@ -429,6 +436,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\QuickOrdersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

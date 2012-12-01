@@ -14,6 +14,15 @@ namespace SwizSales.Core.Model
         Online
     }
 
+    public enum ReportType
+    {
+        Daily,
+        Weekly,
+        Monthly,
+        Yearly,
+        SpecificPeriod
+    }
+
     public class OrderSearchCondition
     {
         public int OrderNo { get; set; }

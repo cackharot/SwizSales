@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="SwizSales.Views.ReportsView"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:SwizSales"
+             xmlns:toolkit="http://schemas.microsoft.com/wpf/2008/toolkit"
+             xmlns:chartingToolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=ReportsViewModel}"
+            d:DesignHeight="700" d:DesignWidth="1000">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0,5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Type:" Grid.Column="0" VerticalAlignment="Center"></TextBlock>
+            <ComboBox Grid.Column="1" ItemsSource="{Binding Path=SalesChartTypes}" SelectedItem="{Binding Path=SelectedSalesChartType}"
+                      Margin="10,0" VerticalAlignment="Center"/>
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <toolkit:DatePicker SelectedDate="{Binding Path=FromSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <toolkit:DatePicker SelectedDate="{Binding Path=ToSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            </StackPanel>
+            <Button Grid.Column="3" Command="{Binding Path=LoadSalesReportCommand}" Content="Load" Width="80" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Rupee Foradian"
+                       FontSize="14" FontWeight="Bold" Text="{Binding Path=GrandTotal,StringFormat='Grand Total: {0:C}'}"/>
+            <chartingToolkit:Chart Grid.Row="1" Title="{Binding Path=Title}">
+                <chartingToolkit:Chart.Style>
+                    <Style TargetType="{x:Type chartingToolkit:Chart}">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsBusy}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsBusy}" Value="False">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </chartingToolkit:Chart.Style>
+                <chartingToolkit:ColumnSeries DependentValuePath="Value" IndependentValuePath="Key"
+                                              ItemsSource="{Binding Path=SalesChartValues}" IsSelectionEnabled="False" 
+                                              AnimationSequence="FirstToLast" Title="Sales" />
+            </chartingToolkit:Chart>
+        </Grid>
+        <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
+    </Grid>
+    <UserControl.Resources>
+    </UserControl.Resources>
+</UserControl>
