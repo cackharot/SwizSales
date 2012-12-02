@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Data;
 using System.Windows;
 
-namespace SwizSales.Helpers
+namespace SwizSales
 {
     public class BoolToVisibilityConverter : IValueConverter
     {

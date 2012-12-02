@@ -30,7 +30,7 @@ namespace SwizSales.Views
 
             if (item != null)
             {
-                lstOrders.SelectedItem = item.DataContext;
+                //lstOrders.SelectedItem = item.DataContext;
             }
         }
     }

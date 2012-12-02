@@ -170,12 +170,12 @@ namespace SwizSales.Core.Model
         {
             if (!dontChange)
             {
-                var ap = this.MRP - (this.MRP * (this.Discount / 100.0));
-                if (ap != this.Price)
-                {
-                    //System.Diagnostics.Trace.WriteLine(string.Format("Price diff: Calculated: {0:C}, Actual: {1:C}", ap, this.Price));
-                }
-                this.Price = ap;
+                /* var ap = this.MRP - (this.MRP * (this.Discount / 100.0));
+                 if (ap != this.Price)
+                 {
+                     //System.Diagnostics.Trace.WriteLine(string.Format("Price diff: Calculated: {0:C}, Actual: {1:C}", ap, this.Price));
+                 }
+                 this.Price = ap;*/
             }
         }
 

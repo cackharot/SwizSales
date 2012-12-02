@@ -26,9 +26,9 @@
         <Label Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Paid Amount</Label>
         <Label Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0">Print Ticket</Label>
 
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Path=BillNo}"/>
+        <TextBlock VerticalAlignment="Center" Grid.Column="1" Grid.Row="0" Text="{Binding Path=BillNo}"/>
         <TextBlock FontSize="28" Foreground="Green" FontWeight="Bold" Grid.Column="1" Grid.Row="1" Style="{StaticResource CurrencyTextBlock}" 
-                   HorizontalAlignment="Left"
+                   HorizontalAlignment="Stretch" VerticalAlignment="Center"
                    Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}"/>
         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
             <TextBlock FontSize="14" MinWidth="220">

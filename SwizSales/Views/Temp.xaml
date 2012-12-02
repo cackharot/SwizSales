@@ -6,6 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="300">
     <StackPanel Orientation="Vertical">
+        <TextBlock FontSize="48" Foreground="#FFE5E5E5">ABCDEFG</TextBlock>
         <FlowDocumentReader>
             <FlowDocument PageHeight="520" PageWidth="300" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Background="White"
                           FontFamily="DejaVu Sans Condensed" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" DataContext="{Binding}" x:Name="flowDoc">

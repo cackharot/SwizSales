@@ -12,12 +12,12 @@
     
     
     <!--General-->
-    <!--<SolidColorBrush x:Key="BackgroundHighlighted" Color="#54545C"/>
-    <SolidColorBrush x:Key="BorderBrushHighlighted" Color="#6A6A75"/>
-    <SolidColorBrush x:Key="BackgroundNormal" Color="#3F3F46"/>
-    <SolidColorBrush x:Key="BackgroundSelected" Color="#007ACC"/>-->
+    <SolidColorBrush x:Key="BackgroundHighlighted" Color="#FF88D7F2"/>
+    <SolidColorBrush x:Key="BorderBrushHighlighted" Color="#FF75B8FF"/>
+    <SolidColorBrush x:Key="BackgroundNormal" Color="White"/>
+    <SolidColorBrush x:Key="BackgroundSelected" Color="#EF5CCEFF"/>
     <SolidColorBrush x:Key="BorderBrushSelected" Color="#1C97EA"/>
-    <SolidColorBrush x:Key="BorderBrushNormal" Color="#54545C"/>
+    <SolidColorBrush x:Key="BorderBrushNormal" Color="#FFCBCBCB"/>
    
     <!--Text Box-->
     <!--<SolidColorBrush x:Key="TextBoxBackground" Color="#FFFFFFFF"/>

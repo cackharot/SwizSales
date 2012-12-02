@@ -9,6 +9,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignHeight="350" d:DesignWidth="800">
     <UserControl.Resources>
+        <local:BoolToVisibilityConverter x:Key="boolToVis" />
+        <local:SpecialItemValueConverter x:Key="spValueConv" />
         <Style TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
@@ -18,94 +20,114 @@
         </Style>
     </UserControl.Resources>
     <Controls:TransitioningContentControl Transition="DownTransition">
-        <ListView local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" AlternationCount="2"
+        <Grid>
+            <ListView local:ControlItemDoubleClick.ItemsDoubleClick="True" Grid.IsSharedSizeScope="True" AlternationCount="2"
                  x:Name="lstOrders" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding}" KeyboardNavigation.TabNavigation="Continue" local:GridViewColumnResize.Enabled="True"
                  SelectedItem="{Binding DataContext.SelectedLineItem,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Style.Resources>
-                        <local:SpecialItemValueConverter x:Key="spValueConv" />
-                    </Style.Resources>
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                    <EventSetter Event="GotFocus" Handler="Item_GotFocus"/>
-                    <Style.Triggers>
-                        <!--<Trigger Property="ItemsControl.AlternationIndex" Value="0">
-                            <Setter Property="Background" Value="Transparent"/>
-                        </Trigger>
-                        <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                            <Setter Property="Background" Value="#FFFFFFC1"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="LightSkyBlue"/>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#FF00B5FF"/>
-                        </Trigger>-->
-                        <DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="True">
-                            <Setter Property="Foreground" Value="#FFED0072" />
-                        </DataTrigger>
-                        <!--<DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="False">
-                            <Setter Property="Background" Value="Transparent" />
-                        </DataTrigger>-->
-                    </Style.Triggers>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Barcode" DisplayMemberBinding="{Binding Path=Barcode}" Width="130" />
-                    <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="0.8*">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=ItemName,UpdateSourceTrigger=PropertyChanged}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="MRP" Width="120">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=MRP,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Discount" Width="110">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Price" Width="120">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Price,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Quantity" Width="110">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBox VerticalAlignment="Center" FontSize="16" Text="{Binding Path=Quantity,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
-                                         TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Header="Line Total" Width="140">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" VerticalAlignment="Center" FontSize="16" Text="{Binding Path=LineTotal,StringFormat='{}{0:C}'}" 
-                                         TextAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-            <ListView.InputBindings>
-                <KeyBinding Command="{Binding DataContext.DeleteLineItemCommand,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}" Gesture="DELETE" />
-            </ListView.InputBindings>
-        </ListView>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type TextBlock}" x:Key="GridBlockStyle">
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Visibility" Value="{Binding Path=IsSelected,
+                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ListViewItem}},Converter={StaticResource boolToVis},ConverterParameter=False}" />
+                    </Style>
+                    <Style TargetType="{x:Type FrameworkElement}" x:Key="GridEditStyle">
+                        <Setter Property="VerticalAlignment" Value="Center" />
+                        <Setter Property="Visibility" Value="{Binding Path=IsSelected,
+                            RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ListViewItem}},Converter={StaticResource boolToVis},ConverterParameter=True}" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey=StandardListViewItem}" >
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="True">
+                                <Setter Property="Foreground" Value="#FFED0072" />
+                            </DataTrigger>
+                            <!--<DataTrigger Binding="{Binding Barcode, Converter={StaticResource spValueConv}}" Value="False">
+                                <Setter Property="Background" Value="Transparent" />
+                            </DataTrigger>-->
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Barcode" Width="110">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=Barcode}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="0.8*">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=ItemName}" Style="{StaticResource GridBlockStyle}"/>
+                                        <TextBox FontSize="14" VerticalAlignment="Center" Text="{Binding Path=ItemName,UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource GridEditStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="MRP" Width="110">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=MRP,StringFormat='{}{0:#,##.##}'}" TextAlignment="Right" Style="{StaticResource GridBlockStyle}"/>
+                                        <TextBox VerticalAlignment="Center" Text="{Binding Path=MRP,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
+                                         TextAlignment="Right" FontSize="14" Style="{StaticResource GridEditStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Discount" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}'}" TextAlignment="Right" Style="{StaticResource GridBlockStyle}"/>
+                                        <TextBox VerticalAlignment="Center" Text="{Binding Path=Discount,StringFormat='{}{0:#,#0.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
+                                         TextAlignment="Right" FontSize="14" Style="{StaticResource GridEditStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Price" Width="110">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=Price,StringFormat='{}{0:#,##.##}'}" TextAlignment="Right" Style="{StaticResource GridBlockStyle}"/>
+                                        <TextBox VerticalAlignment="Center" Text="{Binding Path=Price,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
+                                          FontSize="14" TextAlignment="Right" Style="{StaticResource GridEditStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Quantity" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock FontSize="14" VerticalAlignment="Center" Text="{Binding Path=Quantity,StringFormat='{}{0:#,##.##}'}" TextAlignment="Right" Style="{StaticResource GridBlockStyle}"/>
+                                        <TextBox VerticalAlignment="Center" Text="{Binding Path=Quantity,StringFormat='{}{0:#,##.##}',UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,ValidatesOnExceptions=True}" 
+                                         TextAlignment="Right" FontSize="14" Style="{StaticResource GridEditStyle}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Line Total" Width="120">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" VerticalAlignment="Center" Text="{Binding Path=LineTotal,StringFormat='{}{0:C}'}" 
+                                         TextAlignment="Right" FontSize="16"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+                <ListView.InputBindings>
+                    <KeyBinding Command="{Binding DataContext.DeleteLineItemCommand,RelativeSource={RelativeSource FindAncestor, AncestorType=DockPanel}}" Gesture="DELETE" />
+                </ListView.InputBindings>
+            </ListView>
+        </Grid>
     </Controls:TransitioningContentControl>
 </UserControl>
