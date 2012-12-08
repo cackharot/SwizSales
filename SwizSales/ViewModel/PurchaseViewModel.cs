@@ -60,8 +60,6 @@ namespace SwizSales.ViewModel
                 if (res != null)
                     this.Purchases = new ObservableCollection<Purchase>(res);
             };
-
-            DoSearch();
         }
 
         void Search(object sender, DoWorkEventArgs e)

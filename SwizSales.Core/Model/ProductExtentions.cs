@@ -177,8 +177,36 @@ namespace SwizSales.Core.Model
             dest.Stock = src.Stock;
             dest.MinStock = src.MinStock;
             dest.Status = src.Status;
+            dest.Sold = src.Sold;
+        }
+
+        private double _sold;
+        public double Sold
+        {
+            get { return _sold; }
+            set
+            {
+                _sold = value;
+                OnPropertyChanged("Sold");
+            }
+        }
+
+        private double _subTotal;
+        public double SubTotal
+        {
+            get
+            {
+                return _subTotal;
+            }
+            set
+            {
+                _subTotal = value;
+                OnPropertyChanged("SubTotal");
+            }
         }
 
         #endregion
+
+
     }
 }

@@ -12,7 +12,7 @@ namespace SwizSales
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
+            if (value != null && !string.IsNullOrEmpty(value.ToString()))
             {
                 if (value.ToString().StartsWith("."))
                 {

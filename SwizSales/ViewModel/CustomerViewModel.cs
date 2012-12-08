@@ -31,13 +31,15 @@ namespace SwizSales.ViewModel
         #region Initialization and Cleanup
 
         internal ICustomerService serviceAgent;
-        internal IReportService reportService;
+        private IReportService reportService;
+        private ISettingsService settingsService;
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
         public CustomerViewModel(ICustomerService serviceAgent, IReportService reportService)
         {
             this.serviceAgent = serviceAgent;
             this.reportService = reportService;
+            this.settingsService = new SettingsService();
             this.SearchCondition = new CustomerSearchCondition();
             this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
             Init();
@@ -111,6 +113,17 @@ namespace SwizSales.ViewModel
                 NotifyPropertyChanged(m => m.SearchCondition);
             }
         }
+        
+        private DateTime customerPointDate;
+        public DateTime CustomerPointStartDate
+        {
+            get { return customerPointDate; }
+            set
+            {
+                customerPointDate = value;
+                NotifyPropertyChanged(m => m.CustomerPointStartDate);
+            }
+        }
 
         #endregion
 
@@ -139,8 +152,17 @@ namespace SwizSales.ViewModel
                     this.CustomerCollection = new ObservableCollection<Customer>(res);
                 }
             };
+            
+            var cusPointSetting = this.settingsService.GetSettingById(Constants.CustomerPointsStartDateId);
 
-            DoSearch();
+            if (cusPointSetting != null && !string.IsNullOrEmpty(cusPointSetting.Value))
+            {
+                this.CustomerPointStartDate = DateTime.Parse(cusPointSetting.Value);
+            }
+            else
+            {
+                this.CustomerPointStartDate = DateTime.Parse("01/01/" + DateTime.Now.Year);
+            }
         }
 
         void Search(object sender, DoWorkEventArgs e)
@@ -155,7 +177,7 @@ namespace SwizSales.ViewModel
                 {
                     var customerIds = cuslst.Where(x => x.Id != Settings.Default.DefaultCustomerId).Select(x => x.Id).Distinct();
 
-                    var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds);
+                    var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds,this.CustomerPointStartDate);
 
                     if (cusTotalAmounts != null)
                     {

@@ -160,7 +160,7 @@ namespace SwizSales.ViewModel
 
                     if (_model.Customer.Id != Settings.Default.DefaultCustomerId)
                     {
-                        var totalAmount = this.reportService.GetCusomerTotalAmount(_model.Customer.Id);
+                        var totalAmount = this.reportService.GetCusomerTotalAmount(_model.Customer.Id, this.CustomerPointStartDate);
                         _model.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);
                     }
                 }
@@ -281,6 +281,17 @@ namespace SwizSales.ViewModel
                 _itemName = value;
                 NotifyPropertyChanged(m => m.ItemName);
                 AddLineItemCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private DateTime customerPointDate;
+        public DateTime CustomerPointStartDate
+        {
+            get { return customerPointDate; }
+            set
+            {
+                customerPointDate = value;
+                NotifyPropertyChanged(m => m.CustomerPointStartDate);
             }
         }
 
@@ -684,7 +695,7 @@ namespace SwizSales.ViewModel
 
                                 if (cus.Id != Settings.Default.DefaultCustomerId && cus.Points == 0)
                                 {
-                                    var totalAmount = this.reportService.GetCusomerTotalAmount(cus.Id);
+                                    var totalAmount = this.reportService.GetCusomerTotalAmount(cus.Id, this.CustomerPointStartDate);
                                     this.Model.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);
                                 }
 
@@ -854,7 +865,7 @@ namespace SwizSales.ViewModel
 
         private void LoadTemplates()
         {
-            this.Templates = new ObservableCollection<Setting>(this.settingsService.GetSettingsByCategory("Templates"));
+            this.Templates = new ObservableCollection<Setting>(this.settingsService.GetSettingsByCategory(Constants.Category.Templates));
 
             if (this.Templates != null && this.Templates.Count > 0)
             {
@@ -866,6 +877,17 @@ namespace SwizSales.ViewModel
                         break;
                     }
                 }
+            }
+
+            var cusPointSetting = this.settingsService.GetSettingById(Constants.CustomerPointsStartDateId);
+
+            if (cusPointSetting != null && !string.IsNullOrEmpty(cusPointSetting.Value))
+            {
+                this.CustomerPointStartDate = DateTime.Parse(cusPointSetting.Value);
+            }
+            else
+            {
+                this.CustomerPointStartDate = DateTime.Parse("01/01/" + DateTime.Now.Year);
             }
         }
 

@@ -87,9 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Library\ApplicationSettings.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Library\ContextExtensions.cs" />
     <Compile Include="Library\DbBackupService.cs" />
     <Compile Include="Library\LogService.cs" />

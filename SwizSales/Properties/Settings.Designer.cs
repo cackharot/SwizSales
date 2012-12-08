@@ -97,7 +97,7 @@ namespace SwizSales.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("330")]
+        [global::System.Configuration.DefaultSettingValueAttribute("303")]
         public double TicketWidth {
             get {
                 return ((double)(this["TicketWidth"]));

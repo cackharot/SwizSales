@@ -14,6 +14,7 @@ using SwizSales.Core.ServiceContracts;
 using System.ComponentModel;
 using SwizSales.Core.Model;
 using System.Globalization;
+using SwizSales.Properties;
 
 namespace SwizSales.ViewModel
 {
@@ -25,6 +26,14 @@ namespace SwizSales.ViewModel
     /// </summary>
     public class ReportsViewModel : ViewModelBase<ReportsViewModel>
     {
+        class ReportOutput
+        {
+            public List<KeyValuePair<string, double>> SalesChartValues { get; set; }
+            public int TotalOrders { get; set; }
+            public ICollection<Product> TopProducts { get; set; }
+            public ICollection<Customer> TopCustomers { get; set; }
+        }
+
         #region Initialization and Cleanup
 
         private IReportService reportService;
@@ -58,21 +67,50 @@ namespace SwizSales.ViewModel
                     return;
                 }
 
-                var res = e.Result as List<KeyValuePair<string, double>>;
+                var res = e.Result as ReportOutput;
 
                 if (res != null)
                 {
-                    this.SalesChartValues = res;
-                    this.GrandTotal = res.Sum(x => x.Value);
+                    this.SalesChartValues = res.SalesChartValues;
+                    this.TotalAmount = res.SalesChartValues.Sum(x => x.Value);
+                    this.TotalOrders = res.TotalOrders;
+
+                    if (res.TopCustomers != null && res.TopCustomers.Count > 0)
+                    {
+                        foreach (var c in res.TopCustomers)
+                        {
+                            c.Points = Convert.ToInt32(c.TotalAmount / Settings.Default.CustomerPointsAmount);
+                        }
+
+                        this.TopCustomers = new ObservableCollection<Customer>(res.TopCustomers.OrderByDescending(x => x.Points));
+                    }
+                    else
+                    {
+                        this.TopCustomers = new ObservableCollection<Customer>();
+                    }
+
+                    if (res.TopProducts != null && res.TopProducts.Count > 0)
+                    {
+                        this.TopProducts = new ObservableCollection<Product>(res.TopProducts.OrderByDescending(x => x.Sold));
+                    }
+                    else
+                    {
+                        this.TopProducts = new ObservableCollection<Product>();
+                    }
                 }
             };
         }
 
         void LoadSalesReport(object sender, DoWorkEventArgs e)
         {
-            var results = new List<KeyValuePair<string, double>>();
+            var results = new ReportOutput();
             var dateAmtList = new Dictionary<DateTime, double>();
             string formatString = "dd/MM/yyyy";
+
+            results.SalesChartValues = new List<KeyValuePair<string, double>>();
+            results.TotalOrders = this.reportService.GetTotalOrders(this.FromSearchDate, this.ToSearchDate);
+            results.TopCustomers = this.reportService.GetTopCustomers(10, this.FromSearchDate, this.ToSearchDate);
+            results .TopProducts = this.reportService.GetTopProducts(10, this.FromSearchDate, this.ToSearchDate);
 
             ReportType repType = (ReportType)Enum.Parse(typeof(ReportType), e.Argument as string);
 
@@ -303,13 +341,11 @@ namespace SwizSales.ViewModel
                 foreach (var item in dateAmtList)
                 {
                     var key = item.Key.ToString(formatString);
-                    results.Add(new KeyValuePair<string, double>(key, item.Value));
+                    results.SalesChartValues.Add(new KeyValuePair<string, double>(key, item.Value));
                 }
             }
 
             e.Result = results;
-
-            Thread.Sleep(500);
         }
 
         void DoLoad()
@@ -320,7 +356,7 @@ namespace SwizSales.ViewModel
             }
 
             this.SalesChartValues = new List<KeyValuePair<string, double>>();
-            this.GrandTotal = 0;
+            this.TotalAmount = 0;
 
             if (this.worker.IsBusy)
             {
@@ -330,6 +366,31 @@ namespace SwizSales.ViewModel
             IsBusy = true;
 
             this.worker.RunWorkerAsync(this.SelectedSalesChartType);
+        }
+
+        void SetSearchDates(ReportType repType)
+        {
+            switch (repType)
+            {
+                case ReportType.Daily:
+                    this.FromSearchDate = DateTime.Today;
+                    this.ToSearchDate = DateTime.Today;
+                    break;
+                case ReportType.Weekly:
+                    this.FromSearchDate = DateTime.Today.AddDays(-7);
+                    this.ToSearchDate = DateTime.Now;
+                    break;
+                case ReportType.Monthly:
+                    this.FromSearchDate = DateTime.Parse("01/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
+                    this.ToSearchDate = DateTime.Parse(DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month) + "/" + DateTime.Today.Month + "/" + DateTime.Today.Year);
+                    break;
+                case ReportType.Yearly:
+                    this.FromSearchDate = DateTime.Parse("01/01/" + DateTime.Today.Year);
+                    this.ToSearchDate = DateTime.Today;
+                    break;
+                case ReportType.SpecificPeriod:
+                    break;
+            }
         }
 
         #endregion
@@ -390,7 +451,12 @@ namespace SwizSales.ViewModel
         public string SelectedSalesChartType
         {
             get { return _selectedSalesChartType; }
-            set { _selectedSalesChartType = value; NotifyPropertyChanged(m => m.SelectedSalesChartType); }
+            set
+            {
+                _selectedSalesChartType = value;
+                NotifyPropertyChanged(m => m.SelectedSalesChartType);
+                SetSearchDates((ReportType)Enum.Parse(typeof(ReportType), value));
+            }
         }
 
         private ObservableCollection<string> _salesChartTypes;
@@ -416,13 +482,46 @@ namespace SwizSales.ViewModel
         }
 
         private double _grandTotal;
-        public double GrandTotal
+        public double TotalAmount
         {
             get { return _grandTotal; }
             set
             {
                 _grandTotal = value;
-                NotifyPropertyChanged(m => m.GrandTotal);
+                NotifyPropertyChanged(m => m.TotalAmount);
+            }
+        }
+
+        private int totalOrders;
+        public int TotalOrders
+        {
+            get { return totalOrders; }
+            set
+            {
+                totalOrders = value;
+                NotifyPropertyChanged(m => m.TotalOrders);
+            }
+        }
+
+        private ObservableCollection<Product> topProducts;
+        public ObservableCollection<Product> TopProducts
+        {
+            get { return topProducts; }
+            set
+            {
+                topProducts = value;
+                NotifyPropertyChanged(m => m.TopProducts);
+            }
+        }
+
+        private ObservableCollection<Customer> topCustomers;
+        public ObservableCollection<Customer> TopCustomers
+        {
+            get { return topCustomers; }
+            set
+            {
+                topCustomers = value;
+                NotifyPropertyChanged(m => m.TopCustomers);
             }
         }
 

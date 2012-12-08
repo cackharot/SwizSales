@@ -53,7 +53,7 @@
                     <v:QuickOrdersView Grid.Row="2" x:Name="todayOrders" DataContext="{Binding TodayOrders}" Margin="0,5,0,0" SnapsToDevicePixels="True"/>
                 </Grid>
             </Grid>
-        </Expander>
+        </Expander> 
         <Border BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
         <StackPanel Orientation="Vertical" DockPanel.Dock="Right" Margin="5,0,0,0" MinWidth="210">
             <StackPanel Orientation="Horizontal">

@@ -148,8 +148,6 @@ namespace SwizSales.ViewModel
                 if (res != null)
                     this.Orders = new ObservableCollection<Order>(res);
             };
-
-            DoSearch();
         }
 
         void Search(object sender, DoWorkEventArgs e)

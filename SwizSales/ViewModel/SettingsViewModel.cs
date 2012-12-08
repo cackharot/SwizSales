@@ -50,12 +50,23 @@ namespace SwizSales.ViewModel
 
         private void LoadMockOrder()
         {
-            this.Order = new OrderService().Search(new OrderSearchCondition { PageNo = 1, PageSize = 1, FromOrderDate = DateTime.MinValue, ToOrderDate = DateTime.MinValue }).FirstOrDefault();
+            this.Order = new OrderService().Search(new OrderSearchCondition { PageNo = 1, PageSize = 1 }).FirstOrDefault();
         }
 
         private void LoadTemplates()
         {
-            this.Templates = new ObservableCollection<Setting>(this.settingService.GetSettingsByCategory("Templates"));
+            this.Templates = new ObservableCollection<Setting>(this.settingService.GetSettingsByCategory(Constants.Category.Templates));
+
+            var cusPointSetting = this.settingService.GetSettingById(Constants.CustomerPointsStartDateId);
+
+            if (cusPointSetting != null && !string.IsNullOrEmpty(cusPointSetting.Value))
+            {
+                this.CustomerPointStartDate = DateTime.Parse(cusPointSetting.Value);
+            }
+            else
+            {
+                this.CustomerPointStartDate = DateTime.Parse("01/01/" + DateTime.Now.Year);
+            }
         }
 
         private void LoadPrinters()
@@ -307,6 +318,17 @@ namespace SwizSales.ViewModel
             }
         }
 
+        private DateTime customerPointDate;
+        public DateTime CustomerPointStartDate
+        {
+            get { return customerPointDate; }
+            set
+            {
+                customerPointDate = value;
+                NotifyPropertyChanged(m => m.CustomerPointStartDate);
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -321,6 +343,16 @@ namespace SwizSales.ViewModel
                     try
                     {
                         Properties.Settings.Default.Save();
+
+                        this.settingService.Update(new Setting
+                        {
+                            Id = Constants.CustomerPointsStartDateId,
+                            Name = "CustomerPointsStartDate",
+                            Value = this.CustomerPointStartDate.ToString(),
+                            Category = Constants.Category.Application,
+                            UpdatedOn = DateTime.Now,
+                            Status = true
+                        });
                     }
                     catch (Exception error)
                     {

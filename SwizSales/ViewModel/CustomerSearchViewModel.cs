@@ -30,8 +30,9 @@ namespace SwizSales.ViewModel
         #region Initialization and Cleanup
 
         private readonly BackgroundWorker worker = new BackgroundWorker();
-        internal ICustomerService serviceAgent;
-        internal IReportService reportService;
+        private ICustomerService serviceAgent;
+        private IReportService reportService;
+        private ISettingsService settingsService;
 
         public CustomerSearchViewModel() : this(new CustomerService(), new ReportService()) { }
 
@@ -39,6 +40,7 @@ namespace SwizSales.ViewModel
         {
             this.serviceAgent = serviceAgent;
             this.reportService = reportService;
+            this.settingsService = new SettingsService();
             Init();
         }
 
@@ -63,6 +65,17 @@ namespace SwizSales.ViewModel
                 if (lst != null)
                     this.CustomerList = new ObservableCollection<Customer>(lst);
             };
+
+            var cusPointSetting = this.settingsService.GetSettingById(Constants.CustomerPointsStartDateId);
+
+            if (cusPointSetting != null && !string.IsNullOrEmpty(cusPointSetting.Value))
+            {
+                this.CustomerPointStartDate = DateTime.Parse(cusPointSetting.Value);
+            }
+            else
+            {
+                this.CustomerPointStartDate = DateTime.Parse("01/01/" + DateTime.Now.Year);
+            }
         }
 
         #endregion
@@ -126,20 +139,15 @@ namespace SwizSales.ViewModel
             }
         }
 
-        private DelegateCommand _selectCommand;
-        public DelegateCommand SelectCommand
+        private DateTime customerPointDate;
+        public DateTime CustomerPointStartDate
         {
-            get
+            get { return customerPointDate; }
+            set
             {
-                return _selectCommand ?? (_selectCommand = new DelegateCommand(() =>
-                {
-                    if (this.CloseNotice != null)
-                    {
-                        this.CloseNotice(this, new NotificationEventArgs());
-                    }
-                }));
+                customerPointDate = value;
+                NotifyPropertyChanged(m => m.CustomerPointStartDate);
             }
-            private set { _selectCommand = value; }
         }
 
         #endregion
@@ -169,7 +177,7 @@ namespace SwizSales.ViewModel
                     {
                         var customerIds = cuslst.Where(x => x.Id != Settings.Default.DefaultCustomerId).Select(x => x.Id).Distinct();
 
-                        var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds);
+                        var cusTotalAmounts = this.reportService.GetCusomerTotalAmount(customerIds, this.CustomerPointStartDate);
 
                         if (cusTotalAmounts != null)
                         {
@@ -216,6 +224,22 @@ namespace SwizSales.ViewModel
         {
             get { return searchCommand ?? (searchCommand = new DelegateCommand(() => { DoSearch(); })); }
             private set { searchCommand = value; }
+        }
+
+        private DelegateCommand _selectCommand;
+        public DelegateCommand SelectCommand
+        {
+            get
+            {
+                return _selectCommand ?? (_selectCommand = new DelegateCommand(() =>
+                {
+                    if (this.CloseNotice != null)
+                    {
+                        this.CloseNotice(this, new NotificationEventArgs());
+                    }
+                }));
+            }
+            private set { _selectCommand = value; }
         }
 
         #endregion

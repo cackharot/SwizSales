@@ -21,7 +21,7 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="TicketWidth" Type="System.Double" Scope="User">
-      <Value Profile="(Default)">330</Value>
+      <Value Profile="(Default)">303</Value>
     </Setting>
     <Setting Name="TicketHeight" Type="System.Double" Scope="User">
       <Value Profile="(Default)">0</Value>

@@ -159,8 +159,6 @@ namespace SwizSales.ViewModel
                     this.ProductCollection = new ObservableCollection<Product>(res);
                 }
             };
-
-            DoSearch();
         }
 
         void Search(object sender, DoWorkEventArgs e)

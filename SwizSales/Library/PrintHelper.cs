@@ -74,14 +74,14 @@ namespace SwizSales
                 XmlElement rowTemplate = (XmlElement)itemRow.CloneNode(true);
                 rowGroup.RemoveChild(itemRow);
 
-                foreach (var orderItem in order.OrderDetails.Where(x => !x.Barcode.StartsWith(".")))
+                foreach (var orderItem in order.OrderDetails.Where(x => string.IsNullOrEmpty(x.Barcode) || !x.Barcode.StartsWith(".")))
                 {
                     XmlElement newRow = GetItemRow(rowTemplate, orderItem);
                     rowGroup.PrependChild(newRow);
                 }
             }
 
-            var specialItems = order.OrderDetails.Where(x => x.Barcode.StartsWith(".")).ToList();
+            var specialItems = order.OrderDetails.Where(x => !string.IsNullOrEmpty(x.Barcode) && x.Barcode.StartsWith(".")).ToList();
 
             if (specialItemRow != null && specialItemRow.ParentNode != null)
             {
@@ -175,7 +175,7 @@ namespace SwizSales
                             cell.FirstChild.InnerText = orderItem.Price.ToString("F2");
                             break;
                         case "Quantity":
-                            cell.FirstChild.InnerText = orderItem.Quantity.ToString("F1");
+                            cell.FirstChild.InnerText = orderItem.Quantity.ToString("N0");
                             break;
                         case "Discount":
                             cell.FirstChild.InnerText = orderItem.Discount.ToString("P");

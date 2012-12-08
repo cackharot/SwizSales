@@ -51,7 +51,7 @@
                 </ListView.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Barcode" Width="110">
+                        <GridViewColumn Header="Barcode" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -60,7 +60,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="0.8*">
+                        <GridViewColumn Header="Name" Width="Auto" local:GridViewColumnResize.Width="0.7*">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -70,7 +70,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="MRP" Width="110">
+                        <GridViewColumn Header="MRP" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -81,7 +81,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Discount" Width="100">
+                        <!--<GridViewColumn Header="Discount" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -91,8 +91,8 @@
                                     </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Price" Width="110">
+                        </GridViewColumn>-->
+                        <GridViewColumn Header="Price" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -103,7 +103,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Quantity" Width="100">
+                        <GridViewColumn Header="Quantity" Width="80">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -114,7 +114,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Line Total" Width="120">
+                        <GridViewColumn Header="Line Total" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" VerticalAlignment="Center" Text="{Binding Path=LineTotal,StringFormat='{}{0:C}'}" 

@@ -47,8 +47,6 @@ namespace SwizSales.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
-        // TODO: Use mvvmlocator or mvvmlocatornosa code snippets
-        // to add ViewModels to the locator.
         // Create MainViewModel on demand
         public MainViewModel MainViewModel
         {

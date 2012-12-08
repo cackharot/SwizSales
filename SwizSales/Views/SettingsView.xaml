@@ -5,12 +5,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=SettingsViewModel}"
-             d:DesignHeight="500" d:DesignWidth="840">
+             d:DesignHeight="700" d:DesignWidth="840">
     <TabControl Margin="0,10,0,0">
         <TabItem Header="Settings">
             <Controls:MetroContentControl>
                 <Grid Margin="10">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
                         <RowDefinition Height="40" />
@@ -28,16 +29,17 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0">Language</Label>
-                    <Label Grid.Column="0" Grid.Row="1">Currency Symbol</Label>
-                    <Label Grid.Column="0" Grid.Row="2">Auto Print</Label>
-                    <Label Grid.Column="0" Grid.Row="3">Customer Points Amount</Label>
-                    <Label Grid.Column="0" Grid.Row="4">Ticket Printer</Label>
-                    <Label Grid.Column="0" Grid.Row="5">Barocde Printer</Label>
-                    <Label Grid.Column="0" Grid.Row="6">Report Printer</Label>
-                    <Label Grid.Column="0" Grid.Row="7">Ticket Size</Label>
-                    <Label Grid.Column="0" Grid.Row="8">Report Size</Label>
-                    <Label Grid.Column="0" Grid.Row="9">Purchase Discount Percentage</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="0">Language</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="1">Currency Symbol</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="2">Auto Print</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="3">Customer Points Amount</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="4">Ticket Printer</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="5">Barocde Printer</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="6">Report Printer</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="7">Ticket Size</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="8">Report Size</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="9">Purchase Discount</Label>
+                    <Label VerticalAlignment="Center" Grid.Column="0" Grid.Row="10">Customer Points Start Date</Label>
 
                     <ComboBox Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" 
                   ItemsSource="{Binding Path=Languages}" SelectedItem="{Binding Path=SelectedLanguage}"
@@ -76,8 +78,10 @@
                     </StackPanel>
 
                     <TextBox Grid.Column="1" Grid.Row="9" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" Text="{Binding Path=PurchaseDiscount}"/>
+                    
+                    <DatePicker Grid.Column="1" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center" Width="220" SelectedDate="{Binding Path=CustomerPointStartDate}"/>
 
-                    <StackPanel Grid.ColumnSpan="2" Grid.Row="10" HorizontalAlignment="Left" Margin="165,5" Orientation="Horizontal">
+                    <StackPanel Grid.ColumnSpan="2" Grid.Row="11" HorizontalAlignment="Left" Margin="165,5" Orientation="Horizontal">
                         <Button Command="{Binding ResetCommand}" Content="Reset" Width="80" Height="30" Margin="0,0,10,0"/>
                         <Button Command="{Binding SaveCommand}" Content="Save" Width="80" Height="30"/>
                     </StackPanel>

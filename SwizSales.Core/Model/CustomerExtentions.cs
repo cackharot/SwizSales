@@ -51,6 +51,13 @@ namespace SwizSales.Core.Model
             get { return _points; }
             set { _points = value; OnPropertyChanged("Points"); }
         }
+
+        private double _totalAmt;
+        public double TotalAmount
+        {
+            get { return _totalAmt; }
+            set { _totalAmt = value; OnPropertyChanged("TotalAmount"); }
+        }
     }
 
     public partial class ContactDetail : IDataErrorInfo

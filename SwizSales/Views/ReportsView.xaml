@@ -9,12 +9,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator}, Path=ReportsViewModel}"
             d:DesignHeight="700" d:DesignWidth="1000">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Margin="0,5">
+    <DockPanel>
+        <Grid DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="300"/>
@@ -26,19 +22,85 @@
             <ComboBox Grid.Column="1" ItemsSource="{Binding Path=SalesChartTypes}" SelectedItem="{Binding Path=SelectedSalesChartType}"
                       Margin="10,0" VerticalAlignment="Center"/>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-                <toolkit:DatePicker SelectedDate="{Binding Path=FromSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <toolkit:DatePicker SelectedDate="{Binding Path=ToSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <toolkit:DatePicker SelectedDate="{Binding Path=FromSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0" FirstDayOfWeek="Monday" />
+                <toolkit:DatePicker SelectedDate="{Binding Path=ToSearchDate}" VerticalAlignment="Center" Margin="0,0,10,0" FirstDayOfWeek="Monday"/>
             </StackPanel>
             <Button Grid.Column="3" Command="{Binding Path=LoadSalesReportCommand}" Content="Load" Width="80" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10,0"/>
         </Grid>
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Rupee Foradian"
-                       FontSize="14" FontWeight="Bold" Text="{Binding Path=GrandTotal,StringFormat='Grand Total: {0:C}'}"/>
-            <chartingToolkit:Chart Grid.Row="1" Title="{Binding Path=Title}">
+        <Border DockPanel.Dock="Top" Margin="0,5" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Margin="5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Vertical">
+                    <Label>Total Orders</Label>
+                    <TextBlock Margin="15,0,0,0" Text="{Binding Path=TotalOrders}" FontSize="14" FontWeight="Bold"/>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <Label>Total Amount</Label>
+                    <TextBlock Margin="15,0,0,0" HorizontalAlignment="Left" Text="{Binding Path=TotalAmount,StringFormat='{}{0:C}'}" Style="{DynamicResource ResourceKey=CurrencyTextBlock}" FontSize="14" FontWeight="Bold"/>
+                </StackPanel>
+                <Label Grid.Row="2">Top Products</Label>
+                <ListView Grid.Row="3" ItemsSource="{Binding Path=TopProducts}" ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                              local:GridViewColumnResize.Enabled="True">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name}" local:GridViewColumnResize.Width="0.8*"/>
+                            <!--<GridViewColumn Header="MRP" DisplayMemberBinding="{Binding Path=MRP}"/>-->
+                            <GridViewColumn Header="Cur. Price" Width="75">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SellPrice,StringFormat='{}{0:C}'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Sold" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextAlignment="Right" HorizontalAlignment="Stretch" Text="{Binding Path=Sold}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Total" Width="95">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SubTotal,StringFormat='{}{0:C}'}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label Grid.Row="4">Top Customers</Label>
+                <ListView Grid.Row="5" ItemsSource="{Binding Path=TopCustomers}" ScrollViewer.VerticalScrollBarVisibility="Auto" local:GridViewColumnResize.Enabled="True">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="SSN" DisplayMemberBinding="{Binding Path=SSN}" Width="60"/>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=ContactDetail.ContactName}" local:GridViewColumnResize.Width="0.8*"/>
+                            <!--<GridViewColumn Header="Mobile" DisplayMemberBinding="{Binding Path=ContactDetail.Mobile}"/>-->
+                            <GridViewColumn Header="Points" Width="60">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock TextAlignment="Right" HorizontalAlignment="Stretch" Text="{Binding Path=Points}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <chartingToolkit:Chart Grid.Column="1" Title="{Binding Path=Title}">
                 <chartingToolkit:Chart.Style>
                     <Style TargetType="{x:Type chartingToolkit:Chart}">
                         <Setter Property="Visibility" Value="Visible" />
@@ -56,9 +118,9 @@
                                               ItemsSource="{Binding Path=SalesChartValues}" IsSelectionEnabled="False" 
                                               AnimationSequence="FirstToLast" Title="Sales" />
             </chartingToolkit:Chart>
+            <Controls:ProgressRing Grid.Column="1" IsActive="{Binding Path=IsBusy,Mode=OneWay}" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
         </Grid>
-        <Controls:ProgressRing IsActive="{Binding Path=IsBusy,Mode=OneWay}" Grid.Row="1" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
-    </Grid>
+    </DockPanel>
     <UserControl.Resources>
     </UserControl.Resources>
 </UserControl>
