@@ -135,7 +135,7 @@ namespace SwizSales.ViewModel
         #endregion
 
         #region Methods
-        
+
         private void Init()
         {
             worker.DoWork += new DoWorkEventHandler(Search);
@@ -194,6 +194,7 @@ namespace SwizSales.ViewModel
             {
                 this.ProductCollection.Remove(entity);
                 this.serviceAgent.Delete(entity.Id);
+                SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(string.Format("'{0}' item deleted successfully!", entity.Name)));
             }
             catch (Exception ex)
             {

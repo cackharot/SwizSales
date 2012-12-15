@@ -34,7 +34,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return Math.Round(this._TotalAmount);
+                return Math.Ceiling(this._TotalAmount);
             }
         }
 
@@ -58,7 +58,7 @@ namespace SwizSales.Core.Model
         {
             get
             {
-                return Math.Floor(this.OrderDetails.Sum(x => x.MRPLineTotal));
+                return Math.Ceiling(this.OrderDetails.Sum(x => x.MRPLineTotal));
             }
         }
 
@@ -83,7 +83,7 @@ namespace SwizSales.Core.Model
 
         public double PaidAmount
         {
-            get { return Math.Round(_PaidAmount); }
+            get { return Math.Ceiling(_PaidAmount); }
         }
 
         public double BalanceAmount

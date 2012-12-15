@@ -30,7 +30,7 @@
         <Border DockPanel.Dock="Top" Margin="0,5" BorderThickness="1" BorderBrush="{StaticResource ResourceKey=BorderBrushSelected}"/>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="350"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
@@ -45,7 +45,7 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Vertical">
                     <Label>Total Orders</Label>
-                    <TextBlock Margin="15,0,0,0" Text="{Binding Path=TotalOrders}" FontSize="14" FontWeight="Bold"/>
+                    <TextBlock Margin="15,0,0,0" Text="{Binding Path=TotalOrders,StringFormat='{}{0:N0}'}" FontSize="14" FontWeight="Bold"/>
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <Label>Total Amount</Label>
@@ -72,7 +72,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="Total" Width="95">
+                            <GridViewColumn Header="Total" Width="110">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Style="{DynamicResource ResourceKey=CurrencyTextBlock}" Text="{Binding Path=SubTotal,StringFormat='{}{0:C}'}"/>
@@ -116,7 +116,7 @@
                 </chartingToolkit:Chart.Style>
                 <chartingToolkit:ColumnSeries DependentValuePath="Value" IndependentValuePath="Key"
                                               ItemsSource="{Binding Path=SalesChartValues}" IsSelectionEnabled="False" 
-                                              AnimationSequence="FirstToLast" Title="Sales" />
+                                              AnimationSequence="Simultaneous" Title="Sales" />
             </chartingToolkit:Chart>
             <Controls:ProgressRing Grid.Column="1" IsActive="{Binding Path=IsBusy,Mode=OneWay}" Foreground="{StaticResource BorderBrushSelected}" Focusable="False"/>
         </Grid>

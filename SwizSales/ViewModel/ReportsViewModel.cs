@@ -213,7 +213,7 @@ namespace SwizSales.ViewModel
                             {
                                 while (dcnt < key.Day)
                                 {
-                                    dateAmtList.Add(frm.AddDays(dcnt), 0.0);
+                                    dateAmtList.Add(frm.AddDays(dcnt-1), 0.0);
                                     dcnt++;
                                 }
                             }
@@ -224,7 +224,7 @@ namespace SwizSales.ViewModel
 
                         while (dcnt < DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month))
                         {
-                            dateAmtList.Add(frm.AddDays(dcnt), 0.0);
+                            dateAmtList.Add(frm.AddDays(dcnt-1), 0.0);
                             dcnt++;
                         }
                     }
@@ -341,7 +341,7 @@ namespace SwizSales.ViewModel
                 foreach (var item in dateAmtList)
                 {
                     var key = item.Key.ToString(formatString);
-                    results.SalesChartValues.Add(new KeyValuePair<string, double>(key, item.Value));
+                    results.SalesChartValues.Add(new KeyValuePair<string, double>(key, Math.Round(item.Value)));
                 }
             }
 

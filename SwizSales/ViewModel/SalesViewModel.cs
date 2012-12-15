@@ -89,7 +89,6 @@ namespace SwizSales.ViewModel
             {
                 var lstOrders = this.serviceAgent.Search(condition);
                 e.Result = lstOrders;
-                Thread.Sleep(500);
             }
         }
 
@@ -102,14 +101,14 @@ namespace SwizSales.ViewModel
             if (this.worker.IsBusy)
                 this.worker.CancelAsync();
 
+            IsBusy = true;
+
             this.worker.RunWorkerAsync(new OrderSearchCondition
             {
                 FromOrderDate = DateTime.Today.AddDays(-1),
                 ToOrderDate = DateTime.Today,
-                PageSize = 100
+                PageSize = 250
             });
-
-            IsBusy = true;
         }
 
         #endregion
@@ -355,7 +354,7 @@ namespace SwizSales.ViewModel
             if (string.IsNullOrEmpty(this.Barcode))
                 return;
 
-            string value = this.Barcode;
+            string value = this.Barcode.Trim();
             double mrp;
 
             var prods = this.productService.GetProductByBarcode(value);
@@ -389,7 +388,7 @@ namespace SwizSales.ViewModel
                         OrderId = this.Model.Id,
                         Barcode = item.Barcode,
                         ProductId = item.Id,
-                        ItemName = item.Name,
+                        ItemName = string.IsNullOrEmpty(item.Name) ? string.Empty : item.Name.Trim(),
                         MRP = item.MRP,
                         Discount = item.Discount,
                         Price = item.SellPrice,
@@ -414,6 +413,7 @@ namespace SwizSales.ViewModel
             else
             {
                 SendMessage(MessageTokens.GlobalNotification, new NotificationEventArgs(string.Format("Item '{0}' not found!", value)));
+                NotifyError(string.Format("Item with barcode '{0}' not found!", value), null);
             }
         }
 
@@ -512,16 +512,9 @@ namespace SwizSales.ViewModel
             {
                 return;
             }
-
-            //if (this.Model.Customer.Id != ApplicationSettings.DefaultCustomerId)
-            //{
-            //    var totalAmount = this.reportService.GetCusomerTotalAmount(this.Model.Customer.Id);
-            //    this.Model.Customer.Points = (int)(totalAmount / Settings.Default.CustomerPointsAmount);
-            //}
-
+            
             if (printToPrinter)
             {
-                //SendMessage<Guid>(MessageTokens.PrintOrder, new NotificationEventArgs<Guid>("Print Order", this.Model.Id));
                 PrintOrderToPrinter(this.Model);
             }
             else

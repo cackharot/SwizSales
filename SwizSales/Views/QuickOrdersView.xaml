@@ -17,12 +17,13 @@
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border x:Name="bdr" BorderBrush="Transparent" BorderThickness="2" CornerRadius="0">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Left" x:Name="bdr" BorderThickness="3" CornerRadius="0" BorderBrush="Transparent"></Border>
                         <v:OrderListItem Margin="0,5" Focusable="False"/>
-                    </Border>
+                    </DockPanel>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding Path=IsPaid}" Value="False">
-                            <Setter TargetName="bdr" Property="BorderBrush" Value="Red"/>
+                            <Setter TargetName="bdr" Property="BorderBrush" Value="#FFD00748"/>
                             <Setter TargetName="bdr" Property="Background" Value="#f2f2f2ff"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding Path=IsPaid}" Value="True">

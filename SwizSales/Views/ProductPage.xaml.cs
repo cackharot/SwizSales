@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SwizSales.ViewModel;
 
 namespace SwizSales.Views
 {
@@ -22,6 +23,26 @@ namespace SwizSales.Views
         public ProductPage()
         {
             InitializeComponent();
+
+            var vm = (ProductViewModel)this.DataContext;
+
+            vm.ErrorNotice += (s, e) =>
+            {
+                MessageBox.Show(e.Message, "Error", MessageBoxButton.OK);
+            };
+
+            vm.DeleteProductNotice += (s, e) =>
+            {
+                if (e.Data != null)
+                {
+                    if (MessageBox.Show(string.Format("Are you sure to delete '{0}'?", e.Data.Name), "Delete Product", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                    {
+                        e.Completed(true);
+                    }
+                }
+
+                e.Completed(false);
+            };
         }
     }
 }

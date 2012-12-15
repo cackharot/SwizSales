@@ -79,7 +79,7 @@ namespace SwizSales.Views
 
         void vm_ErrorNotice(object sender, SimpleMvvmToolkit.NotificationEventArgs<Exception> e)
         {
-            MessageBox.Show(e.Message, "ERROR", MessageBoxButton.OK);
+            MessageBox.Show(e.Message, "Error", MessageBoxButton.OK);
         }
 
         void vm_ChangeCustomerNotice(object sender, SimpleMvvmToolkit.NotificationEventArgs<Core.Model.Order, Core.Model.Customer> e)
