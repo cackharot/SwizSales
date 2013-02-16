@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
-using SimpleMvvmToolkit.ModelExtensions;
-
 namespace SwizSales.Core.Model
 {
     public partial class Product : IDataErrorInfo, IEditableObject

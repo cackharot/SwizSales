@@ -48,8 +48,8 @@
 
             <Label Grid.Column="3" Grid.Row="0">MRP</Label>
             <Label Grid.Column="3" Grid.Row="1">Discount</Label>
-            <Label Grid.Column="3" Grid.Row="2">Sell Price</Label>
-            <Label Grid.Column="3" Grid.Row="3">Buy Price</Label>
+            <Label Grid.Column="3" Grid.Row="2">Buy Price</Label>
+            <Label Grid.Column="3" Grid.Row="3">Sell Price</Label>
 
             <TextBox Grid.Column="2" Grid.Row="0" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Barcode,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="30" />
             <TextBox Grid.Column="2" Grid.Row="1" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Name,ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="50" />
@@ -60,8 +60,8 @@
 
             <TextBox Grid.Column="4" Grid.Row="0" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=MRP,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
             <TextBox Grid.Column="4" Grid.Row="1" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=Discount,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
-            <TextBox Grid.Column="4" Grid.Row="2" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=SellPrice,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
-            <TextBox Grid.Column="4" Grid.Row="3" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=BuyPrice,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
+            <TextBox Grid.Column="4" Grid.Row="2" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=BuyPrice,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
+            <TextBox Grid.Column="4" Grid.Row="3" Width="150" Style="{StaticResource ValidationTextBox}" Text="{Binding Path=SellPrice,FallbackValue=0.0,StringFormat='{}{0:#,##.##}',ValidatesOnDataErrors=True,ValidatesOnExceptions=True,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" MaxLength="6" />
         </Grid>
     </StackPanel>
 </UserControl>

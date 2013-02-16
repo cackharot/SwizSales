@@ -112,8 +112,11 @@ namespace SwizSales.ViewModel
             {
                 try
                 {
-                    Properties.Settings.Default.BackupFolderPath = this.BackupPath;
-                    Properties.Settings.Default.Save();
+                    if (Properties.Settings.Default.BackupFolderPath != this.BackupPath)
+                    {
+                        Properties.Settings.Default.BackupFolderPath = this.BackupPath;
+                        Properties.Settings.Default.Save();
+                    }
 
                     IsBusy = true;
 
@@ -125,20 +128,24 @@ namespace SwizSales.ViewModel
                             var dispatcher = Dispatcher.CurrentDispatcher;
                             dispatcher.Invoke(DispatcherPriority.SystemIdle, new DispatcherOperationCallback((percent) =>
                             {
-                                this.Progress = (int)percent / 2;
+                                //this.Progress = (int)percent / 2;
+                                this.Progress = (int)percent;
                                 this.Status = string.Format(CultureInfo.CurrentCulture, "{0}% completed.", this.Progress);
                                 return null;
                             }), arg);
                         }, () =>
                         {
-                            var dispatcher = Dispatcher.CurrentDispatcher;
+                            this.Status = "Backup completed!";
+                            this.IsBusy = false;
+                            
+                            /*var dispatcher = Dispatcher.CurrentDispatcher;
                             dispatcher.Invoke(DispatcherPriority.Normal, new DispatcherOperationCallback((percent) =>
                             {
                                 GenerateBackupScript();
                                 //this.Status = "Backup completed!";
                                 //this.IsBusy = false;
                                 return null;
-                            }), null);
+                            }), null);*/
                         });
                     }, this.BackupPath);
                 }
