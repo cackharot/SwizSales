@@ -79,6 +79,7 @@ namespace SwizSales.Views
 
         void vm_ErrorNotice(object sender, SimpleMvvmToolkit.NotificationEventArgs<Exception> e)
         {
+            LogService.Error("Error in sales page", e.Data);
             MessageBox.Show(e.Message, "Error", MessageBoxButton.OK);
         }
 

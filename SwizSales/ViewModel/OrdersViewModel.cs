@@ -14,6 +14,7 @@ using SwizSales.Library;
 using SwizSales.Core.Library;
 using System.ComponentModel;
 using SwizSales.Core.Model;
+using SwizSales.Core.Services;
 
 namespace SwizSales.ViewModel
 {
@@ -28,12 +29,14 @@ namespace SwizSales.ViewModel
         #region Initialization and Cleanup
 
         private IOrderService orderService;
+        private ISettingsService settingsService;
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
         public OrdersViewModel(IOrderService orderService)
         {
             this.orderService = orderService;
-            this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddDays(-7), ToOrderDate = DateTime.Today };
+            this.settingsService = new SettingsService();
+            this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddMonths(-1), ToOrderDate = DateTime.Now };
             this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
             Init();
         }
@@ -44,6 +47,7 @@ namespace SwizSales.ViewModel
 
         public event EventHandler<NotificationEventArgs<Exception>> ErrorNotice;
         public event EventHandler<NotificationEventArgs<Order>> ManageOrderNotice;
+        public event EventHandler<NotificationEventArgs<Order>> PreviewNotice;
 
         #endregion
 
@@ -129,6 +133,7 @@ namespace SwizSales.ViewModel
 
         private void Init()
         {
+            LoadTemplates();
             worker.DoWork += new DoWorkEventHandler(Search);
             worker.RunWorkerCompleted += (s, e) =>
             {
@@ -176,6 +181,93 @@ namespace SwizSales.ViewModel
             this.worker.RunWorkerAsync(this.SearchCondition);
         }
 
+        private void PrintOrder(bool printToPrinter)
+        {
+            if (this.SelectedOrder == null || this.SelectedOrder.OrderDetails.Count == 0)
+            {
+                return;
+            }
+
+            if (printToPrinter)
+            {
+                PrintOrderToPrinter(this.SelectedOrder);
+            }
+            else
+            {
+                if (PreviewNotice != null)
+                {
+                    PreviewNotice(this, new NotificationEventArgs<Order>(this.SelectedTemplate.Value, this.SelectedOrder));
+                }
+            }
+        }
+
+        private void PrintOrderToPrinter(Order order)
+        {
+            if (this.SelectedTemplate == null)
+            {
+                NotifyError("Print template is not selected!", null);
+            }
+
+            if (string.IsNullOrEmpty(this.SelectedTemplate.Value))
+            {
+                NotifyError("Print template does not have valid text!", null);
+            }
+
+            try
+            {
+                var flowDocument = PrintHelper.GetPrintDocument(this.SelectedTemplate.Value, this.SelectedOrder);
+                var xps = PrintHelper.GetXpsDocument(flowDocument);
+                PrintHelper.PrintXpsToPrinter(xps, Properties.Settings.Default.TicketPrinter);
+            }
+            catch (Exception ex)
+            {
+                NotifyError("Error printing order", ex);
+            }
+        }
+
+        #region Print Templates Settings
+
+        private ObservableCollection<Setting> _templates;
+        public ObservableCollection<Setting> Templates
+        {
+            get { return _templates; }
+            set
+            {
+                _templates = value;
+                NotifyPropertyChanged(m => m.Templates);
+            }
+        }
+
+        private Setting selectedTemplate;
+        public Setting SelectedTemplate
+        {
+            get { return selectedTemplate; }
+            set
+            {
+                selectedTemplate = value;
+                NotifyPropertyChanged(m => m.SelectedTemplate);
+            }
+        }
+
+        private void LoadTemplates()
+        {
+            this.Templates = new ObservableCollection<Setting>(this.settingsService.GetSettingsByCategory(Constants.Category.Templates));
+
+            if (this.Templates != null && this.Templates.Count > 0)
+            {
+                foreach (var item in this.Templates)
+                {
+                    if (item.Name.EndsWith(Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName))
+                    {
+                        this.SelectedTemplate = item;
+                        break;
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Methods
@@ -200,7 +292,7 @@ namespace SwizSales.ViewModel
             {
                 return _resetCommand ?? (_resetCommand = new DelegateCommand(() =>
                 {
-                    this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddDays(-7), ToOrderDate = DateTime.Today };
+                    this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddMonths(-1), ToOrderDate = DateTime.Now };
                     DoSearch();
                 }));
             }
@@ -250,7 +342,7 @@ namespace SwizSales.ViewModel
             {
                 return printCommand ?? (printCommand = new DelegateCommand(() =>
                 {
-
+                    PrintOrder(true);
                 }, () => { return this.SelectedOrder != null; }));
             }
             private set { printCommand = value; }
@@ -263,7 +355,7 @@ namespace SwizSales.ViewModel
             {
                 return previewCommand ?? (previewCommand = new DelegateCommand(() =>
                 {
-
+                    PrintOrder(false);
                 }, () => { return this.SelectedOrder != null; }));
             }
             private set { previewCommand = value; }
