@@ -686,7 +686,7 @@ namespace SwizSales.ViewModel
                             {
                                 this.Model.Customer = cus;
 
-                                if (cus.Id != Settings.Default.DefaultCustomerId && cus.Points == 0)
+                                if (cus.Id != Settings.Default.DefaultCustomerId)
                                 {
                                     var totalAmount = this.reportService.GetCusomerTotalAmount(cus.Id, this.CustomerPointStartDate);
                                     this.Model.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);

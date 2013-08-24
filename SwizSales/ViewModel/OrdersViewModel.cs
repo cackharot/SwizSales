@@ -15,6 +15,7 @@ using SwizSales.Core.Library;
 using System.ComponentModel;
 using SwizSales.Core.Model;
 using SwizSales.Core.Services;
+using SwizSales.Properties;
 
 namespace SwizSales.ViewModel
 {
@@ -30,15 +31,28 @@ namespace SwizSales.ViewModel
 
         private IOrderService orderService;
         private ISettingsService settingsService;
+        private IReportService reportService;
         private readonly BackgroundWorker worker = new BackgroundWorker();
 
         public OrdersViewModel(IOrderService orderService)
         {
             this.orderService = orderService;
+            this.reportService = new ReportService();
             this.settingsService = new SettingsService();
             this.SearchCondition = new OrderSearchCondition { FromOrderDate = DateTime.Today.AddMonths(-1), ToOrderDate = DateTime.Now };
             this.PageSizes = new ObservableCollection<int>(new int[] { 10, 25, 50, 100, 150, 250, 500, 1000, 0 });
             Init();
+
+            var cusPointSetting = this.settingsService.GetSettingById(Constants.CustomerPointsStartDateId);
+
+            if (cusPointSetting != null && !string.IsNullOrEmpty(cusPointSetting.Value))
+            {
+                this.CustomerPointStartDate = DateTime.Parse(cusPointSetting.Value);
+            }
+            else
+            {
+                this.CustomerPointStartDate = DateTime.Parse("01/01/" + DateTime.Now.Year);
+            }
         }
 
         #endregion
@@ -52,6 +66,17 @@ namespace SwizSales.ViewModel
         #endregion
 
         #region Properties
+
+        private DateTime customerPointDate;
+        public DateTime CustomerPointStartDate
+        {
+            get { return customerPointDate; }
+            set
+            {
+                customerPointDate = value;
+                NotifyPropertyChanged(m => m.CustomerPointStartDate);
+            }
+        }
 
         private ObservableCollection<int> pageSizes;
         public ObservableCollection<int> PageSizes
@@ -186,6 +211,14 @@ namespace SwizSales.ViewModel
             if (this.SelectedOrder == null || this.SelectedOrder.OrderDetails.Count == 0)
             {
                 return;
+            }
+
+            var cus = this.SelectedOrder.Customer;
+
+            if (cus.Id != Settings.Default.DefaultCustomerId)
+            {
+                var totalAmount = this.reportService.GetCusomerTotalAmount(cus.Id, this.CustomerPointStartDate);
+                this.SelectedOrder.Customer.Points = Convert.ToInt32(totalAmount / Settings.Default.CustomerPointsAmount);
             }
 
             if (printToPrinter)
